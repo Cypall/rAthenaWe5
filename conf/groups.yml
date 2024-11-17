@@ -46,13 +46,28 @@ Body:
     Name: Player
     Level: 0
     Commands:
-      changedress: true
-      resurrect: true
+      rates: true
+      noask: true
+      mobinfo: true
+      iteminfo: true
+      whodrops: true
+      whereis: true
+      refresh: true
+      autotrade: true
+      time: true
+      hominfo: true
+    CharCommands:
+      storagelist: true
+      cartlist: true
+      itemlist: true
+      stats: true
     Permissions:
       # without this basic permissions regular players could not trade or party
       can_trade: true
       can_party: true
       attendance: true
+      command_enable: true
+      view_equipment: true
   - Id: 1
     Name: Super Player
     # Can do everything Players can and more
@@ -180,7 +195,6 @@ Body:
       Player: true
     Level: 0
     Commands:
-      rates: true
       who: true
   - Id: 10
     Name: Law Enforcement

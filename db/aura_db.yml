@@ -1,0 +1,30 @@
+Header:
+  Type: AURA_DB
+  Version: 1
+
+Body:
+  - AuraID: 1079
+    EffectList:
+      - EffectID: 1254
+      - EffectID: 1255
+  - AuraID: 1072
+    EffectList:
+      - EffectID: 822
+  - AuraID: 1073
+    EffectList:
+      - EffectID: 829
+  - AuraID: 1074
+    EffectList:
+      - EffectID: 1025
+#?
+  - AuraID: 1083
+    EffectList:
+      - EffectID: 1201
+  - AuraID: 1068
+    EffectList:
+      - EffectID: 1982
+#?2
+  - AuraID: 1078
+    EffectList:
+      - EffectID: 2036
+        ReplayInterval: 1000

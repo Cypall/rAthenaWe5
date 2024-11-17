@@ -3788,6 +3788,10 @@ int64 skill_attack (int attack_type, struct block_list* src, struct block_list *
 			dmg.damage = dmg.damage2 = 0;
 			dmg.dmg_lv = ATK_MISS;
 		}
+		if ((skill_id == CR_GRANDCROSS || skill_id == NPC_GRANDDARKNESS) && src == bl) {
+			dmg.damage = dmg.damage2 = 0;
+			dmg.dmg_lv = ATK_MISS;
+		}
 	}
 
 	damage = dmg.damage + dmg.damage2;
@@ -9408,6 +9412,11 @@ int skill_castend_nodamage_id (struct block_list *src, struct block_list *bl, ui
 	case ALL_ODINS_RECALL:
 		if(sd)
 		{
+			if (DIFF_TICK(sd->greed_teleport, gettick()) > 0) {
+				clif_displaymessage(sd->fd, msg_txt(NULL,2201));
+				break;
+			}
+
 			if (map_getmapflag(bl->m, MF_NOTELEPORT) && skill_lv <= 2) {
 				clif_skill_teleportmessage(sd,0);
 				break;
@@ -9919,6 +9928,7 @@ int skill_castend_nodamage_id (struct block_list *src, struct block_list *bl, ui
 
 	case BS_GREED:
 		if(sd){
+			sd->greed_teleport = gettick() + battle_config.greed_teleport_delay;
 			sd->special_state.greed_pickup = 1;
 			clif_skill_nodamage(src,bl,skill_id,skill_lv,1);
 			map_foreachinallrange(skill_greed,bl,
@@ -13059,6 +13069,8 @@ int skill_castend_nodamage_id (struct block_list *src, struct block_list *bl, ui
 		}
 		clif_skill_nodamage(src, src, skill_id, skill_lv, 1);
 		break;
+	case NPC_LAVAEVENT:
+		break;
 
 	default: {
 		std::shared_ptr<s_skill_db> skill = skill_db.find(skill_id);
@@ -14791,6 +14803,8 @@ int skill_castend_pos2(struct block_list* src, int x, int y, uint16 skill_id, ui
 		for (i = 1; i <= (skill_get_time(skill_id, skill_lv) / skill_get_unit_interval(skill_id)); i++) {
 			skill_addtimerskill(src, tick + (t_tick)i*skill_get_unit_interval(skill_id), 0, x, y, skill_id, skill_lv, 0, flag);
 		}
+		break;
+	case NPC_LAVAEVENT:
 		break;
 
 	default:

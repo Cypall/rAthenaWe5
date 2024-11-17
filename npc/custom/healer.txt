@@ -1,86 +1,347 @@
-//===== rAthena Script =======================================
-//= Healer
-//===== By: ==================================================
-//= Euphy
-//===== Current Version: =====================================
-//= 1.1
-//===== Compatible With: =====================================
-//= rAthena Project
-//===== Description: =========================================
-//= Basic healer script.
-//===== Additional Comments: =================================
-//= 1.0 Initial script.
-//= 1.1 Aligned coordinates with @go.
-//============================================================
+
+//===== 	@reloadnpc npc/a_npc/class3/Add_On/clear_sql.txt
 
 -	script	Healer	-1,{
+//if( strcharinfo(3) != "prt_are01" ) {
+//savepoint "prontera",155,180,5,5;
+//}
+//OnAgitStart:
+//	if(agitcheck() || agitcheck2() || agitcheck3()) {
+//	savepoint "prontera",156,196;
+//	}
 
-	.@Price = 0;	// Zeny required for heal
-	.@Buffs = 0;	// Also buff players? (1: yes / 0: no)
-	.@Delay = 0;	// Heal delay, in seconds
+				sc_start SC_BLESSING,    .nTime*60*1000,1;		specialeffect2 EF_INCAGILITY;
+				sc_start SC_INCREASEAGI, .nTime*60*1000,1;		specialeffect2 EF_BLESSING;
+			specialeffect2 EF_HEAL;
 
-	if (@HD > gettimetick(2))
+	disable_items;
+mes "[VIP Buff]";
+mes "• บริการสำหรับ VIP เท่านั้น •";
+
+		if (! vip_status(1) ) {
+			specialeffect2 EF_HEAL;
+			if (.Buffs) {
+				sc_start SC_BLESSING,    .nTime*60*1000,1;		specialeffect2 EF_INCAGILITY;
+				sc_start SC_INCREASEAGI, .nTime*60*1000,1;		specialeffect2 EF_BLESSING;
+			}
+		close2;
+		}
+
+if ( vip_status(1) ) {
+menu "• รับ VIP Buff [5,000 Zeny]",-;
+if (Zeny < 5000) { mes "ท่านมีเงินไม่เพียงพอ"; close; }
+			Zeny -= 5000;
+			specialeffect2 EF_HEAL;
+			identifyall;
+			if (.Buffs) {
+			//	mes "เพิ่ม Buff!";
+				sc_start SC_BLESSING,    .vTime*60*1000,3;		specialeffect2 EF_INCAGILITY;
+				sc_start SC_INCREASEAGI, .vTime*60*1000,3;		specialeffect2 EF_BLESSING;
+			}
+			if (.ExtraBuffs) {
+			sc_start SC_INCALLSTATUS,	 .vTime*60*1000,5;		specialeffect2 EF_IMPOSITIO;
+			//	sc_start SC_ANGELUS,     .vTime*60*1000,10;		specialeffect2 EF_ANGELUS;
+				sc_start SC_MAGNIFICAT,  .vTime*60*1000,1;		specialeffect2 EF_MAGNIFICAT;
+			//	sc_start SC_IMPOSITIO,   .vTime*60*1000,5;		specialeffect2 EF_IMPOSITIO;
+			//	sc_start SC_GLORIA,      .vTime*60*1000,5;		specialeffect2 EF_GLORIA;
+			//	sc_start SC_SUFFRAGIUM,  1000*60*5,5;
+			//	sc_start SC_SECRAMENT,   1000*60*5,5;
+			//	sc_start4 SC_POEMBRAGI,  1000*60*5,5,70,90,10;
+			//	sc_start4 SC_SERVICE4U,  1000*60*5,5,40,40,1;
+			}
+			if (.AutoDelStatus) {
+			//	mes "ทำการล้างสถานะผิดปกติ";
+				specialeffect2 78;
+					sc_end SC_STONE;
+					sc_end SC_FREEZE;
+					sc_end SC_STUN;
+					sc_end SC_SLEEP;
+					sc_end SC_POISON;
+					sc_end SC_CURSE;
+					sc_end SC_Hallucination;
+					sc_end SC_CHANGEUNDEAD;
+					sc_end SC_SILENCE;
+					sc_end SC_CONFUSION;
+					sc_end SC_BLIND;
+					sc_end SC_BLEEDING;
+					sc_end SC_DPOISON;
+					sc_end SC_SLOWDOWN;
+					sc_end SC_BROKENARMOR;
+					sc_end SC_BROKENWEAPON;
+					sc_end SC_STRIPWEAPON;
+					sc_end SC_STRIPSHIELD;
+					sc_end SC_STRIPARMOR;
+					sc_end SC_STRIPHELM;
+					sc_end SC_BERSERK;
+					sc_end SC_COMA;
+					sc_end SC_FEAR;
+					sc_end SC_BURNING;
+					sc_end SC_ORCISH;	
+					sc_end SC_SKE;
+					sc_end SC_SWOO;
+					sc_end SC_SKA;
+					sc_end SC_HANDICAPSTATE_DEEPBLIND;
+					sc_end SC_HANDICAPSTATE_DEEPSILENCE;
+					sc_end SC_HANDICAPSTATE_LASSITUDE;
+					sc_end SC_HANDICAPSTATE_CONFLAGRATION;
+					sc_end SC_HANDICAPSTATE_MISFORTUNE;
+					sc_end SC_HANDICAPSTATE_DEADLYPOISON;
+					sc_end SC_HANDICAPSTATE_DEPRESSION;
+					sc_end SC_HANDICAPSTATE_HOLYFLAME;
+			}
+			if (.AutoRepair) {
+				if (getbrokenid(1) > 0) {
+					atcommand "@repairall"; 
+					specialeffect2 101;
+				}
+			}
+			//if (agitcheck()) {
+			//					sc_end SC_POEMBRAGI;
+			//					sc_end SC_SERVICE4U;
+			//	}
+			}
+
+if ( getgmlevel() > 90 ) {
+			percentheal 100,100;
+			healap 100;
+			specialeffect2 EF_HEAL;
+			identifyall;
+			if (.Buffs) {
+				sc_start SC_BLESSING,    .gTime*60*1000,10;		specialeffect2 EF_INCAGILITY;
+				sc_start SC_INCREASEAGI, .gTime*60*1000,10;		specialeffect2 EF_BLESSING;
+			}
+			if (.ExtraBuffs) {
+				sc_start SC_INCALLSTATUS,	 .vTime*60*1000,50;		specialeffect2 EF_IMPOSITIO;
+				sc_start SC_ANGELUS,     .gTime*60*1000,10;		specialeffect2 EF_ANGELUS;
+				sc_start SC_MAGNIFICAT,  .gTime*60*1000,5;		specialeffect2 EF_MAGNIFICAT;
+				sc_start SC_IMPOSITIO,   .gTime*60*1000,5;		specialeffect2 EF_IMPOSITIO;
+				sc_start SC_GLORIA,      .gTime*60*1000,5;		specialeffect2 EF_GLORIA;
+				sc_start4 SC_POEMBRAGI,  1000*60*5,5,70,90,10;
+				sc_start4 SC_SERVICE4U,  1000*60*5,5,40,40,1;
+				sc_start SC_SUFFRAGIUM,  1000*60*5,5;
+				sc_start SC_SECRAMENT,   1000*60*5,5;
+				sc_start SC_ENDURE,      .gTime*60*1000,10;
+				sc_start SC_EDP,         .gTime*60*1000,5;
+			}
+			if (.AutoDelStatus) {
+				specialeffect2 78;
+					sc_end SC_STONE;
+					sc_end SC_FREEZE;
+					sc_end SC_STUN;
+					sc_end SC_SLEEP;
+					sc_end SC_POISON;
+					sc_end SC_CURSE;
+					sc_end SC_Hallucination;
+					sc_end SC_CHANGEUNDEAD;
+					sc_end SC_SILENCE;
+					sc_end SC_CONFUSION;
+					sc_end SC_BLIND;
+					sc_end SC_BLEEDING;
+					sc_end SC_DPOISON;
+					sc_end SC_SLOWDOWN;
+					sc_end SC_BROKENARMOR;
+					sc_end SC_BROKENWEAPON;
+					sc_end SC_STRIPWEAPON;
+					sc_end SC_STRIPSHIELD;
+					sc_end SC_STRIPARMOR;
+					sc_end SC_STRIPHELM;
+					sc_end SC_BERSERK;
+					sc_end SC_COMA;
+					sc_end SC_FEAR;
+					sc_end SC_BURNING;
+					sc_end SC_ORCISH;	
+					sc_end SC_SKE;
+					sc_end SC_SWOO;
+					sc_end SC_SKA;
+					sc_end SC_HANDICAPSTATE_DEEPBLIND;
+					sc_end SC_HANDICAPSTATE_DEEPSILENCE;
+					sc_end SC_HANDICAPSTATE_LASSITUDE;
+					sc_end SC_HANDICAPSTATE_CONFLAGRATION;
+					sc_end SC_HANDICAPSTATE_MISFORTUNE;
+					sc_end SC_HANDICAPSTATE_DEADLYPOISON;
+					sc_end SC_HANDICAPSTATE_DEPRESSION;
+					sc_end SC_HANDICAPSTATE_HOLYFLAME;
+			}
+			if (.AutoRepair) {
+				if (getbrokenid(1) > 0) {
+					atcommand "@repairall"; 
+					specialeffect2 101;
+				}
+			}
+			if (agitcheck()) {
+								sc_end SC_POEMBRAGI;
+								sc_end SC_SERVICE4U;
+			}
+	}
+	end;
+
+
+OnBuff:
+	.@Delay = 300;	// ระยะเวลารักษาเป็นวินาที
+	
+	.VIPcheck = (vip_status(VIP_STATUS_ACTIVE));
+	if (!.VIPcheck) {
+	dispbottom "[Buff] : คำสั่งสำหรับ VIP เท่านั้น";
+	end;
+	}
+		if (getbrokenid(1) > 0) {
+					atcommand "@repairall"; 
+					specialeffect2 101;
+				}
+		if (@HD > gettimetick(2)) {
+		dispbottom "[Buff] : ติดดีเลย์ 10 นาที";
 		end;
-	if (.@Price) {
-		message strcharinfo(0), "Healing costs " + callfunc("F_InsertComma",.@Price) + " Zeny.";
-		if (Zeny < .@Price)
-			end;
-		if (select("^0055FFHeal^000000:^777777Cancel^000000") == 2)
-			end;
-		Zeny -= .@Price;
 	}
-	specialeffect2 EF_HEAL2;
-	percentheal 100,100;
-	if (.@Buffs) {
-		specialeffect2 EF_INCAGILITY;
-		sc_start SC_INCREASEAGI,240000,10;
-		specialeffect2 EF_BLESSING;
-		sc_start SC_BLESSING,240000,10;
-	}
-	if (.@Delay)
 		@HD = gettimetick(2) + .@Delay;
+					sc_end SC_STONE;
+					sc_end SC_FREEZE;
+					sc_end SC_STUN;
+					sc_end SC_SLEEP;
+					sc_end SC_POISON;
+					sc_end SC_CURSE;
+					sc_end SC_Hallucination;
+					sc_end SC_CHANGEUNDEAD;
+					sc_end SC_SILENCE;
+					sc_end SC_CONFUSION;
+					sc_end SC_BLIND;
+					sc_end SC_BLEEDING;
+					sc_end SC_DPOISON;
+					sc_end SC_SLOWDOWN;
+					sc_end SC_BROKENARMOR;
+					sc_end SC_BROKENWEAPON;
+					sc_end SC_STRIPWEAPON;
+					sc_end SC_STRIPSHIELD;
+					sc_end SC_STRIPARMOR;
+					sc_end SC_STRIPHELM;
+					sc_end SC_BERSERK;
+					sc_end SC_COMA;
+					sc_end SC_FEAR;
+					sc_end SC_BURNING;
+					sc_end SC_ORCISH;	
+					sc_end SC_SKE;
+					sc_end SC_SWOO;
+					sc_end SC_SKA;
+					sc_end SC_HANDICAPSTATE_DEEPBLIND;
+					sc_end SC_HANDICAPSTATE_DEEPSILENCE;
+					sc_end SC_HANDICAPSTATE_LASSITUDE;
+					sc_end SC_HANDICAPSTATE_CONFLAGRATION;
+					sc_end SC_HANDICAPSTATE_MISFORTUNE;
+					sc_end SC_HANDICAPSTATE_DEADLYPOISON;
+					sc_end SC_HANDICAPSTATE_DEPRESSION;
+					sc_end SC_HANDICAPSTATE_HOLYFLAME;
+			percentheal 100,100;
+			specialeffect2 EF_HEAL;
+			sc_start SC_BLESSING,    .vTime*60*1000,10;		specialeffect2 EF_INCAGILITY;
+			sc_start SC_INCREASEAGI, .vTime*60*1000,10;		specialeffect2 EF_BLESSING;
+			sc_start SC_ANGELUS,     .vTime*60*1000,10;		specialeffect2 EF_ANGELUS;
+			sc_start SC_MAGNIFICAT,  .vTime*60*1000,5;		specialeffect2 EF_MAGNIFICAT;
+			sc_start SC_IMPOSITIO,   .vTime*60*1000,5;		specialeffect2 EF_IMPOSITIO;
+			sc_start SC_GLORIA,      .vTime*60*1000,5;		specialeffect2 EF_GLORIA;
+				sc_start SC_SUFFRAGIUM,  1000*60*5,5;
+				sc_start SC_SECRAMENT,   1000*60*5,5;
+			sc_start4 SC_POEMBRAGI,  1000*60*5,5,70,90,10;
+			sc_start4 SC_SERVICE4U,  1000*60*5,5,40,40,1;
+			
+				if (getbrokenid(1) > 0) {
+					atcommand "@repairall"; 
+					specialeffect2 101;
+					}
+		dispbottom "Heal & Buff เรียบร้อยแล้ว";
+	end;
+			
+
+OnTimer60000:	// ตั้งค่าเวลาnpcที่เรียกมา หน่วย 1000 = 1วินาที
+	sscanf( strnpcinfo(0), "Healer#d%d", .@num );
+	stopnpctimer;
+	unitwarp getnpcid(0,("Healer#d"+.@num)),"new_zone03",0,0;
+	setd "$A_PREMIUM_BUFF"+.@num , 0;
+	end;
+	
+OnInit:
+	.NPCname$ = "[^0000FF "+strnpcinfo(1)+" ^000000]";
+	.sb$ = "•";
+	.GroupN$ = "[ ทั่วไป ]";
+	.GroupV$ = "[ VIP ]";
+	.GroupG$ = "[ GM ]";
+	set .hp,50;	// heal HP ไม่เกิน ...% (ในที่นี่คือ 50%)
+	set .sp,50;	// heal SP ไม่เกิน ...% (ในที่นี่คือ 50%)
+	.Free = 0;			// ค่าธรรมเนียม Heal อย่างเดียว.
+	.HPrice = 10;		// ค่าธรรมเนียม Heal + AB เมนูปกติ.
+	.Price = 150;		// ค่าธรรมเนียม Heal + Full Buff เมนูปกติ.
+	.vPrice = 100;		// ค่าธรรมเนียม Heal + Full Buff เมนูปกติ.
+	.nTime = 10;		// ระยะเวลาของ Buffs ที่ได้รับ นาที (Narmal Player).
+	.vTime = 15;		// ระยะเวลาของ Buffs ที่ได้รับ นาที (VIP Player).
+	.gTime = 60;		// ระยะเวลาของ Buffs ที่ได้รับ นาที (GM).
+	.Buffs = 1;			// เพิ่ม Buffs AB ให้กับผู้เล่น หากปิดจะทำการ Heal อย่างเดียว (1: เปิด / 0: ปิด).
+	.ExtraBuffs = 1;	// เพิ่ม Buffs อื่นๆ ให้กับผู้เล่น (1: เปิด / 0: ปิด).
+						// รายการ Extra Buffs:
+						// เพิ่ม ANGELUS
+						// เพิ่ม MAGNIFICAT
+						// เพิ่ม IMPOSITIO
+						// เพิ่ม GLORIA	
+	.AutoDelStatus = 1;	// ลบสถานะผิดปกติ (1: เปิด / 0: ปิด).
+	.AutoRepair = 1;	// ซ่อมอุปกรณ์อัตโนมัติ (1: เปิด / 0: ปิด).
+//	bindatcmd "@buff",""+strnpcinfo(0)+"::OnBuff",0,0;
+	
+//	PUBTITLE:
+//			showscript "• Heal & Buff •";
+//			sleep 3000;
+//		goto PUBTITLE;
 	end;
 }
 
+// --------------------------------------------------
+//	Duplicates: ตำแหน่ง NPC ตามเมืองต่างๆ
+// --------------------------------------------------
+morocc,145,55,5	duplicate(Healer)	Healer#prt_center	4_M_MANAGER
 
-// Duplicates
-//============================================================
-alberta,25,240,6	duplicate(Healer)	Healer#alb	909
-aldebaran,135,118,6	duplicate(Healer)	Healer#alde	909
-amatsu,200,79,4	duplicate(Healer)	Healer#ama	909
-ayothaya,207,169,6	duplicate(Healer)	Healer#ayo	909
-comodo,184,158,6	duplicate(Healer)	Healer#com	909
-einbech,57,36,6	duplicate(Healer)	Healer#einbe	909
-einbroch,57,202,6	duplicate(Healer)	Healer#einbr	909
-geffen,115,72,6	duplicate(Healer)	Healer#gef	909
-gonryun,156,122,6	duplicate(Healer)	Healer#gon	909
-hugel,89,150,6	duplicate(Healer)	Healer#hug	909
-izlude,121,150,6	duplicate(Healer)	Healer#izl	909	//Pre-RE: (125,118)
-jawaii,250,139,4	duplicate(Healer)	Healer#jaw	909
-lighthalzen,152,100,6	duplicate(Healer)	Healer#lhz	909
-louyang,226,103,4	duplicate(Healer)	Healer#lou	909
-manuk,272,144,6	duplicate(Healer)	Healer#man	909
-mid_camp,203,289,6	duplicate(Healer)	Healer#mid	909
-moc_ruins,72,164,4	duplicate(Healer)	Healer#moc	909
-morocc,153,97,6	duplicate(Healer)	Healer#mor	909
-moscovia,220,191,4	duplicate(Healer)	Healer#mos	909
-niflheim,212,182,5	duplicate(Healer)	Healer#nif	909
-payon,179,106,4	duplicate(Healer)	Healer#pay	909
-prontera,162,193,4	duplicate(Healer)	Healer#prt	909
-rachel,125,116,6	duplicate(Healer)	Healer#rac	909
-splendide,201,153,4	duplicate(Healer)	Healer#spl	909
-thor_camp,249,74,4	duplicate(Healer)	Healer#thor	909
-umbala,105,148,3	duplicate(Healer)	Healer#umb	909
-veins,217,121,4	duplicate(Healer)	Healer#ve	909
-xmas,143,136,4	duplicate(Healer)	Healer#xmas	909
-yuno,164,45,4	duplicate(Healer)	Healer#yuno	909
+prontera,163,192,3	duplicate(Healer)	Healer#prt_left	4_M_MANAGER
 
-// Duplicates (Renewal)
-//============================================================
-brasilis,194,221,6	duplicate(Healer)	Healer#bra	909
-dewata,195,187,4	duplicate(Healer)	Healer#dew	909
-dicastes01,201,194,4	duplicate(Healer)	Healer#dic	909
-ecl_in01,45,60,4	duplicate(Healer)	Healer#ecl	909
-malangdo,132,114,6	duplicate(Healer)	Healer#mal	909
-malaya,227,204,6	duplicate(Healer)	Healer#ma	909
-mora,55,152,4	duplicate(Healer)	Healer#mora	909
+//prontera,45,210,6	duplicate(Healer)	Healer#prt_left	4_M_MANAGER
+//prontera,266,210,3	duplicate(Healer)	Healer#prt_right	4_M_MANAGER
+prontera,146,86,6	duplicate(Healer)	Healer#prt_bot	4_M_MANAGER
+//prontera,163,326,3	duplicate(Healer)	Healer#prt_top	4_M_MANAGER
+alberta,31,240,4	duplicate(Healer)	Healer#alberta	4_M_MANAGER
+lasagna,185,179,5	duplicate(Healer)	Healer#lasagna	4_M_MANAGER
+aldebaran,147,119,4	duplicate(Healer)	Healer#aldebaran	4_M_MANAGER
+amatsu,206,87,4	duplicate(Healer)	Healer#amatsu	4_M_MANAGER
+ayothaya,212,173,5	duplicate(Healer)	Healer#ayothaya	4_M_MANAGER
+brasilis,203,225,4	duplicate(Healer)	Healer#brasilis	4_M_MANAGER
+comodo,185,157,5	duplicate(Healer)	Healer#comodo	4_M_MANAGER
+dewata,206,188,5	duplicate(Healer)	Healer#dewata	4_M_MANAGER
+ecl_in01,44,60,5	duplicate(Healer)	Healer#eclin	4_M_MANAGER
+einbech,56,36,5	duplicate(Healer)	Healer#einbech	4_M_MANAGER
+einbroch,75,202,4	duplicate(Healer)	Healer#einbroch	4_M_MANAGER
+dicastes01,201,194,4	duplicate(Healer)	Healer#dicastes01	4_M_MANAGER
+geffen,126,64,4	duplicate(Healer)	Healer#geffen	4_M_MANAGER
+gonryun,165,128,4	duplicate(Healer)	Healer#gonryun	4_M_MANAGER
+hugel,89,149,5	duplicate(Healer)	Healer#hugel	4_M_MANAGER
+izlude,125,148,5	duplicate(Healer)	Healer#izlude	4_M_MANAGER
+jawaii,249,140,4	duplicate(Healer)	Healer#jawaii	4_M_MANAGER
+lighthalzen,155,102,5	duplicate(Healer)	Healer#lighthalzen	4_M_MANAGER
+louyang,227,104,4	duplicate(Healer)	Healer#louyang	4_M_MANAGER
+xmas,140,129,5	duplicate(Healer)	Healer#xmas	4_M_MANAGER
+malangdo,128,117,4	duplicate(Healer)	Healer#malangdo	4_M_MANAGER
+malaya,243,203,4	duplicate(Healer)	Healer#malaya	4_M_MANAGER
+manuk,272,142,5	duplicate(Healer)	Healer#manuk	4_M_MANAGER
+mid_camp,203,288,5	duplicate(Healer)	Healer#midcamp	4_M_MANAGER
+mora,60,147,4	duplicate(Healer)	Healer#mora	4_M_MANAGER
+morocc,157,108,6	duplicate(Healer)	Healer#morocc	4_M_MANAGER
+moscovia,217,191,4	duplicate(Healer)	Healer#moscovia	4_M_MANAGER
+nameless_n,256,218,4	duplicate(Healer)	Healer#namelessn	4_M_MANAGER
+niflheim,202,189,4	duplicate(Healer)	Healer#niflheim	4_M_MANAGER
+payon,166,98,5	duplicate(Healer)	Healer#payon	4_M_MANAGER
+rachel,124,116,4	duplicate(Healer)	Healer#rachel	4_M_MANAGER
+splendide,201,153,4	duplicate(Healer)	Healer#splendide	4_M_MANAGER
+thor_camp,245,76,4	duplicate(Healer)	Healer#thorcamp	4_M_MANAGER
+umbala,97,149,4	duplicate(Healer)	Healer#umbala	4_M_MANAGER
+veins,210,119,4	duplicate(Healer)	Healer#veins	4_M_MANAGER
+yuno,162,52,4	duplicate(Healer)	Healer#yuno	4_M_MANAGER
+pay_arche,45,134,4	duplicate(Healer)	Healer#pay_arche	4_M_MANAGER
+
+// --------------------------------------------------
+//	Duplicates: ตำแหน่ง NPC ตามเมืองต่างๆ (Extra)
+// --------------------------------------------------
+
+new_1-3,104,30,3	duplicate(Healer)	Healer#newbie1-3	4_M_MANAGER
+new_1-1,60,115,3	duplicate(Healer)	Healer#newbie1-1	4_M_MANAGER

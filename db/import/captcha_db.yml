@@ -33,3 +33,12 @@ Header:
   Version: 1
 
 Body:
+  - Id: 1
+    Filename: captcha/001.bmp
+    Answer: 20
+  - Id: 2
+    Filename: captcha/haxgui63.bmp
+    Answer: haxgui63
+  - Id: 3
+    Filename: captcha/TubGPO8W.bmp
+    Answer: TubGPO8W

@@ -27,6 +27,7 @@
 
 #include "achievement.hpp"
 #include "atcommand.hpp"
+#include "aura.hpp"
 #include "battle.hpp"
 #include "battleground.hpp"
 #include "cashshop.hpp"
@@ -37,6 +38,7 @@
 #include "clif.hpp"
 #include "duel.hpp"
 #include "elemental.hpp"
+#include "emote.hpp"
 #include "guild.hpp"
 #include "homunculus.hpp"
 #include "instance.hpp"
@@ -52,6 +54,7 @@
 #include "pc.hpp"
 #include "pet.hpp"
 #include "quest.hpp"
+#include "rune.hpp"
 #include "storage.hpp"
 #include "trade.hpp"
 
@@ -107,6 +110,13 @@ Sql* logmysql_handle;
 struct inter_conf inter_config {};
 
 // DBMap declaration
+
+// (^~_~^) Color Nicks Start
+
+DBMap* color_nicks_db = NULL; // int group_id -> struct color_data*
+
+// (^~_~^) Color Nicks End
+
 static DBMap* id_db=NULL; /// int id -> struct block_list*
 static DBMap* pc_db=NULL; /// int id -> map_session_data*
 static DBMap* mobid_db=NULL; /// int id -> struct mob_data*
@@ -187,6 +197,47 @@ char wisp_server_name[NAME_LENGTH] = "Server"; // can be modified in char-server
 int console = 0;
 int enable_spy = 0; //To enable/disable @spy commands, which consume too much cpu time when sending packets. [Skotlex]
 int enable_grf = 0;	//To enable/disable reading maps from GRF files, bypassing mapcache [blackhole89]
+
+// (^~_~^) Color Nicks Start
+
+static bool map_color_nicks_parse(char* split[], size_t columns, size_t current)
+{
+	struct color_data* cn_data; 
+
+	int group_id = atoi(split[0]);
+
+	if (group_id == 0)
+	{
+		return false;
+	}
+
+	CREATE(cn_data, struct color_data, 1);
+
+	cn_data->text_color = (unsigned int)strtol(split[1],NULL,0);
+	cn_data->shadow_color = (unsigned int)strtol(split[2],NULL,0);
+
+	idb_put(color_nicks_db, group_id, cn_data);
+
+	return true;
+}
+
+int map_color_nicks_clear(DBKey key, DBData* data, va_list va)
+{
+	struct color_data* cn_data = (struct color_data*)db_data2ptr(data);
+
+	db_remove(color_nicks_db,key);
+	aFree(cn_data);
+
+	return 0;
+}
+
+void map_color_nicks_load()
+{
+	color_nicks_db->foreach(color_nicks_db, map_color_nicks_clear);
+	sv_readdb(db_path, "color_nicks.txt", ',', 3, 3, USHRT_MAX, map_color_nicks_parse, true);
+}
+
+// (^~_~^) Color Nicks End
 
 #ifdef MAP_GENERATOR
 struct s_generator_options {
@@ -4889,6 +4940,7 @@ void MapServer::finalize(){
 	do_final_achievement();
 	do_final_script();
 	do_final_instance();
+	do_final_aura();
 	do_final_itemdb();
 	do_final_storage();
 	do_final_guild();
@@ -4910,6 +4962,8 @@ void MapServer::finalize(){
 	do_final_vending();
 	do_final_buyingstore();
 	do_final_path();
+	do_final_emote();
+	do_final_rune();
 
 	map_db->destroy(map_db, map_db_final);
 
@@ -4940,6 +4994,13 @@ void MapServer::finalize(){
 	charid_db->destroy(charid_db, NULL);
 	iwall_db->destroy(iwall_db, NULL);
 	regen_db->destroy(regen_db, NULL);
+
+// (^~_~^) Color Nicks Start
+
+	color_nicks_db->foreach(color_nicks_db, map_color_nicks_clear);
+	color_nicks_db->destroy(color_nicks_db, NULL);
+
+// (^~_~^) Color Nicks End
 
 	map_sql_close();
 
@@ -5247,6 +5308,12 @@ bool MapServer::initialize( int argc, char *argv[] ){
 	regen_db = idb_alloc(DB_OPT_BASE); // efficient status_natural_heal processing
 	iwall_db = strdb_alloc(DB_OPT_RELEASE_DATA,2*NAME_LENGTH+2+1); // [Zephyrus] Invisible Walls
 
+// (^~_~^) Color Nicks Start
+
+	color_nicks_db = idb_alloc(DB_OPT_BASE);
+
+// (^~_~^) Color Nicks End
+
 	map_sql_init();
 	if (log_config.sql_logs)
 		log_sql_init();
@@ -5274,6 +5341,7 @@ bool MapServer::initialize( int argc, char *argv[] ){
 #endif
 	do_init_script();
 	do_init_itemdb();
+	do_init_aura();
 	do_init_channel();
 	do_init_cashshop();
 	do_init_skill();
@@ -5295,6 +5363,14 @@ bool MapServer::initialize( int argc, char *argv[] ){
 	do_init_duel();
 	do_init_vending();
 	do_init_buyingstore();
+	do_init_emote();
+	do_init_rune();
+
+// (^~_~^) Color Nicks Start
+
+	map_color_nicks_load();
+
+// (^~_~^) Color Nicks End
 
 	npc_event_do_oninit();	// Init npcs (OnInit)
 

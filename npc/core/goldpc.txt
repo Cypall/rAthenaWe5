@@ -11,6 +11,30 @@
 //============================================================
 
 prontera,0,0,0	script	Goldpoint Manager::GOLDPCCAFE	4_F_02,{
+if (BaseLevel < 30) {
+	mes .npc_name$;
+	mes "ต้องมี Level อย่างน้อย 30";
+	mes "ถึงจะใช้งานได้";
+	close;
+	}
+
+	mes .npc_name$;
+	mes "โปรดเลือกเมนูที่ท่านต้องการ";
+
+	menu " • เปิดร้านพ้อยท์ออนไลน์",-," • ไม่ล่ะ,ขอบคุณ",-;
+	set .@mn_sel,@menu;
+	if(.@mn_sel == 2){end;}
+	close2;
+	callshop("HourlyPointShop");
+	end;
+
+OnInit:
+	.npc_name$ = "[^FF0000•^000000 ^2f00ffPandora Menu^000000 ^FF0000•^000000]";
+
+
+	end;
+	
+/*
 	// ID:AMOUNT:PRICE
 	setarray .items$[1],
 		"25464:1:2", // World_Tour_Ticket 1
@@ -60,4 +84,7 @@ prontera,0,0,0	script	Goldpoint Manager::GOLDPCCAFE	4_F_02,{
 	getitem .@itemid,.@amount;
 	mes "You have ^0000ff"+Goldpc_Points+"^000000 points remaining.";
 	close;
+	*/
 }
+
+-	pointshop	HourlyPointShop	-1,#GOLDPC_POINTS,12221:1,33004:2,12210:3,7621:5,33010:10

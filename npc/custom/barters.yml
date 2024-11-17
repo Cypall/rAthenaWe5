@@ -46,37 +46,3 @@ Header:
   Version: 1
 
 Body:
-  # - Name: Test Craft
-  #   Map: morocc
-  #   X: 154
-  #   Y: 89
-  #   Direction: South
-  #   Sprite: 4_F_PINKWOMAN
-  #   CraftBarter: true # ปรับเป็นร้านระบบคราฟท์
-  #   WaitingRoom: "> ร้าน Craft <" # ป้ายแสดง waitingroom
-  #   Items:
-  #     - Index: 0 # ควรเริ่มจาก 0 ไม่งั้น สืบทอดกับ กันแตกจะเพี้ยน
-  #       Item: Violet_fear
-  #       Rate: 10000
-  #       Announce: true # ประกาศคราฟท์ติด
-  #       Effect: 722 # effect เวลาคราฟท์ติด
-  #       FailEffect: 102 # effect เวลาคราฟท์ไม่ติด
-  #       ProtectItem: Orange_Potion # กันแตก
-  #       Inherit: # ระบบสืบทอดความสามารถ
-  #         - Index: 0 # ตำแหน่ง index ของ วัตถุดิบ
-  #           Refine: true # สืบทอดตีบวก
-  #           Card: true # สืบทอดการ์ด
-  #           Grade: true # สืบทอดเกรด
-  #           Randomopt: true # สืบทอดออฟ
-  #       RequiredItems:
-  #         - Index: 0
-  #           Item: Blade
-  #           Amount: 1
-  #           Protect: true # หากมีใบกันแตก ของชิ้นนี้จะไม่ถูกลบ
-  #         - Index: 1
-  #           Item: Blade_
-  #           Amount: 1
-  #         - Index: 2
-  #           Item: Hat
-  #           Amount: 1
-  #           Protect: true  # หากมีใบกันแตก ของชิ้นนี้จะไม่ถูกลบ

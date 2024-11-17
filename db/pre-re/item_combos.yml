@@ -1150,3 +1150,2316 @@ Body:
       bonus bHit,10;
       bonus2 bAddSize,Size_Large,30;
       autobonus "{ bonus bAspdRate,100; }",1,7000,BF_WEAPON,"{ specialeffect2 EF_POTION_BERSERK; }";
+
+  - Combos:
+      - Combo:
+          - S_Archer_Pendant
+          - S_Archer_earring
+          - S_Hunter_Shoes
+          - S_Hunter_Armor
+          - S_Ranger_Weapon
+          - S_Ranger_Shield
+      - Combo:
+          - S_Archer_Pendant
+          - S_Archer_earring
+          - S_Bard_Shoes
+          - S_Bard_Armor
+          - S_Minstrel_Weapon
+          - S_Minstrel_Shield
+      - Combo:
+          - S_Archer_Pendant
+          - S_Archer_earring
+          - S_Dancer_Shoes
+          - S_Dancer_Armor
+          - S_Wanderer_Weapon
+          - S_Wanderer_Shield
+      - Combo:
+          - S_Runeknight_Weapon
+          - S_Runeknight_Shield
+          - S_Swordman_earring
+          - S_Swordman_Pendant
+          - S_Knight_Shoes
+          - S_Knight_Armor
+      - Combo:
+          - S_Royalguard_Weapon
+          - S_Royalguard_Shield
+          - S_Swordman_earring
+          - S_Swordman_Pendant
+          - S_Crusader_Shoes
+          - S_Crusader_Armor
+      - Combo:
+          - S_Merchant_Pendant
+          - S_Merchant_earring
+          - S_Alchemist_Shoes
+          - S_Alchemist_Armor
+          - S_Genetic_Weapon
+          - S_Genetic_Shield
+      - Combo:
+          - S_Merchant_Pendant
+          - S_Merchant_earring
+          - S_Blacksmith_Armor
+          - S_Blacksmith_Shoes
+          - S_Mechanic_Shield
+          - S_Mechanic_weapon
+      - Combo:
+          - S_Acolyte_Pendant
+          - S_Acolyte_earring
+          - S_Priest_Shoes
+          - S_Priest_Armor
+          - S_Archbishop_Weapon
+          - S_Archbishop_Shield
+      - Combo:
+          - S_Acolyte_Pendant
+          - S_Acolyte_earring
+          - S_Monk_Shoes
+          - S_Monk_Armor
+          - S_Sura_weapon
+          - S_Sura_Shield
+      - Combo:
+          - S_Thief_Pendant
+          - S_Thief_earring
+          - S_Assassin_Shoes
+          - S_Assassin_Armor
+          - S_Guillotine_Weapon
+          - S_Guillotine_Shield
+      - Combo:
+          - S_Thief_Pendant
+          - S_Thief_earring
+          - S_Rogue_Shoes
+          - S_Rogue_Armor
+          - S_Shadowchaser_Weapon
+          - S_Shadowchaser_Shield
+      - Combo:
+          - S_Magician_Pendant
+          - S_Magician_earring
+          - S_Wizard_Shoes
+          - S_Wizard_Armor
+          - S_Warlock_Weapon
+          - S_Warlock_Shield
+      - Combo:
+          - S_Magician_Pendant
+          - S_Magician_earring
+          - S_Sage_Shoes
+          - S_Sage_Armor
+          - S_Sorcerer_Weapon
+          - S_Sorcerer_Shield
+    Script: |
+      bonus bAllStats,10;
+      bonus bMaxHPrate,5;
+      bonus bMaxSPrate,5;
+      bonus2 bIgnoreDefClassRate,Class_Normal,50;
+      bonus2 bIgnoreMDefClassRate,Class_Normal,50;
+  - Combos:
+      - Combo:
+          - S_Knight_Shoes
+          - S_Knight_Armor
+    Script: |
+      bonus2 bSkillAtk,"KN_BOWLINGBASH",20;
+      bonus2 bSkillUseSPrate,"KN_PIERCE",20;
+  - Combos:
+      - Combo:
+          - S_Crusader_Shoes
+          - S_Crusader_Armor
+    Script: |
+      bonus2 bSkillAtk,"CR_HOLYCROSS",20;
+      bonus2 bSkillUseSPrate,"CR_GRANDCROSS",20;
+  - Combos:
+      - Combo:
+          - S_Blacksmith_Shoes
+          - S_Blacksmith_Armor
+    Script: |
+      if (BaseJob == Job_Blacksmith) {
+         bonus2 bAddSize,Size_All,3;
+         bonus2 bMagicAddSize,Size_All,3;
+         bonus2 bSkillUseSPrate,"BS_WEAPONPERFECT",20;
+      }
+  - Combos:
+      - Combo:
+          - S_Alchemist_Shoes
+          - S_Alchemist_Armor
+    Script: |
+      if (BaseJob == Job_Alchemist) {
+         skill "BS_ADRENALINE",3;
+      }
+  - Combos:
+      - Combo:
+          - S_Priest_Shoes
+          - S_Priest_Armor
+    Script: |
+      if (BaseJob == Job_Priest) {
+         bonus bMatkRate,3;
+         bonus2 bVariableCastrate,"PR_MAGNUS",-40;
+      }
+  - Combos:
+      - Combo:
+          - S_Monk_Shoes
+          - S_Monk_Armor
+    Script: |
+      bonus2 bSkillUseSPrate,"MO_INVESTIGATE",20;
+      bonus2 bSkillUseSPrate,"MO_FINGEROFFENSIVE",20;
+      bonus2 bSkillUseSPrate,"MO_CHAINCOMBO",20;
+  - Combos:
+      - Combo:
+          - S_Assassin_Shoes
+          - S_Assassin_Armor
+    Script: |
+      bonus2 bSkillUseSPrate,"AS_GRIMTOOTH",20;
+      bonus2 bSkillAtk,"AS_SONICBLOW",20;
+  - Combos:
+      - Combo:
+          - S_Rogue_Shoes
+          - S_Rogue_Armor
+    Script: |
+      if (BaseJob == Job_Rogue) {
+         bonus2 bAddSize,Size_All,3;
+         bonus2 bMagicAddSize,Size_All,3;
+         bonus2 bSkillUseSPrate,"RG_RAID",20;
+      }
+  - Combos:
+      - Combo:
+          - S_Wizard_Shoes
+          - S_Wizard_Armor
+    Script: |
+      bonus2 bSkillAtk,"WZ_VERMILION",20;
+      bonus2 bSkillAtk,"WZ_METEOR",20;
+      bonus2 bSkillAtk,"WZ_STORMGUST",20;
+      bonus2 bVariableCastrate,"WZ_JUPITEL",-40;
+  - Combos:
+      - Combo:
+          - S_Sage_Shoes
+          - S_Sage_Armor
+    Script: |
+      bonus2 bVariableCastrate,"WZ_HEAVENDRIVE",-40;
+      if (BaseJob == Job_Sage) {
+         bonus bMatkRate,3;
+      }
+  - Combos:
+      - Combo:
+          - S_Hunter_Shoes
+          - S_Hunter_Armor
+    Script: |
+      if (BaseJob == Job_Hunter) {
+         bonus2 bAddSize,Size_All,3;
+         bonus2 bMagicAddSize,Size_All,3;
+         bonus2 bSkillUseSPrate,"HT_CLAYMORETRAP",20;
+         bonus2 bSkillUseSPrate,"HT_LANDMINE",20;
+      }
+  - Combos:
+      - Combo:
+          - S_Bard_Shoes
+          - S_Bard_Armor
+      - Combo:
+          - S_Dancer_Shoes
+          - S_Dancer_Armor
+    Script: |
+      autobonus3 "{ bonus bAspdRate,10; bonus bSpeedRate,25; }",1000,5000,"BD_ADAPTATION";
+      /* Unknow Specialeffect */
+  - Combos:
+      - Combo:
+          - S_SuperNovice_Weapon
+          - S_SuperNovice_Shield
+      - Combo:
+          - S_Gunslinger_Weapon
+          - S_Gunslinger_Shield
+      - Combo:
+          - S_Taekwon_Weapon
+          - S_Taekwon_Shield
+      - Combo:
+          - S_Ninja_Weapon
+          - S_Ninja_Shield
+      - Combo:
+          - S_DoramMagical_Weapon
+          - S_DoramMagical_Shield
+      - Combo:
+          - S_DoramPhysical_Weapon
+          - S_DoramPhysical_Shield
+    Script: |
+      bonus bMaxHPrate,2;
+      bonus bMaxSPrate,2;
+      bonus bAllStats,3;
+      bonus bUseSPrate,-10;
+  - Combos:
+      - Combo:
+          - S_Runeknight_Weapon
+          - S_Runeknight_Shield
+    Script: |
+      bonus2 bSkillUseSPrate,"RK_SONICWAVE",20;
+      bonus3 bAutoSpell,"RK_IGNITIONBREAK",3,20;
+  - Combos:
+      - Combo:
+          - S_Royalguard_Weapon
+          - S_Royalguard_Shield
+    Script: |
+      bonus2 bSkillUseSPrate,"LG_CANNONSPEAR",20;
+      skill "AM_CP_SHIELD",3;
+  - Combos:
+      - Combo:
+          - S_Mechanic_weapon
+          - S_Mechanic_Shield
+    Script: |
+      bonus2 bSkillAtk,"NC_VULCANARM",20;
+      bonus2 bSkillUseSPrate,"NC_FLAMELAUNCHER",20;
+  - Combos:
+      - Combo:
+          - S_Genetic_Weapon
+          - S_Genetic_Shield
+    Script: |
+      bonus bMaxHPrate,2;
+      bonus2 bSkillCooldown,"GN_CART_TORNADO",-1000;
+      bonus2 bVariableCastrate,"GN_CARTBOOST",-100;
+  - Combos:
+      - Combo:
+          - S_Archbishop_Weapon
+          - S_Archbishop_Shield
+    Script: |
+      bonus2 bSkillAtk,"AB_DUPLELIGHT_MELEE",20;
+      bonus2 bSkillAtk,"AB_DUPLELIGHT_MAGIC",20;
+      bonus2 bSkillCooldown,"AB_ADORAMUS",-1000;
+  - Combos:
+      - Combo:
+          - S_Sura_weapon
+          - S_Sura_Shield
+    Script: |
+      bonus2 bSkillAtk,"SR_RAMPAGEBLASTER",20;
+      bonus2 bSkillUseSPrate,"SR_SKYNETBLOW",20;
+  - Combos:
+      - Combo:
+          - S_Guillotine_Weapon
+          - S_Guillotine_Shield
+    Script: |
+      bonus2 bSkillAtk,"GC_DARKILLUSION",20;
+      bonus3 bAutoSpell,"GC_DARKCROW",1,10;
+  - Combos:
+      - Combo:
+          - S_Shadowchaser_Weapon
+          - S_Shadowchaser_Shield
+    Script: |
+      bonus2 bSkillAtk,"SC_TRIANGLESHOT",20;
+      bonus bAtkRate,2;
+      bonus bMatkRate,2;
+      bonus bLongAtkRate,2;
+  - Combos:
+      - Combo:
+          - S_Warlock_Weapon
+          - S_Warlock_Shield
+    Script: |
+      bonus2 bSkillCooldown,"WL_DRAINLIFE",-1000;
+      bonus2 bSkillCooldown,"WL_EARTHSTRAIN",-4000;
+  - Combos:
+      - Combo:
+          - S_Sorcerer_Weapon
+          - S_Sorcerer_Shield
+    Script: |
+      bonus2 bSkillAtk,"SO_EARTHGRAVE",20;
+      bonus2 bSkillAtk,"SO_DIAMONDDUST",20;
+  - Combos:
+      - Combo:
+          - S_Ranger_Weapon
+          - S_Ranger_Shield
+    Script: |
+      bonus2 bSkillAtk,"RA_CLUSTERBOMB",20;
+      bonus2 bSkillAtk,"RA_AIMEDBOLT",20;
+  - Combos:
+      - Combo:
+          - S_Minstrel_Weapon
+          - S_Minstrel_Shield
+      - Combo:
+          - S_Wanderer_Weapon
+          - S_Wanderer_Shield
+    Script: |
+      bonus bMaxHPrate,2;
+      bonus bMaxSPrate,2;
+      bonus bLongAtkRate,getskilllv("WM_LESSON")/2;
+  - Combos:
+      - Combo:
+          - Diabolus_Boots
+          - Diabolus_Manteau
+    Script: |
+      bonus bMaxHPrate,6;
+  - Combos:
+      - Combo:
+          - S_Rebellion_Armor
+          - S_Rebellion_Shoes
+    Script: |
+      bonus2 bSkillCooldown,"RL_HEAT_BARREL",-4000;
+      bonus2 bSkillCooldown,"RL_HAMMER_OF_GOD",-2000;
+  - Combos:
+      - Combo:
+          - S_Rebellion_Armor
+          - S_Rebellion_Shoes
+          - S_Gunslinger_Weapon
+          - S_Gunslinger_Shield
+      - Combo:
+          - S_Kagerou_Armor
+          - S_Kagerou_Shoes
+          - S_Ninja_Weapon
+          - S_Ninja_Shield
+      - Combo:
+          - S_Oboro_Armor
+          - S_Oboro_Shoes
+          - S_Ninja_Weapon
+          - S_Ninja_Shield
+      - Combo:
+          - S_Star_Emperor_Armor
+          - S_Star_Emperor_Shoes
+          - S_Taekwon_Weapon
+          - S_Taekwon_Shield
+      - Combo:
+          - S_Soul_Reaper_Armor
+          - S_Soul_Reaper_Shoes
+          - S_Taekwon_Weapon
+          - S_Taekwon_Shield
+    Script: |
+      bonus bAllStats,7;
+      bonus bMaxHPrate,3;
+      bonus bMaxSPrate,3;
+  - Combos:
+      - Combo:
+          - S_Kagerou_Armor
+          - S_Kagerou_Shoes
+    Script: |
+      bonus2 bSkillCooldown,"KO_JYUMONJIKIRI",-1000;
+      bonus bLongAtkRate,5;
+  - Combos:
+      - Combo:
+          - S_Oboro_Armor
+          - S_Oboro_Shoes
+    Script: |
+      bonus2 bSkillCooldown,"KO_ZANZOU",-3000;
+      bonus2 bMagicAtkEle,Ele_Fire,5;
+      bonus2 bMagicAtkEle,Ele_Water,5;
+      bonus2 bMagicAtkEle,Ele_Wind,5;
+  - Combos:
+      - Combo:
+          - S_DoramPhysical_Armor
+          - S_DoramPhysical_Shoes
+    Script: |
+      bonus2 bSkillCooldown,"SU_LUNATICCARROTBEAT",-3000;
+  - Combos:
+      - Combo:
+          - S_DoramPhysical_Armor
+          - S_DoramPhysical_Shoes
+          - S_DoramPhysical_Weapon
+          - S_DoramPhysical_Shield
+      - Combo:
+          - S_DoramMagical_Armor
+          - S_DoramMagical_Shoes
+          - S_DoramMagical_Weapon
+          - S_DoramMagical_Shield
+    Script: |
+      bonus2 bIgnoreDefClassRate,Class_Normal,50;
+      bonus2 bIgnoreMDefClassRate,Class_Normal,50;
+      bonus bAllStats,7;
+      bonus bMaxHPrate,3;
+      bonus bMaxSPrate,3;
+  - Combos:
+      - Combo:
+          - Beach_Sandal
+          - Beach_Manteau
+    Script: |
+      bonus bFlee,5;
+      bonus2 bSubEle,Ele_Fire,10;
+  - Combos:
+      - Combo:
+          - S_DoramMagical_Armor
+          - S_DoramMagical_Shoes
+    Script: |
+      bonus2 bSkillCooldown,"SU_SV_STEMSPEAR",-1000;
+  - Combos:
+      - Combo:
+          - S_Star_Emperor_Armor
+          - S_Star_Emperor_Shoes
+    Script: |
+      bonus2 bSkillCooldown,"SJ_DOCUMENT",-2000;
+  - Combos:
+      - Combo:
+          - S_Soul_Reaper_Armor
+          - S_Soul_Reaper_Shoes
+    Script: |
+      bonus2 bSkillCooldown,"SP_SOULREAPER",-2000;
+  - Combos:
+      - Combo:
+          - S_Promotion_Weapon
+          - S_Promotion_Armor
+          - S_Promotion_Shoes
+          - S_Promotion_Shield
+          - S_Promotion_Earring
+          - S_Promotion_Pendant
+    Script: |
+      bonus bAllStats,3;
+  - Combos:
+      - Combo:
+          - S_Physical_Earring
+          - S_Physical_Weapon
+          - S_Physical_Pendant
+    Script: |
+      .@r = getequiprefinerycnt(EQI_SHADOW_ACC_R) + getequiprefinerycnt(EQI_SHADOW_ACC_L) + getequiprefinerycnt(EQI_SHADOW_WEAPON);
+      bonus bBaseAtk,.@r;
+      if (.@r>=23) {
+         bonus2 bAddClass,Class_All,1;
+      }
+  - Combos:
+      - Combo:
+          - S_Magical_Earring
+          - S_Magical_Weapon
+          - S_Magical_Pendant
+    Script: |
+      .@r = getequiprefinerycnt(EQI_SHADOW_ACC_R) + getequiprefinerycnt(EQI_SHADOW_ACC_L) + getequiprefinerycnt(EQI_SHADOW_WEAPON);
+      bonus bMatk,.@r;
+      if (.@r>=23) {
+         bonus bMatkRate,1;
+      }
+  - Combos:
+      - Combo:
+          - S_Champion_Shoes
+          - S_Hard_Armor
+    Script: |
+      .@r = getequiprefinerycnt(EQI_SHADOW_ARMOR) + getequiprefinerycnt(EQI_SHADOW_SHOES);
+      bonus bMaxHP,.@r;
+      bonus bMaxSP,.@r;
+      if (.@r >= 15) {
+         bonus bMaxHPrate,1;
+      }
+  - Combos:
+      - Combo:
+          - S_Athena_Shield
+          - S_Immune_Armor
+    Script: |
+      .@r = getequiprefinerycnt(EQI_SHADOW_ARMOR) + getequiprefinerycnt(EQI_SHADOW_SHIELD);
+      bonus bDef,.@r;
+      if (.@r >= 15) {
+         bonus2 bSubEle,Ele_Neutral,1;
+      }
+  - Combos:
+      - Combo:
+          - S_Ancient_Armor
+          - S_Kingbird_Weapon
+    Script: |
+      .@r = getequiprefinerycnt(EQI_SHADOW_ARMOR) + getequiprefinerycnt(EQI_SHADOW_WEAPON);
+      bonus bBaseAtk,.@r;
+      if (.@r >= 15) {
+         bonus bLongAtkRate,1;
+      }
+  - Combos:
+      - Combo:
+          - S_Critical_Armor
+          - S_Cri_Hit_Weapon
+    Script: |
+      .@r = getequiprefinerycnt(EQI_SHADOW_ARMOR) + getequiprefinerycnt(EQI_SHADOW_WEAPON);
+      bonus bBaseAtk,.@r;
+      if (.@r >= 15) {
+         bonus bCritAtkRate,1;
+      }
+  - Combos:
+      - Combo:
+          - S_Healing_Weapon
+          - S_Healing_Shield
+          - S_Healing_Shoes
+    Script: |
+      .@r = getequiprefinerycnt(EQI_SHADOW_WEAPON) + getequiprefinerycnt(EQI_SHADOW_SHIELD) + getequiprefinerycnt(EQI_SHADOW_SHOES);
+      .@val = 5;
+      if (.@r >= 25) {
+         .@val += 15;
+      }
+      bonus bHealPower,.@val;
+  - Combos:
+      - Combo:
+          - S_Lucky_Weapon
+          - S_Lucky_Armor
+    Script: |
+      bonus bLuk,1;
+  - Combos:
+      - Combo:
+          - S_Power_Earring
+          - S_Power_Pendant
+    Script: |
+      bonus bStr,1;
+  - Combos:
+      - Combo:
+          - S_Int_Pendant
+          - S_Int_Earring
+    Script: |
+      bonus bInt,1;
+  - Combos:
+      - Combo:
+          - S_Dexterous_Armor
+          - S_Dexterous_Weapon
+    Script: |
+      bonus bDex,1;
+  - Combos:
+      - Combo:
+          - S_Vital_Shoes
+          - S_Vital_Shield
+    Script: |
+      bonus bVit,1;
+  - Combos:
+      - Combo:
+          - S_Athletic_Shield
+          - S_Athletic_Shoes
+    Script: |
+      bonus bAgi,1;
+  - Combos:
+      - Combo:
+          - S_Resist_Spell_Pendant
+          - S_Athena_Earring
+    Script: |
+      bonus2 bSubEle,Ele_Neutral,1;
+      if (getequiprefinerycnt(EQI_SHADOW_ACC_R) + getequiprefinerycnt(EQI_SHADOW_ACC_L) >= 15) {
+         bonus2 bSubEle,Ele_Neutral,1;
+      }
+  - Combos:
+      - Combo:
+          - S_Cranial_Shield
+          - S_Bloody_Shoes
+    Script: |
+      bonus2 bExpAddRace,RC_DemiHuman,3;
+  - Combos:
+      - Combo:
+          - S_Safeguard_Shield
+          - S_Liberation_Shoes
+    Script: |
+      bonus2 bAddClass,Class_Boss,5;
+  - Combos:
+      - Combo:
+          - S_Brutal_Shield
+          - S_Clamorous_Shoes
+    Script: |
+      bonus2 bExpAddRace,RC_Brute,3;
+  - Combos:
+      - Combo:
+          - S_Gargantua_Shield
+          - S_Insecticide_Shoes
+    Script: |
+      bonus2 bExpAddRace,RC_Insect,3;
+  - Combos:
+      - Combo:
+          - S_Homers_Shield
+          - S_Fisher_Shoes
+    Script: |
+      bonus2 bExpAddRace,RC_Fish,3;
+  - Combos:
+      - Combo:
+          - S_Dragoon_Shield
+          - S_Dragoon_Shoes
+    Script: |
+      bonus2 bExpAddRace,RC_Dragon,3;
+  - Combos:
+      - Combo:
+          - S_Satanic_Shield
+          - S_Seraphim_Shoes
+    Script: |
+      bonus2 bExpAddRace,RC_Angel,3;
+  - Combos:
+      - Combo:
+          - S_Flameguard_Shield
+          - S_Beholder_Shoes
+    Script: |
+      bonus2 bExpAddRace,RC_Formless,3;
+  - Combos:
+      - Combo:
+          - S_Requiem_Shield
+          - S_Divine_Shoes
+    Script: |
+      bonus2 bExpAddRace,RC_Undead,3;
+  - Combos:
+      - Combo:
+          - S_Cadi_Shield
+          - S_Chemical_Shoes
+    Script: |
+      bonus2 bExpAddRace,RC_Plant,3;
+  - Combos:
+      - Combo:
+          - S_Big_Armor
+          - S_Big_Weapon
+      - Combo:
+          - S_Medium_Armor
+          - S_Medium_Weapon
+      - Combo:
+          - S_Small_Armor
+          - S_Small_Weapon
+    Script: |
+      bonus bMaxHPrate,1;
+      bonus bMaxSPrate,1;
+  - Combos:
+      - Combo:
+          - S_Spiritual_Weapon
+          - S_Spiritual_Earring
+          - S_Spiritual_Pendent
+    Script: |
+      bonus2 bSPDrainRate,10,1+(getequiprefinerycnt(EQI_SHADOW_WEAPON)+getequiprefinerycnt(EQI_SHADOW_ACC_R)+getequiprefinerycnt(EQI_SHADOW_ACC_L)/10);
+  - Combos:
+      - Combo:
+          - S_Spiritual_Earring
+          - S_Spiritual_Pendent
+          - S2_Spiritual_Weapon
+    Script: |
+      bonus2 bSPDrainRate,10,1+(getequiprefinerycnt(EQI_SHADOW_WEAPON)+getequiprefinerycnt(EQI_SHADOW_ACC_R)+getequiprefinerycnt(EQI_SHADOW_ACC_L))/10;
+  - Combos:
+      - Combo:
+          - S_Spiritual_Earring
+          - S_Spiritual_Pendent
+          - S2_Spirit_M_E_Weapon
+    Script: |
+      .@r = getequiprefinerycnt(EQI_SHADOW_WEAPON)+getequiprefinerycnt(EQI_SHADOW_ACC_R)+getequiprefinerycnt(EQI_SHADOW_ACC_L);
+      if (.@r >= 25) {
+         bonus bMatkRate,2;
+      }
+      else if (.@r >= 20) {
+         bonus bMatkRate,1;
+      }
+      bonus bMatk,10;
+  - Combos:
+      - Combo:
+          - S_Malicious_Armor
+          - S_Malicious_Shoes
+          - S_Malicious_Shield
+    Script: |
+      bonus2 bHPDrainRate,40,2+(getequiprefinerycnt(EQI_SHADOW_ARMOR)+getequiprefinerycnt(EQI_SHADOW_SHIELD)+getequiprefinerycnt(EQI_SHADOW_SHOES)/5);
+  - Combos:
+      - Combo:
+          - S_Malicious_Shoes
+          - S_Malicious_Shield
+          - S2_Malicious_Armor
+    Script: |
+      bonus2 bHPDrainRate,40,2+(getequiprefinerycnt(EQI_SHADOW_ARMOR)+getequiprefinerycnt(EQI_SHADOW_SHIELD)+getequiprefinerycnt(EQI_SHADOW_SHOES))/5;
+  - Combos:
+      - Combo:
+          - S_Gemstone_Armor
+          - S_Gemstone_Shoes
+          - S_Gemstone_Shield
+          - S_Gemstone_Weapon
+          - S_Gemstone_Earring
+          - S_Gemstone_Pendent
+    Script: |
+      bonus bAllStats,1;
+      .@r = getequiprefinerycnt(EQI_SHADOW_ARMOR)+getequiprefinerycnt(EQI_SHADOW_WEAPON)+getequiprefinerycnt(EQI_SHADOW_SHIELD)+getequiprefinerycnt(EQI_SHADOW_SHOES)+getequiprefinerycnt(EQI_SHADOW_ACC_R)+getequiprefinerycnt(EQI_SHADOW_ACC_L);
+      if (.@r >= 45) {
+         bonus bNoGemStone;
+         bonus bUseSPrate,100-.@r;
+      }
+  - Combos:
+      - Combo:
+          - S_Gemstone_Armor
+          - S_Gemstone_Shoes
+          - S_Gemstone_Shield
+          - S_Gemstone_Weapon
+          - S_Gemstone_Pendent
+          - S2_Gemstone_Earring
+    Script: |
+      .@r = getequiprefinerycnt(EQI_SHADOW_ARMOR)+getequiprefinerycnt(EQI_SHADOW_WEAPON)+getequiprefinerycnt(EQI_SHADOW_SHIELD)+getequiprefinerycnt(EQI_SHADOW_SHOES)+getequiprefinerycnt(EQI_SHADOW_ACC_R)+getequiprefinerycnt(EQI_SHADOW_ACC_L);
+      bonus bAllStats,1;
+      if (.@r >= 45) {
+         bonus bNoGemStone;
+         bonus bUseSPrate,(100-.@r);
+      }
+  - Combos:
+      - Combo:
+          - S_Stability_Shield
+          - S_Plasterer's_Armor
+          - S_Plasterer's_Shoes
+    Script: |
+      bonus bDef,5;
+      if (getequiprefinerycnt(EQI_SHADOW_SHIELD)+getequiprefinerycnt(EQI_SHADOW_ARMOR)+getequiprefinerycnt(EQI_SHADOW_SHOES) >= 20)
+         bonus2 bResEff,Eff_Stone,10000;
+  - Combos:
+      - Combo:
+          - S_Stability_Shield
+          - S_Insomniac_Armor
+          - S_Insomniac_Shoes
+    Script: |
+      bonus bDef,5;
+      if (getequiprefinerycnt(EQI_SHADOW_SHIELD)+getequiprefinerycnt(EQI_SHADOW_ARMOR)+getequiprefinerycnt(EQI_SHADOW_SHOES) >= 20)
+         bonus2 bResEff,Eff_Sleep,10000;
+  - Combos:
+      - Combo:
+          - S_Stability_Shield
+          - S_Peerless_Armor
+          - S_Peerless_Shoes
+    Script: |
+      bonus bDef,5;
+      if (getequiprefinerycnt(EQI_SHADOW_SHIELD)+getequiprefinerycnt(EQI_SHADOW_ARMOR)+getequiprefinerycnt(EQI_SHADOW_SHOES) >= 20)
+         bonus2 bResEff,Eff_Silence,10000;
+  - Combos:
+      - Combo:
+          - S_Stability_Shield
+          - S_Adurate_Armor
+          - S_Adurate_Shoes
+    Script: |
+      bonus bDef,5;
+      if (getequiprefinerycnt(EQI_SHADOW_SHIELD)+getequiprefinerycnt(EQI_SHADOW_ARMOR)+getequiprefinerycnt(EQI_SHADOW_SHOES) >= 20)
+         bonus2 bResEff,Eff_Blind,10000;
+  - Combos:
+      - Combo:
+          - S_Stability_Shield
+          - Unfreez_Weapon_S
+          - Unfreeze_Earing_S
+          - Unfreeze_Pendent_S
+    Script: |
+      bonus bDef,4;
+      if (getequiprefinerycnt(EQI_SHADOW_SHIELD)+getequiprefinerycnt(EQI_SHADOW_WEAPON)+getequiprefinerycnt(EQI_SHADOW_ACC_L)+getequiprefinerycnt(EQI_SHADOW_ACC_R) >= 30)
+         bonus2 bResEff,Eff_Freeze,10000;
+  - Combos:
+      - Combo:
+          - S_Stability_Shield
+          - Vitality_Earing_S
+          - Vitality_Pendant_S
+    Script: |
+      bonus bDef,5;
+      if (getequiprefinerycnt(EQI_SHADOW_SHIELD)+getequiprefinerycnt(EQI_SHADOW_ACC_L)+getequiprefinerycnt(EQI_SHADOW_ACC_R) >= 20)
+         bonus2 bResEff,Eff_Bleeding,10000;
+  - Combos:
+      - Combo:
+          - S_Stability_Shield
+          - S_Neutral_Weapon
+          - S_Neutral_Earring
+          - S_Neutral_Pendent
+    Script: |
+      bonus bDef,4;
+      if (getequiprefinerycnt(EQI_SHADOW_SHIELD)+getequiprefinerycnt(EQI_SHADOW_WEAPON)+getequiprefinerycnt(EQI_SHADOW_ACC_L)+getequiprefinerycnt(EQI_SHADOW_ACC_R) >= 30)
+         bonus2 bResEff,Eff_Stun,10000;
+  - Combos:
+      - Combo:
+          - S_Stability_Shield
+          - S_Curse_Lift_Earring
+          - S_Curse_Lift_Pendent
+    Script: |
+      bonus bDef,5;
+      if (getequiprefinerycnt(EQI_SHADOW_SHIELD)+getequiprefinerycnt(EQI_SHADOW_ACC_L)+getequiprefinerycnt(EQI_SHADOW_ACC_R) >= 20)
+         bonus2 bResEff,Eff_Curse,10000;
+  - Combos:
+      - Combo:
+          - S_Stability_Shield
+          - S2_Plasterer's_Armor
+    Script: |
+      .@r = getequiprefinerycnt(EQI_SHADOW_SHIELD) + getequiprefinerycnt(EQI_SHADOW_ARMOR);
+      bonus bDef,50;
+      if (.@r >= 15) {
+         bonus2 bResEff,Eff_Stone,10000;
+      }
+  - Combos:
+      - Combo:
+          - S_Stability_Shield
+          - S2_Insomniac_Shoes
+    Script: |
+      .@r = getequiprefinerycnt(EQI_SHADOW_SHIELD) + getequiprefinerycnt(EQI_SHADOW_SHOES);
+      bonus bDef,50;
+      if (.@r >= 15) {
+         bonus2 bResEff,Eff_Sleep,10000;
+      }
+  - Combos:
+      - Combo:
+          - S_Stability_Shield
+          - S2_Peerless_Armor
+    Script: |
+      .@r = getequiprefinerycnt(EQI_SHADOW_SHIELD) + getequiprefinerycnt(EQI_SHADOW_ARMOR);
+      bonus bDef,50;
+      if (.@r >= 15) {
+         bonus2 bResEff,Eff_Silence,10000;
+      }
+  - Combos:
+      - Combo:
+          - S_Stability_Shield
+          - S2_Adurate_Shoes
+    Script: |
+      .@r = getequiprefinerycnt(EQI_SHADOW_SHIELD) + getequiprefinerycnt(EQI_SHADOW_SHOES);
+      bonus bDef,50;
+      if (.@r >= 15) {
+         bonus2 bResEff,Eff_Blind,10000;
+      }
+  - Combos:
+      - Combo:
+          - S_Stability_Shield
+          - Unfreez_Weapon_S2
+    Script: |
+      .@r = getequiprefinerycnt(EQI_SHADOW_SHIELD) + getequiprefinerycnt(EQI_SHADOW_WEAPON);
+      bonus bDef,50;
+      if (.@r >= 15) {
+         bonus2 bResEff,Eff_Freeze,10000;
+      }
+  - Combos:
+      - Combo:
+          - S_Stability_Shield
+          - Vitality_Earing_S2
+    Script: |
+      .@r = getequiprefinerycnt(EQI_SHADOW_SHIELD) + getequiprefinerycnt(EQI_SHADOW_ACC_R);
+      bonus bDef,50;
+      if (.@r >= 15) {
+         bonus2 bResEff,Eff_Bleeding,10000;
+      }
+  - Combos:
+      - Combo:
+          - S_Stability_Shield
+          - S2_Neutral_Weapon
+    Script: |
+      .@r = getequiprefinerycnt(EQI_SHADOW_SHIELD) + getequiprefinerycnt(EQI_SHADOW_WEAPON);
+      bonus bDef,50;
+      if (.@r >= 15) {
+         bonus2 bResEff,Eff_Stun,10000;
+      }
+  - Combos:
+      - Combo:
+          - S_Stability_Shield
+          - S2_Curse_Lift_Pendent
+    Script: |
+      .@r = getequiprefinerycnt(EQI_SHADOW_SHIELD) + getequiprefinerycnt(EQI_SHADOW_ACC_L);
+      bonus bDef,50;
+      if (.@r >= 15) {
+         bonus2 bResEff,Eff_Curse,10000;
+      }
+  - Combos:
+      - Combo:
+          - S_Caster_Pendant
+          - S_Caster_earring
+          - S_Caster_Weapon
+    Script: |
+      bonus bNoCastCancel;
+      bonus bVariableCastrate,40-(getequiprefinerycnt(EQI_SHADOW_ACC_R)+getequiprefinerycnt(EQI_SHADOW_ACC_L));
+  - Combos:
+      - Combo:
+          - S_Spell_Flow_Shoes
+          - S_Spell_Flow_Armor
+          - S_Spell_Flow_Shield
+      - Combo:
+          - S_Spell_Flow_Shoes
+          - S_Spell_Flow_Armor
+          - S2_Spell_Flow_Shield
+    Script: |
+      bonus bNoCastCancel;
+      bonus bUseSPrate,40-getequiprefinerycnt(EQI_SHADOW_SHIELD)-getequiprefinerycnt(EQI_SHADOW_ARMOR)-getequiprefinerycnt(EQI_SHADOW_SHOES);
+  - Combos:
+      - Combo:
+          - S_Infinity_Earring
+          - S_Infinity_Pendant
+    Script: |
+      bonus bAtkRate,1;
+      if (getequiprefinerycnt(EQI_SHADOW_ACC_R)+getequiprefinerycnt(EQI_SHADOW_ACC_L) >= 15)
+         bonus bNoSizeFix;
+  - Combos:
+      - Combo:
+          - S_Solid_Weapon
+          - S_Solid_Earring
+    Script: |
+      bonus bBaseAtk,getequiprefinerycnt(EQI_SHADOW_WEAPON);
+      if (getequiprefinerycnt(EQI_SHADOW_WEAPON)+getequiprefinerycnt(EQI_SHADOW_ACC_R) >= 15)
+         bonus bUnbreakableWeapon;
+  - Combos:
+      - Combo:
+          - S_Immortal_Armor
+          - S_Immortal_Pendant
+    Script: |
+      bonus bDef,getequiprefinerycnt(EQI_SHADOW_ARMOR);
+      if (getequiprefinerycnt(EQI_SHADOW_ARMOR)+getequiprefinerycnt(EQI_SHADOW_ACC_L) >= 15)
+         bonus bUnbreakableArmor;
+  - Combos:
+      - Combo:
+          - S_Executioner_Weapon
+          - S_Penetration_Earring
+          - S_Penetration_Pendent
+    Script: |
+      bonus bBaseAtk,5;
+      if (getequiprefinerycnt(EQI_SHADOW_WEAPON)+getequiprefinerycnt(EQI_SHADOW_ACC_R)+getequiprefinerycnt(EQI_SHADOW_ACC_L) >= 25)
+         bonus bIgnoreDefRace,RC_DemiHuman;
+  - Combos:
+      - Combo:
+          - S_Exorcist_Weapon
+          - S_Penetration_Earring
+          - S_Penetration_Pendent
+    Script: |
+      bonus bBaseAtk,5;
+      if (getequiprefinerycnt(EQI_SHADOW_WEAPON)+getequiprefinerycnt(EQI_SHADOW_ACC_R)+getequiprefinerycnt(EQI_SHADOW_ACC_L) >= 25)
+         bonus bIgnoreDefRace,RC_Demon;
+  - Combos:
+      - Combo:
+          - S_Hunting_Weapon
+          - S_Penetration_Earring
+          - S_Penetration_Pendent
+    Script: |
+      bonus bBaseAtk,5;
+      if (getequiprefinerycnt(EQI_SHADOW_WEAPON)+getequiprefinerycnt(EQI_SHADOW_ACC_R)+getequiprefinerycnt(EQI_SHADOW_ACC_L) >= 25) {
+         bonus bIgnoreDefRace,RC_Brute;
+         bonus bIgnoreDefRace,RC_Player_Doram;
+      }
+  - Combos:
+      - Combo:
+          - S_Insect_Net_Weapon
+          - S_Penetration_Earring
+          - S_Penetration_Pendent
+    Script: |
+      bonus bBaseAtk,5;
+      if (getequiprefinerycnt(EQI_SHADOW_WEAPON)+getequiprefinerycnt(EQI_SHADOW_ACC_R)+getequiprefinerycnt(EQI_SHADOW_ACC_L) >= 25)
+         bonus bIgnoreDefRace,RC_Insect;
+  - Combos:
+      - Combo:
+          - S_Fishing_Weapon
+          - S_Penetration_Earring
+          - S_Penetration_Pendent
+    Script: |
+      bonus bBaseAtk,5;
+      if (getequiprefinerycnt(EQI_SHADOW_WEAPON)+getequiprefinerycnt(EQI_SHADOW_ACC_R)+getequiprefinerycnt(EQI_SHADOW_ACC_L) >= 25)
+         bonus bIgnoreDefRace,RC_Fish;
+  - Combos:
+      - Combo:
+          - S_Dragon_Killer_Weapon
+          - S_Penetration_Earring
+          - S_Penetration_Pendent
+    Script: |
+      bonus bBaseAtk,5;
+      if (getequiprefinerycnt(EQI_SHADOW_WEAPON)+getequiprefinerycnt(EQI_SHADOW_ACC_R)+getequiprefinerycnt(EQI_SHADOW_ACC_L) >= 25)
+         bonus bIgnoreDefRace,RC_Dragon;
+  - Combos:
+      - Combo:
+          - S_Corrupt_Weapon
+          - S_Penetration_Earring
+          - S_Penetration_Pendent
+    Script: |
+      bonus bBaseAtk,5;
+      if (getequiprefinerycnt(EQI_SHADOW_WEAPON)+getequiprefinerycnt(EQI_SHADOW_ACC_R)+getequiprefinerycnt(EQI_SHADOW_ACC_L) >= 25)
+         bonus bIgnoreDefRace,RC_Angel;
+  - Combos:
+      - Combo:
+          - S_Vibration_Weapon
+          - S_Penetration_Earring
+          - S_Penetration_Pendent
+    Script: |
+      bonus bBaseAtk,5;
+      if (getequiprefinerycnt(EQI_SHADOW_WEAPON)+getequiprefinerycnt(EQI_SHADOW_ACC_R)+getequiprefinerycnt(EQI_SHADOW_ACC_L) >= 25)
+         bonus bIgnoreDefRace,RC_Formless;
+  - Combos:
+      - Combo:
+          - S_Holy_Water_Weapon
+          - S_Penetration_Earring
+          - S_Penetration_Pendent
+    Script: |
+      bonus bBaseAtk,5;
+      if (getequiprefinerycnt(EQI_SHADOW_WEAPON)+getequiprefinerycnt(EQI_SHADOW_ACC_R)+getequiprefinerycnt(EQI_SHADOW_ACC_L) >= 25)
+         bonus bIgnoreDefRace,RC_Undead;
+  - Combos:
+      - Combo:
+          - S_Scissors_Weapon
+          - S_Penetration_Earring
+          - S_Penetration_Pendent
+    Script: |
+      bonus bBaseAtk,5;
+      if (getequiprefinerycnt(EQI_SHADOW_WEAPON)+getequiprefinerycnt(EQI_SHADOW_ACC_R)+getequiprefinerycnt(EQI_SHADOW_ACC_L) >= 25)
+         bonus bIgnoreDefRace,RC_Plant;
+  - Combos:
+      - Combo:
+          - S_Penetration_Earring
+          - S_Penetration_Pendent
+          - S2_Force_Ex_Weapon
+    Script: |
+      if (getequiprefinerycnt(EQI_SHADOW_WEAPON)+getequiprefinerycnt(EQI_SHADOW_ACC_R)+getequiprefinerycnt(EQI_SHADOW_ACC_L) >= 25) {
+         bonus bIgnoreDefRace,RC_DemiHuman;
+      }
+  - Combos:
+      - Combo:
+          - S_Tempest_Earring
+          - S_Tempest_Pendent
+          - S2_Spirit_M_E_Weapon
+    Script: |
+      if (getequiprefinerycnt(EQI_SHADOW_WEAPON)+getequiprefinerycnt(EQI_SHADOW_ACC_R)+getequiprefinerycnt(EQI_SHADOW_ACC_L) >= 25) {
+         bonus bIgnoreMDefRace,RC_DemiHuman;
+      }
+  - Combos:
+      - Combo:
+          - S_Tempest_Earring
+          - S_Tempest_Pendent
+          - S_M_Executioner_Weapon
+    Script: |
+      bonus bMatk,5;
+      if (getequiprefinerycnt(EQI_SHADOW_WEAPON)+getequiprefinerycnt(EQI_SHADOW_ACC_R)+getequiprefinerycnt(EQI_SHADOW_ACC_L) >= 25)
+         bonus bIgnoreMDefRace,RC_DemiHuman;
+  - Combos:
+      - Combo:
+          - S_Tempest_Earring
+          - S_Tempest_Pendent
+          - S_M_Exorcist_Weapon
+    Script: |
+      bonus bMatk,5;
+      if (getequiprefinerycnt(EQI_SHADOW_WEAPON)+getequiprefinerycnt(EQI_SHADOW_ACC_R)+getequiprefinerycnt(EQI_SHADOW_ACC_L) >= 25)
+         bonus bIgnoreMDefRace,RC_Demon;
+  - Combos:
+      - Combo:
+          - S_Tempest_Earring
+          - S_Tempest_Pendent
+          - S_M_Hunting_Weapon
+    Script: |
+      bonus bMatk,5;
+      if (getequiprefinerycnt(EQI_SHADOW_WEAPON)+getequiprefinerycnt(EQI_SHADOW_ACC_R)+getequiprefinerycnt(EQI_SHADOW_ACC_L) >= 25) {
+         bonus bIgnoreMDefRace,RC_Brute;
+         bonus bIgnoreMDefRace,RC_Player_Doram;
+      }
+  - Combos:
+      - Combo:
+          - S_Tempest_Earring
+          - S_Tempest_Pendent
+          - S_M_Insect_Net_Weapon
+    Script: |
+      bonus bMatk,5;
+      if (getequiprefinerycnt(EQI_SHADOW_WEAPON)+getequiprefinerycnt(EQI_SHADOW_ACC_R)+getequiprefinerycnt(EQI_SHADOW_ACC_L) >= 25)
+         bonus bIgnoreMDefRace,RC_Insect;
+  - Combos:
+      - Combo:
+          - S_Tempest_Earring
+          - S_Tempest_Pendent
+          - S_M_Fishing_Weapon
+    Script: |
+      bonus bMatk,5;
+      if (getequiprefinerycnt(EQI_SHADOW_WEAPON)+getequiprefinerycnt(EQI_SHADOW_ACC_R)+getequiprefinerycnt(EQI_SHADOW_ACC_L) >= 25)
+         bonus bIgnoreMDefRace,RC_Fish;
+  - Combos:
+      - Combo:
+          - S_Tempest_Earring
+          - S_Tempest_Pendent
+          - S_M_Dragon_K_Weapon
+    Script: |
+      bonus bMatk,5;
+      if (getequiprefinerycnt(EQI_SHADOW_WEAPON)+getequiprefinerycnt(EQI_SHADOW_ACC_R)+getequiprefinerycnt(EQI_SHADOW_ACC_L) >= 25)
+         bonus bIgnoreMDefRace,RC_Dragon;
+  - Combos:
+      - Combo:
+          - S_Tempest_Earring
+          - S_Tempest_Pendent
+          - S_M_Corrupt_Weapon
+    Script: |
+      bonus bMatk,5;
+      if (getequiprefinerycnt(EQI_SHADOW_WEAPON)+getequiprefinerycnt(EQI_SHADOW_ACC_R)+getequiprefinerycnt(EQI_SHADOW_ACC_L) >= 25)
+         bonus bIgnoreMDefRace,RC_Angel;
+  - Combos:
+      - Combo:
+          - S_Tempest_Earring
+          - S_Tempest_Pendent
+          - S_M_Vibration_Weapon
+    Script: |
+      bonus bMatk,5;
+      if (getequiprefinerycnt(EQI_SHADOW_WEAPON)+getequiprefinerycnt(EQI_SHADOW_ACC_R)+getequiprefinerycnt(EQI_SHADOW_ACC_L) >= 25)
+         bonus bIgnoreMDefRace,RC_Formless;
+  - Combos:
+      - Combo:
+          - S_Tempest_Earring
+          - S_Tempest_Pendent
+          - S_M_Holy_Water_Weapon
+    Script: |
+      bonus bMatk,5;
+      if (getequiprefinerycnt(EQI_SHADOW_WEAPON)+getequiprefinerycnt(EQI_SHADOW_ACC_R)+getequiprefinerycnt(EQI_SHADOW_ACC_L) >= 25)
+         bonus bIgnoreMDefRace,RC_Undead;
+  - Combos:
+      - Combo:
+          - S_Tempest_Earring
+          - S_Tempest_Pendent
+          - S_M_Scissors_Weapon
+    Script: |
+      bonus bMatk,5;
+      if (getequiprefinerycnt(EQI_SHADOW_WEAPON)+getequiprefinerycnt(EQI_SHADOW_ACC_R)+getequiprefinerycnt(EQI_SHADOW_ACC_L) >= 25)
+         bonus bIgnoreMDefRace,RC_Plant;
+  - Combos:
+      - Combo:
+          - S_Tempest_Earring
+          - S_Tempest_Pendent
+          - S_Tempest_Shield
+          - S_Tempest_Shoes
+          - S_Tempest_Weapon
+          - S_Tempest_Armor
+    Script: |
+      if ((getequiprefinerycnt(EQI_SHADOW_ARMOR)+getequiprefinerycnt(EQI_SHADOW_WEAPON)+getequiprefinerycnt(EQI_SHADOW_SHIELD)+getequiprefinerycnt(EQI_SHADOW_SHOES)+getequiprefinerycnt(EQI_SHADOW_ACC_R)+getequiprefinerycnt(EQI_SHADOW_ACC_L)) >= 54) {
+         bonus2 bIgnoreDefClassRate,Class_Normal,20;
+      }
+  - Combos:
+      - Combo:
+          - S_Bearers_Armor
+          - S_Bearers_Shoes
+          - S_Bearers_Shield
+          - S_Bearers_Weapon
+          - S_Bearers_Earring
+          - S_Bearers_Pendent
+    Script: |
+      .@r = getequiprefinerycnt(EQI_SHADOW_ARMOR)+getequiprefinerycnt(EQI_SHADOW_WEAPON)+getequiprefinerycnt(EQI_SHADOW_SHIELD)+getequiprefinerycnt(EQI_SHADOW_SHOES)+getequiprefinerycnt(EQI_SHADOW_ACC_R)+getequiprefinerycnt(EQI_SHADOW_ACC_L);
+      bonus bAllStats,1;
+      if (.@r >= 45) {
+         bonus bMaxHPrate,(.@r-60);
+         bonus bNoWalkDelay;
+      }
+  - Combos:
+      - Combo:
+          - S_Bearers_Armor
+          - S_Bearers_Shoes
+          - S_Bearers_Shield
+          - S_Bearers_Weapon
+          - S_Bearers_Earring
+          - S2_Bearers_Pendent
+    Script: |
+      .@r = getequiprefinerycnt(EQI_SHADOW_ARMOR)+getequiprefinerycnt(EQI_SHADOW_WEAPON)+getequiprefinerycnt(EQI_SHADOW_SHIELD)+getequiprefinerycnt(EQI_SHADOW_SHOES)+getequiprefinerycnt(EQI_SHADOW_ACC_R)+getequiprefinerycnt(EQI_SHADOW_ACC_L);
+      bonus bAllStats,1;
+      if (.@r >= 45) {
+         bonus bMaxHPrate,(.@r-60);
+         bonus bNoWalkDelay;
+      }
+  - Combos:
+      - Combo:
+          - S_Basis_Armor
+          - S_Basis_Shield
+    Script: |
+      bonus2 bSubEle,Ele_Neutral,2;
+  - Combos:
+      - Combo:
+          - S_Hallowed_Armor
+          - S_Hallowed_Shield
+    Script: |
+      bonus2 bSubEle,Ele_Dark,2;
+  - Combos:
+      - Combo:
+          - S_Saharic_Armor
+          - S_Saharic_Shield
+    Script: |
+      bonus2 bSubEle,Ele_Water,2;
+  - Combos:
+      - Combo:
+          - S_Underneath_Armor
+          - S_Underneath_Shield
+    Script: |
+      bonus2 bSubEle,Ele_Earth,2;
+  - Combos:
+      - Combo:
+          - S_Flam_Armor
+          - S_Flam_Shield
+    Script: |
+      bonus2 bSubEle,Ele_Fire,2;
+  - Combos:
+      - Combo:
+          - S_Windy_Armor
+          - S_Windy_Shield
+    Script: |
+      bonus2 bSubEle,Ele_Wind,2;
+  - Combos:
+      - Combo:
+          - S_Envenom_Armor
+          - S_Envenom_Shield
+    Script: |
+      bonus2 bSubEle,Ele_Poison,2;
+  - Combos:
+      - Combo:
+          - S_Damned_Armor
+          - S_Damned_Shield
+    Script: |
+      bonus2 bSubEle,Ele_Holy,2;
+  - Combos:
+      - Combo:
+          - S_Geist_Armor
+          - S_Geist_Shield
+    Script: |
+      bonus2 bSubEle,Ele_Ghost,2;
+  - Combos:
+      - Combo:
+          - S_Divine_Armor
+          - S_Divine_Shield
+    Script: |
+      bonus2 bSubEle,Ele_Undead,2;
+  - Combos:
+      - Combo:
+          - S_Hasty_Shoes
+          - S_Hasty_Armor
+    Script: |
+      bonus bFlee,5;
+      if (getequiprefinerycnt(EQI_SHADOW_SHOES)+getequiprefinerycnt(EQI_SHADOW_ARMOR) >= 15)
+         bonus bSpeedRate,25;
+  - Combos:
+      - Combo:
+          - S_Hasty_Armor
+          - S2_Hasty_Shoes
+    Script: |
+      bonus bFlee,5;
+      if ((getequiprefinerycnt(EQI_SHADOW_ARMOR) + getequiprefinerycnt(EQI_SHADOW_SHOES)) >= 15) {
+         bonus bSpeedRate,25;
+      }
+  - Combos:
+      - Combo:
+          - S_Expert_Shoes
+          - S_Expert_Shield
+    Script: |
+      bonus2 bExpAddRace,RC_All,((getequiprefinerycnt(EQI_SHADOW_SHOES)+getequiprefinerycnt(EQI_SHADOW_SHIELD)) >= 15?10:1);
+  - Combos:
+      - Combo:
+          - S_Beginner_Shoes
+          - S_Beginner_Shield
+    Script: |
+      bonus2 bExpAddRace,RC_All,((getequiprefinerycnt(EQI_SHADOW_SHOES)+getequiprefinerycnt(EQI_SHADOW_SHIELD)) >= 15?20:10);
+  - Combos:
+      - Combo:
+          - S_Rookie_Shoes
+          - S_Rookie_Shield
+    Script: |
+      bonus2 bExpAddRace,RC_All,((getequiprefinerycnt(EQI_SHADOW_SHOES)+getequiprefinerycnt(EQI_SHADOW_SHIELD)) >= 15?10:5);
+  - Combos:
+      - Combo:
+          - S_Advanced_Shoes
+          - S_Advanced_Shield
+    Script: |
+      bonus2 bExpAddRace,RC_All,((getequiprefinerycnt(EQI_SHADOW_SHOES)+getequiprefinerycnt(EQI_SHADOW_SHIELD)) >= 15?4:2);
+  - Combos:
+      - Combo:
+          - S_Blitz_Earring
+          - S_Blitz_Pendent
+    Script: |
+      .@r = getequiprefinerycnt(EQI_SHADOW_ACC_R)+getequiprefinerycnt(EQI_SHADOW_ACC_L);
+      bonus bBaseAtk,.@r;
+      if (.@r >= 15)
+         bonus bAspd,1;
+  - Combos:
+      - Combo:
+          - S_Enhance_Force_Weapon
+          - S_Force_Earring
+          - S_Force_Pendant
+    Script: |
+      .@r = getequiprefinerycnt(EQI_SHADOW_WEAPON)+getequiprefinerycnt(EQI_SHADOW_ACC_R)+getequiprefinerycnt(EQI_SHADOW_ACC_L);
+      bonus2 bAddClass,Class_All,1;
+      if (.@r>=20) {
+         bonus2 bAddClass,Class_All,1;
+      }
+      if (.@r>=25) {
+         bonus2 bAddClass,Class_All,1;
+      }
+  - Combos:
+      - Combo:
+          - S_Force_Weapon
+          - S_Force_Earring
+          - S_Force_Pendant
+    Script: |
+      .@r = getequiprefinerycnt(EQI_SHADOW_WEAPON)+getequiprefinerycnt(EQI_SHADOW_ACC_R)+getequiprefinerycnt(EQI_SHADOW_ACC_L);
+      bonus bBaseAtk,10;
+      if (.@r>=20) {
+         bonus2 bAddClass,Class_All,1;
+      }
+      if (.@r>=25) {
+         bonus2 bAddClass,Class_All,1;
+      }
+  - Combos:
+      - Combo:
+          - S_Force_Earring
+          - S_Force_Pendant
+          - S2_Force_Ex_Weapon
+    Script: |
+      .@r = getequiprefinerycnt(EQI_SHADOW_WEAPON)+getequiprefinerycnt(EQI_SHADOW_ACC_R)+getequiprefinerycnt(EQI_SHADOW_ACC_L);
+      bonus bBaseAtk,10;
+      if (.@r>=20) {
+         bonus bAtkRate,1;
+      }
+      if (.@r>=25) {
+         bonus bAtkRate,1;
+      }
+  - Combos:
+      - Combo:
+          - S_Enhance_Spirit_Weapon
+          - S_Spirit_Earring
+          - S_Spirit_Pendant
+    Script: |
+      .@r = getequiprefinerycnt(EQI_SHADOW_WEAPON)+getequiprefinerycnt(EQI_SHADOW_ACC_R)+getequiprefinerycnt(EQI_SHADOW_ACC_L);
+      bonus bMatkRate,1;
+      if (.@r>=20) {
+         bonus bMatkRate,1;
+      }
+      if (.@r>=25) {
+         bonus bMatkRate,1;
+      }
+  - Combos:
+      - Combo:
+          - S_Spirit_Weapon
+          - S_Spirit_Earring
+          - S_Spirit_Pendant
+    Script: |
+      .@r = getequiprefinerycnt(EQI_SHADOW_WEAPON)+getequiprefinerycnt(EQI_SHADOW_ACC_R)+getequiprefinerycnt(EQI_SHADOW_ACC_L);
+      bonus bMatk,10;
+      if (.@r>=20) {
+         bonus bMatkRate,1;
+      }
+      if (.@r>=25) {
+         bonus bMatkRate,1;
+      }
+  - Combos:
+      - Combo:
+          - S_Blitz_Shoes
+          - S_Blitz_Shield
+    Script: |
+      bonus bFlee,5;
+      if (getequiprefinerycnt(EQI_SHADOW_SHOES)+getequiprefinerycnt(EQI_SHADOW_SHIELD) >= 15) {
+         bonus bAspd,1;
+      }
+  - Combos:
+      - Combo:
+          - S_Titan_Earring
+          - S_Titan_Pendant
+    Script: |
+      bonus bBaseAtk,5;
+      if (getequiprefinerycnt(EQI_SHADOW_ACC_R)+getequiprefinerycnt(EQI_SHADOW_ACC_L) >= 15) {
+         bonus2 bAddSize,Size_Large,2;
+         bonus2 bMagicAddSize,Size_Large,2;
+      }
+  - Combos:
+      - Combo:
+          - S_Boned_Earring
+          - S_Boned_Pendant
+    Script: |
+      bonus bBaseAtk,5;
+      if (getequiprefinerycnt(EQI_SHADOW_ACC_R)+getequiprefinerycnt(EQI_SHADOW_ACC_L) >= 15) {
+         bonus2 bAddSize,Size_Medium,2;
+         bonus2 bMagicAddSize,Size_Medium,2;
+      }
+  - Combos:
+      - Combo:
+          - S_Gigantic_Earring
+          - S_Gigantic_Pendant
+    Script: |
+      bonus bBaseAtk,5;
+      if (getequiprefinerycnt(EQI_SHADOW_ACC_R)+getequiprefinerycnt(EQI_SHADOW_ACC_L) >= 15) {
+         bonus2 bAddSize,Size_Small,2;
+         bonus2 bMagicAddSize,Size_Small,2;
+      }
+  - Combos:
+      - Combo:
+          - S_Caster_Shoes
+          - S_Caster_Shield
+          - S_Caster_Armor
+      - Combo:
+          - S_Caster_Shoes
+          - S_Caster_Shield
+          - S2_Caster_Armor
+    Script: |
+      .@r = getequiprefinerycnt(EQI_SHADOW_SHOES)+getequiprefinerycnt(EQI_SHADOW_SHIELD)+getequiprefinerycnt(EQI_SHADOW_ARMOR);
+      bonus bVariableCastrate,-.@r/5;
+      if (.@r >= 25) {
+         bonus bUseSPrate,-2;
+      }
+      else {
+         bonus bUseSPrate,-1;
+      }
+  - Combos:
+      - Combo:
+          - S_Reload_Shoes
+          - S_Reload_Shield
+          - S_Reload_Armor
+    Script: |
+      bonus bDelayrate,(getequiprefinerycnt(EQI_SHADOW_SHOES)+getequiprefinerycnt(EQI_SHADOW_SHIELD)+getequiprefinerycnt(EQI_SHADOW_ARMOR) >= 25?-5:-1);
+  - Combos:
+      - Combo:
+          - S_Reload_Shoes
+          - S_Reload_Shield
+          - S2_Reload_Armor
+    Script: |
+      bonus bDelayrate,(getequiprefinerycnt(EQI_SHADOW_SHOES)+getequiprefinerycnt(EQI_SHADOW_SHIELD)+getequiprefinerycnt(EQI_SHADOW_ARMOR) >= 25?-6:-1);
+  - Combos:
+      - Combo:
+          - S_Swordman_earring
+          - S_Swordman_Pendant
+      - Combo:
+          - S_Merchant_earring
+          - S_Merchant_Pendant
+    Script: |
+      bonus bAtkRate,1;
+      bonus bMaxHPrate,1;
+      if (getequiprefinerycnt(EQI_SHADOW_ACC_R)+getequiprefinerycnt(EQI_SHADOW_ACC_L) >= 10) {
+         bonus bAtkRate,2;
+         bonus bMaxHPrate,2;
+      }
+  - Combos:
+      - Combo:
+          - S_Acolyte_earring
+          - S_Acolyte_Pendant
+      - Combo:
+          - S_Magician_earring
+          - S_Magician_Pendant
+    Script: |
+      bonus bMatkRate,1;
+      bonus bMaxSPrate,1;
+      if (getequiprefinerycnt(EQI_SHADOW_ACC_R)+getequiprefinerycnt(EQI_SHADOW_ACC_L) >= 10) {
+         bonus bMatkRate,2;
+         bonus bMaxSPrate,2;
+      }
+  - Combos:
+      - Combo:
+          - S_Thief_Pendant
+          - S_Thief_earring
+      - Combo:
+          - S_Archer_Pendant
+          - S_Archer_earring
+    Script: |
+      .@val = 1;
+      if ((getequiprefinerycnt(EQI_SHADOW_ACC_L)+getequiprefinerycnt(EQI_SHADOW_ACC_R)) >= 10) {
+         .@val += 2;
+      }
+      bonus bAtkRate,.@val;
+      bonus bMaxHPrate,.@val;
+  - Combos:
+      - Combo:
+          - S2_Bearers_Pendent
+          - S2_Bearers_Armor
+          - S2_Bearers_Shoes
+    Script: |
+      bonus bAllStats,1;
+      .@r = getequiprefinerycnt(EQI_SHADOW_SHOES) + getequiprefinerycnt(EQI_SHADOW_ACC_L) + getequiprefinerycnt(EQI_SHADOW_ARMOR);
+      if (.@r >= 25) {
+         bonus bNoWalkDelay;
+         bonus bMaxHPrate,.@r-35;
+      }
+  - Combos:
+      - Combo:
+          - S_Sigrun_Armor
+          - S_Sigrun_Shield
+    Script: |
+      .@r1 = getequiprefinerycnt(EQI_SHADOW_ARMOR);
+      .@r2 = getequiprefinerycnt(EQI_SHADOW_SHIELD);
+      if ((.@r1+.@r2) >= 17) {
+         if (BaseClass == Job_Swordman || BaseClass == Job_Thief || (BaseClass == Job_Taekwon && BaseJob != Job_Soul_Linker)) {
+            bonus bBaseAtk,15;
+            bonus bAspd,1;
+         }
+         else if (BaseClass == Job_Merchant || BaseClass == Job_Archer || BaseClass == Job_Gunslinger) {
+            bonus bFlee,15;
+            bonus bLongAtkRate,3;
+         }
+         else if (BaseClass == Job_Mage || BaseClass == Job_Acolyte || BaseClass == Job_Ninja || BaseJob == Job_Soul_Linker) {
+            bonus bMatk,15;
+            bonus bMaxSPrate,2;
+            bonus bHealPower,3;
+         }
+         else if (BaseClass == Job_Novice || BaseJob == Job_Summoner) {
+            bonus bAspdRate,5;
+            bonus bMaxHP,1000;
+            bonus bVariableCastrate,-5;
+            bonus bMaxSP,300;
+         }
+      }
+  - Combos:
+      - Combo:
+          - S_Critical_Shield
+          - S_Critical_Shoes
+    Script: |
+      .@r = getequiprefinerycnt(EQI_SHADOW_SHOES) + getequiprefinerycnt(EQI_SHADOW_SHIELD);
+      bonus bBaseAtk,.@r;
+      if (.@r >= 15) {
+         bonus bCritAtkRate,1;
+      }
+  - Combos:
+      - Combo:
+          - S2_Gemstone_Earring
+          - S2_Gemstone_Weapon
+          - S2_Gemstone_Shield
+    Script: |
+      bonus bAllStats,1;
+      .@r = getequiprefinerycnt(EQI_SHADOW_ACC_R) + getequiprefinerycnt(EQI_SHADOW_WEAPON) + getequiprefinerycnt(EQI_SHADOW_SHIELD);
+      if (.@r >= 25) {
+         bonus bNoGemStone;
+         bonus bUseSPrate,70-.@r;
+      }
+  - Combos:
+      - Combo:
+          - S_AllRace_Shoes
+          - S_AllRace_Shield
+      - Combo:
+          - EXPStone_Top
+          - EXPStone_Middle
+          - EXPStone_Bottom
+    Script: |
+      bonus2 bExpAddRace,RC_All,3;
+  - Combos:
+      - Combo:
+          - S_Blitz_Weapon
+          - S_Blitz_Armor
+    Script: |
+      .@r = getequiprefinerycnt(EQI_SHADOW_WEAPON) + getequiprefinerycnt(EQI_SHADOW_ARMOR);
+      bonus bMdef,.@r;
+      if (.@r >= 15) {
+         bonus bAspd,1;
+         bonus bDelayrate,-1;
+      }
+  - Combos:
+      - Combo:
+          - S_Tempest_Shield
+          - S_Tempest_Shoes
+          - S_M_ExeHoly_Armor
+    Script: |
+      .@r = getequiprefinerycnt(EQI_SHADOW_SHIELD) + getequiprefinerycnt(EQI_SHADOW_SHOES) + getequiprefinerycnt(EQI_SHADOW_ARMOR);
+      bonus bMdef,5;
+      if (.@r >= 25) {
+         bonus bIgnoreMDefRace,RC_DemiHuman;
+         bonus bIgnoreMDefRace,RC_Undead;
+      }
+  - Combos:
+      - Combo:
+          - S_Tempest_Shield
+          - S_Tempest_Shoes
+          - S_M_ExoCorrupt_Armor
+    Script: |
+      .@r = getequiprefinerycnt(EQI_SHADOW_SHIELD) + getequiprefinerycnt(EQI_SHADOW_SHOES) + getequiprefinerycnt(EQI_SHADOW_ARMOR);
+      bonus bMdef,5;
+      if (.@r >= 25) {
+         bonus bIgnoreMDefRace,RC_Demon;
+         bonus bIgnoreMDefRace,RC_Angel;
+      }
+  - Combos:
+      - Combo:
+          - S_Tempest_Shield
+          - S_Tempest_Shoes
+          - S_M_DragonVib_Armor
+    Script: |
+      .@r = getequiprefinerycnt(EQI_SHADOW_SHIELD) + getequiprefinerycnt(EQI_SHADOW_SHOES) + getequiprefinerycnt(EQI_SHADOW_ARMOR);
+      bonus bMdef,5;
+      if (.@r >= 25) {
+         bonus bIgnoreMDefRace,RC_Formless;
+         bonus bIgnoreMDefRace,RC_Dragon;
+      }
+  - Combos:
+      - Combo:
+          - S_Tempest_Shield
+          - S_Tempest_Shoes
+          - S_M_SciHunting_Armor
+    Script: |
+      .@r = getequiprefinerycnt(EQI_SHADOW_SHIELD) + getequiprefinerycnt(EQI_SHADOW_SHOES) + getequiprefinerycnt(EQI_SHADOW_ARMOR);
+      bonus bMdef,5;
+      if (.@r >= 25) {
+         bonus bIgnoreMDefRace,RC_Plant;
+         bonus bIgnoreMDefRace,RC_Brute;
+      }
+  - Combos:
+      - Combo:
+          - S_Tempest_Shield
+          - S_Tempest_Shoes
+          - S_M_FishInsect_Armor
+    Script: |
+      .@r = getequiprefinerycnt(EQI_SHADOW_SHIELD) + getequiprefinerycnt(EQI_SHADOW_SHOES) + getequiprefinerycnt(EQI_SHADOW_ARMOR);
+      bonus bMdef,5;
+      if (.@r >= 25) {
+         bonus bIgnoreMDefRace,RC_Fish;
+         bonus bIgnoreMDefRace,RC_Insect;
+      }
+  - Combos:
+      - Combo:
+          - S_Tension_Weapon
+          - S_Tension_Earring
+          - S_Tension_Pendent
+    Script: |
+      .@r = getequiprefinerycnt(EQI_SHADOW_WEAPON) + getequiprefinerycnt(EQI_SHADOW_ACC_R) + getequiprefinerycnt(EQI_SHADOW_ACC_L);
+      .@rate = 20 + 10*(.@r/10);
+      if (.@r >= 25) {
+         .@hp = 500;
+      }
+      else {
+         .@hp = 100;
+      }
+      autobonus "{ bonus2 bHPRegenRate,"+.@hp+",1000; }",.@rate,5000;
+  - Combos:
+      - Combo:
+          - S_Elegant_Weapon
+          - S_Elegant_Earring
+          - S_Elegant_Pendent
+    Script: |
+      .@r = getequiprefinerycnt(EQI_SHADOW_WEAPON) + getequiprefinerycnt(EQI_SHADOW_ACC_R) + getequiprefinerycnt(EQI_SHADOW_ACC_L);
+      .@rate = 10 + 10*(.@r/15);
+      if (.@r >= 25) {
+         .@hp = 250;
+      }
+      else {
+         .@hp = 100;
+      }
+      autobonus "{ bonus2 bHPRegenRate,"+.@hp+",1000; }",.@rate,5000,BF_MAGIC;
+  - Combos:
+      - Combo:
+          - S_Restore_Earring
+          - S_Restore_Pendent
+    Script: |
+      if ((getequiprefinerycnt(EQI_SHADOW_ACC_R) + getequiprefinerycnt(EQI_SHADOW_ACC_L)) >= 15) {
+         bonus bHPrecovRate,50;
+         bonus bSPrecovRate,50;
+      }
+  - Combos:
+      - Combo:
+          - S_MortalBlow_Weapon
+          - S_MortalBlow_Earring
+          - S_MortalBlow_Pendent
+    Script: |
+      .@r = getequiprefinerycnt(EQI_SHADOW_WEAPON) + getequiprefinerycnt(EQI_SHADOW_ACC_R) + getequiprefinerycnt(EQI_SHADOW_ACC_L);
+      .@val = 2;
+      if (.@r >= 25) {
+         .@val += 10;
+         if (.@r >= 30) {
+            bonus bAspd,3;
+         }
+      }
+      bonus bCritAtkRate,.@val;
+  - Combos:
+      - Combo:
+          - S_Penetration_Shoes
+          - S_Penetration_Shield
+          - S_ExeHoly_Armor
+    Script: |
+      .@r = getequiprefinerycnt(EQI_SHADOW_SHIELD) + getequiprefinerycnt(EQI_SHADOW_SHOES) + getequiprefinerycnt(EQI_SHADOW_ARMOR);
+      bonus bDef,5;
+      if (.@r >= 25) {
+         bonus bIgnoreDefRace,RC_DemiHuman;
+         bonus bIgnoreDefRace,RC_Undead;
+      }
+  - Combos:
+      - Combo:
+          - S_Penetration_Shoes
+          - S_Penetration_Shield
+          - S_ExoCorrupt_Armor
+    Script: |
+      .@r = getequiprefinerycnt(EQI_SHADOW_SHIELD) + getequiprefinerycnt(EQI_SHADOW_SHOES) + getequiprefinerycnt(EQI_SHADOW_ARMOR);
+      bonus bDef,5;
+      if (.@r >= 25) {
+         bonus bIgnoreDefRace,RC_Demon;
+         bonus bIgnoreDefRace,RC_Angel;
+      }
+  - Combos:
+      - Combo:
+          - S_Penetration_Shoes
+          - S_Penetration_Shield
+          - S_DragonVib_Armor
+    Script: |
+      .@r = getequiprefinerycnt(EQI_SHADOW_SHIELD) + getequiprefinerycnt(EQI_SHADOW_SHOES) + getequiprefinerycnt(EQI_SHADOW_ARMOR);
+      bonus bDef,5;
+      if (.@r >= 25) {
+         bonus bIgnoreDefRace,RC_Formless;
+         bonus bIgnoreDefRace,RC_Dragon;
+      }
+  - Combos:
+      - Combo:
+          - S_Penetration_Shoes
+          - S_Penetration_Shield
+          - S_SciHunting_Armor
+    Script: |
+      .@r = getequiprefinerycnt(EQI_SHADOW_SHIELD) + getequiprefinerycnt(EQI_SHADOW_SHOES) + getequiprefinerycnt(EQI_SHADOW_ARMOR);
+      bonus bDef,5;
+      if (.@r >= 25) {
+         bonus bIgnoreDefRace,RC_Plant;
+         bonus bIgnoreDefRace,RC_Brute;
+      }
+  - Combos:
+      - Combo:
+          - S_Penetration_Shoes
+          - S_Penetration_Shield
+          - S_FishInsect_Armor
+    Script: |
+      .@r = getequiprefinerycnt(EQI_SHADOW_SHIELD) + getequiprefinerycnt(EQI_SHADOW_SHOES) + getequiprefinerycnt(EQI_SHADOW_ARMOR);
+      bonus bDef,5;
+      if (.@r >= 25) {
+         bonus bIgnoreDefRace,RC_Fish;
+         bonus bIgnoreDefRace,RC_Insect;
+      }
+  - Combos:
+      - Combo:
+          - Sentimental_Weapone_S
+          - Sentimental_Earring_S
+          - Sentimental_Pendant_S
+    Script: |
+      .@r = getequiprefinerycnt(EQI_SHADOW_WEAPON) + getequiprefinerycnt(EQI_SHADOW_ACC_R) + getequiprefinerycnt(EQI_SHADOW_ACC_L);
+      .@rate = 20 + 10*(.@r/10);
+      if (.@r >= 25) {
+         .@sp = 30;
+      }
+      else {
+         .@sp = 10;
+      }
+      autobonus "{ bonus2 bSPRegenRate,"+.@sp+",1000; }",.@rate,5000;
+  - Combos:
+      - Combo:
+          - Enchanting_Weapone_S
+          - Enchanting_Earring_S
+          - Enchanting_Pendant_S
+    Script: |
+      .@r = getequiprefinerycnt(EQI_SHADOW_WEAPON) + getequiprefinerycnt(EQI_SHADOW_ACC_R) + getequiprefinerycnt(EQI_SHADOW_ACC_L);
+      .@rate = 10 + 10*(.@r/15);
+      if (.@r >= 25) {
+         .@sp = 30;
+      }
+      else {
+         .@sp = 10;
+      }
+      autobonus "{ bonus2 bSPRegenRate,"+.@sp+",1000; }",.@rate,5000,BF_MAGIC;
+  - Combos:
+      - Combo:
+          - Rebeginer_Armor_S
+          - Rebeginer_Shield_S
+          - Rebeginer_Shoes_S
+          - Rebeginer_Weapon_S
+          - Rebeginer_Earring_S
+          - Rebeginer_Pendant_S
+    Script: |
+      .@r = getequiprefinerycnt(EQI_SHADOW_ARMOR)+getequiprefinerycnt(EQI_SHADOW_WEAPON)+getequiprefinerycnt(EQI_SHADOW_SHIELD)+getequiprefinerycnt(EQI_SHADOW_SHOES)+getequiprefinerycnt(EQI_SHADOW_ACC_R)+getequiprefinerycnt(EQI_SHADOW_ACC_L);
+      .@val = 20 + min(30,.@r);
+      if (BaseLevel >= 130) {
+         .@val += 6;
+      }
+      else if (BaseLevel >= 125) {
+         .@val += 3;
+      }
+      bonus2 bIgnoreDefRaceRate,RC_All,.@val;
+      bonus2 bIgnoreMdefRaceRate,RC_All,.@val;
+      bonus2 bIgnoreDefRaceRate,RC_Player_Human,-.@val;
+      bonus2 bIgnoreMdefRaceRate,RC_Player_Human,-.@val;
+  - Combos:
+      - Combo:
+          - S_Physical_Shoes
+          - S_Physical_Shield
+          - S_Physical_Armor
+    Script: |
+      .@r = getequiprefinerycnt(EQI_SHADOW_ARMOR) + getequiprefinerycnt(EQI_SHADOW_SHIELD) + getequiprefinerycnt(EQI_SHADOW_SHOES);
+      bonus bBaseAtk,.@r*2;
+      if (.@r >= 25) {
+         bonus bAtkRate,5;
+      }
+      else if (.@r >= 23) {
+         bonus bAtkRate,2;
+      }
+  - Combos:
+      - Combo:
+          - S_Magical_Shoes
+          - S_Magical_Shield
+          - S_Magical_Armor
+    Script: |
+      .@r = getequiprefinerycnt(EQI_SHADOW_ARMOR) + getequiprefinerycnt(EQI_SHADOW_SHIELD) + getequiprefinerycnt(EQI_SHADOW_SHOES);
+      bonus bMatk,.@r*2;
+      if (.@r >= 25) {
+         bonus bMatkRate,5;
+      }
+      else if (.@r >= 23) {
+         bonus bMatkRate,2;
+      }
+  - Combos:
+      - Combo:
+          - S_ImmunedAthena_Shield
+          - S_HardChamption_Shoes
+    Script: |
+      .@r = getequiprefinerycnt(EQI_SHADOW_SHIELD) + getequiprefinerycnt(EQI_SHADOW_SHOES);
+      if (.@r >= 16) {
+         bonus bDef,100;
+         bonus bMaxHPrate,4;
+         bonus bMaxSPrate,4;
+      }
+      else {
+         bonus bDef,50;
+         bonus bMaxHPrate,2;
+         bonus bMaxSPrate,2;
+      }
+  - Combos:
+      - Combo:
+          - S_Timeoverload_Weapon
+          - S_Timeoverload_Armor
+          - S_Timeoverload_Shield
+          - S_Timeoverload_Shoes
+          - S_Timeoverload_Earing
+          - S_Timeoverload_Pandent
+    Script: |
+      bonus bAspd,2;
+      bonus bVariableCastrate,-10;
+      bonus2 bIgnoreDefRaceRate,RC_All,70;
+      bonus2 bIgnoreMdefRaceRate,RC_All,70;
+      bonus2 bIgnoreDefRaceRate,RC_Player_Human,-70;
+      bonus2 bIgnoreMdefRaceRate,RC_Player_Human,-70;
+  - Combos:
+      - Combo:
+          - S_PerfectSize_Weapon
+          - S_PerfectSize_Armor
+    Script: |
+      bonus bMaxHPrate,2;
+      bonus bMaxSPrate,2;
+  - Combos:
+      - Combo:
+          - S_M_Exo_Co_Weapon
+          - S_Tempest_Earring
+          - S_Tempest_Pendent
+    Script: |
+      bonus bMatk,5;
+      .@r = getequiprefinerycnt(EQI_SHADOW_WEAPON) + getequiprefinerycnt(EQI_SHADOW_ACC_R) + getequiprefinerycnt(EQI_SHADOW_ACC_L);
+      if (.@r >= 25) {
+         bonus bIgnoreMDefRace,RC_Demon;
+         bonus bIgnoreMDefRace,RC_Angel;
+      }
+  - Combos:
+      - Combo:
+          - S_M_Viv_Dr_Weapon
+          - S_Tempest_Earring
+          - S_Tempest_Pendent
+    Script: |
+      bonus bMatk,5;
+      .@r = getequiprefinerycnt(EQI_SHADOW_WEAPON) + getequiprefinerycnt(EQI_SHADOW_ACC_R) + getequiprefinerycnt(EQI_SHADOW_ACC_L);
+      if (.@r >= 25) {
+         bonus bIgnoreMDefRace,RC_Formless;
+         bonus bIgnoreMDefRace,RC_Dragon;
+      }
+  - Combos:
+      - Combo:
+          - S_M_Sci_Hu_Weapon
+          - S_Tempest_Earring
+          - S_Tempest_Pendent
+    Script: |
+      bonus bMatk,5;
+      .@r = getequiprefinerycnt(EQI_SHADOW_WEAPON) + getequiprefinerycnt(EQI_SHADOW_ACC_R) + getequiprefinerycnt(EQI_SHADOW_ACC_L);
+      if (.@r >= 25) {
+         bonus bIgnoreMDefRace,RC_Brute;
+         bonus bIgnoreMDefRace,RC_Plant;
+      }
+  - Combos:
+      - Combo:
+          - S_M_Fis_In_Weapon
+          - S_Tempest_Earring
+          - S_Tempest_Pendent
+    Script: |
+      bonus bMatk,5;
+      .@r = getequiprefinerycnt(EQI_SHADOW_WEAPON) + getequiprefinerycnt(EQI_SHADOW_ACC_R) + getequiprefinerycnt(EQI_SHADOW_ACC_L);
+      if (.@r >= 25) {
+         bonus bIgnoreMDefRace,RC_Fish;
+         bonus bIgnoreMDefRace,RC_Insect;
+      }
+  - Combos:
+      - Combo:
+          - S_M_Exe_Ho_Weapon
+          - S_Tempest_Earring
+          - S_Tempest_Pendent
+    Script: |
+      bonus bMatk,5;
+      .@r = getequiprefinerycnt(EQI_SHADOW_WEAPON) + getequiprefinerycnt(EQI_SHADOW_ACC_R) + getequiprefinerycnt(EQI_SHADOW_ACC_L);
+      if (.@r >= 25) {
+         bonus bIgnoreMDefRace,RC_DemiHuman;
+         bonus bIgnoreMDefRace,RC_Undead;
+      }
+  - Combos:
+      - Combo:
+          - S_Penetration_Weapon
+          - S_Penetration_Armor
+          - S_Penetration_Earring
+          - S_Penetration_Pendent
+          - S_Penetration_Shoes
+          - S_Penetration_Shield
+    Script: |
+      .@r = getequiprefinerycnt(EQI_SHADOW_WEAPON) + getequiprefinerycnt(EQI_SHADOW_ACC_ARMOR) + getequiprefinerycnt(EQI_SHADOW_ACC_SHOES) + getequiprefinerycnt(EQI_SHADOW_ACC_SHIELD) + getequiprefinerycnt(EQI_SHADOW_ACC_R) + getequiprefinerycnt(EQI_SHADOW_ACC_L);
+      if (.@r >= 54) {
+         bonus2 bIgnoreDefClassRate,Class_Normal,20;
+      }
+  - Combos:
+      - Combo:
+          - S_Exe_Ho_Weapon
+          - S_Penetration_Earring
+          - S_Penetration_Pendent
+    Script: |
+      bonus bBaseAtk,5;
+      .@r = getequiprefinerycnt(EQI_SHADOW_WEAPON) + getequiprefinerycnt(EQI_SHADOW_ACC_R) + getequiprefinerycnt(EQI_SHADOW_ACC_L);
+      if (.@r >= 25) {
+         bonus bIgnoreDefRace,RC_DemiHuman;
+         bonus bIgnoreDefRace,RC_Undead;
+      }
+  - Combos:
+      - Combo:
+          - S_Fis_In_Weapon
+          - S_Penetration_Earring
+          - S_Penetration_Pendent
+    Script: |
+      bonus bBaseAtk,5;
+      .@r = getequiprefinerycnt(EQI_SHADOW_WEAPON) + getequiprefinerycnt(EQI_SHADOW_ACC_R) + getequiprefinerycnt(EQI_SHADOW_ACC_L);
+      if (.@r >= 25) {
+         bonus bIgnoreDefRace,RC_Fish;
+         bonus bIgnoreDefRace,RC_Insect;
+      }
+  - Combos:
+      - Combo:
+          - S_Sci_Hu_Weapon
+          - S_Penetration_Earring
+          - S_Penetration_Pendent
+    Script: |
+      bonus bBaseAtk,5;
+      .@r = getequiprefinerycnt(EQI_SHADOW_WEAPON) + getequiprefinerycnt(EQI_SHADOW_ACC_R) + getequiprefinerycnt(EQI_SHADOW_ACC_L);
+      if (.@r >= 25) {
+         bonus bIgnoreDefRace,RC_Brute;
+         bonus bIgnoreDefRace,RC_Plant;
+      }
+  - Combos:
+      - Combo:
+          - S_Viv_Dr_Weapon
+          - S_Penetration_Earring
+          - S_Penetration_Pendent
+    Script: |
+      bonus bBaseAtk,5;
+      .@r = getequiprefinerycnt(EQI_SHADOW_WEAPON) + getequiprefinerycnt(EQI_SHADOW_ACC_R) + getequiprefinerycnt(EQI_SHADOW_ACC_L);
+      if (.@r >= 25) {
+         bonus bIgnoreDefRace,RC_Formless;
+         bonus bIgnoreDefRace,RC_Dragon;
+      }
+  - Combos:
+      - Combo:
+          - S_Exo_Co_Weapon
+          - S_Penetration_Earring
+          - S_Penetration_Pendent
+    Script: |
+      bonus bBaseAtk,5;
+      .@r = getequiprefinerycnt(EQI_SHADOW_WEAPON) + getequiprefinerycnt(EQI_SHADOW_ACC_R) + getequiprefinerycnt(EQI_SHADOW_ACC_L);
+      if (.@r >= 25) {
+         bonus bIgnoreDefRace,RC_Demon;
+         bonus bIgnoreDefRace,RC_Angel;
+      }
+  - Combos:
+      - Combo:
+          - S_Sonic_Armor
+          - S_Sonic_Shield
+          - S_Sonic_Shoes
+    Script: |
+      .@r = getequiprefinerycnt(EQI_SHADOW_SHIELD) + getequiprefinerycnt(EQI_SHADOW_SHOES) + getequiprefinerycnt(EQI_SHADOW_ARMOR);
+      bonus2 bSkillAtk,"RK_SONICWAVE",.@r;
+  - Combos:
+      - Combo:
+          - S_Sonic_Shield
+          - S_Runeknight_Weapon
+      - Combo:
+          - S_Ignition_Weapon
+          - S_Runeknight_Shield
+      - Combo:
+          - S_Cluster_Armor
+          - S_Ranger_Weapon
+      - Combo:
+          - S_Tornado_Shield
+          - S_Mechanic_weapon
+      - Combo:
+          - S_Vulcan_Shield
+          - S_Mechanic_weapon
+    Script: |
+      .@r = getequiprefinerycnt(EQI_SHADOW_SHIELD) + getequiprefinerycnt(EQI_SHADOW_WEAPON);
+      bonus2 bIgnoreDefRaceRate,RC_All,40+.@r;
+      bonus2 bIgnoreDefRaceRate,RC_Player_Human,-40-.@r;
+      bonus2 bIgnoreDefRaceRate,RC_Player_Doram,-40-.@r;
+  - Combos:
+      - Combo:
+          - S_Ignition_Weapon
+          - S_Ignition_Pendant
+          - S_Ignition_Earing
+    Script: |
+      .@r = getequiprefinerycnt(EQI_SHADOW_WEAPON) + getequiprefinerycnt(EQI_SHADOW_ACC_R) + getequiprefinerycnt(EQI_SHADOW_ACC_L);
+      bonus2 bSkillAtk,"RK_IGNITIONBREAK",.@r;
+  - Combos:
+      - Combo:
+          - S_W_Breath_Shield
+          - S_W_Breath_Armor
+          - S_W_Breath_Shoes
+    Script: |
+      .@r = getequiprefinerycnt(EQI_SHADOW_SHIELD) + getequiprefinerycnt(EQI_SHADOW_ARMOR) + getequiprefinerycnt(EQI_SHADOW_SHOES);
+      bonus bDelayrate,-(.@r/2);
+  - Combos:
+      - Combo:
+          - S_W_Breath_Shield
+          - S_Runeknight_Weapon
+    Script: |
+      .@r = getequiprefinerycnt(EQI_SHADOW_SHIELD) + getequiprefinerycnt(EQI_SHADOW_WEAPON);
+      bonus2 bSkillAtk,"RK_DRAGONBREATH_WATER",.@r;
+  - Combos:
+      - Combo:
+          - S_F_Breath_Weapon
+          - S_F_Breath_Pendant
+          - S_F_Breath_Earing
+    Script: |
+      .@r = getequiprefinerycnt(EQI_SHADOW_WEAPON) + getequiprefinerycnt(EQI_SHADOW_ACC_R) + getequiprefinerycnt(EQI_SHADOW_ACC_L);
+      if (.@r >= 2) {
+         bonus bMaxHPrate,.@r/2;
+         bonus bMaxSPrate,.@r/2;
+      }
+  - Combos:
+      - Combo:
+          - S_F_Breath_Weapon
+          - S_Runeknight_Shield
+    Script: |
+      .@r = getequiprefinerycnt(EQI_SHADOW_WEAPON) + getequiprefinerycnt(EQI_SHADOW_SHIELD);
+      bonus2 bSkillAtk,"RK_DRAGONBREATH",.@r;
+  - Combos:
+      - Combo:
+          - S_Cluster_Armor
+          - S_Cluster_Shield
+          - S_Cluster_Shoes
+    Script: |
+      .@r = getequiprefinerycnt(EQI_SHADOW_SHIELD) + getequiprefinerycnt(EQI_SHADOW_ARMOR) + getequiprefinerycnt(EQI_SHADOW_SHOES);
+      bonus2 bSkillAtk,"RA_CLUSTERBOMB",.@r;
+  - Combos:
+      - Combo:
+          - S_Aimed_Weapon
+          - S_Aimed_Pendant
+          - S_Aimed_Earing
+    Script: |
+      .@r = getequiprefinerycnt(EQI_SHADOW_WEAPON) + getequiprefinerycnt(EQI_SHADOW_ACC_R) + getequiprefinerycnt(EQI_SHADOW_ACC_L);
+      bonus2 bSkillAtk,"RA_AIMEDBOLT",.@r;
+  - Combos:
+      - Combo:
+          - S_Aimed_Weapon
+          - S_Ranger_Shield
+      - Combo:
+          - S_Shooting_Weapon
+          - S_Ranger_Shield
+    Script: |
+      .@r = getequiprefinerycnt(EQI_SHADOW_WEAPON) + getequiprefinerycnt(EQI_SHADOW_SHIELD);
+      bonus2 bIgnoreDefRaceRate,RC_All,40+.@r;
+      bonus2 bIgnoreDefRaceRate,RC_Player_Human,-40-.@r;
+      bonus2 bIgnoreDefRaceRate,RC_Player_Doram,-40-.@r;
+  - Combos:
+      - Combo:
+          - S_Arrow_Shield
+          - S_Arrow_Armor
+          - S_Arrow_Shoes
+    Script: |
+      .@r = getequiprefinerycnt(EQI_SHADOW_ARMOR) + getequiprefinerycnt(EQI_SHADOW_SHIELD) + getequiprefinerycnt(EQI_SHADOW_SHOES);
+      bonus2 bSkillAtk,"RA_ARROWSTORM",.@r;
+  - Combos:
+      - Combo:
+          - S_Arrow_Shield
+          - S_Ranger_Weapon
+    Script: |
+      .@r = getequiprefinerycnt(EQI_SHADOW_ARMOR) + getequiprefinerycnt(EQI_SHADOW_WEAPON);
+      bonus2 bIgnoreDefRaceRate,RC_All,40+.@r;
+      bonus2 bIgnoreDefRaceRate,RC_Player_Human,-40-.@r;
+      bonus2 bIgnoreDefRaceRate,RC_Player_Doram,-40-.@r;
+  - Combos:
+      - Combo:
+          - S_Shooting_Weapon
+          - S_Shooting_Pendant
+          - S_Shooting_Earing
+    Script: |
+      .@r = getequiprefinerycnt(EQI_SHADOW_WEAPON) + getequiprefinerycnt(EQI_SHADOW_ACC_R) + getequiprefinerycnt(EQI_SHADOW_ACC_L);
+      bonus bCritAtkRate,.@r/2;
+  - Combos:
+      - Combo:
+          - S_Tornado_Shield
+          - S_Tornado_Armor
+          - S_Tornado_Shoes
+    Script: |
+      .@r = getequiprefinerycnt(EQI_SHADOW_SHIELD) + getequiprefinerycnt(EQI_SHADOW_ARMOR) + getequiprefinerycnt(EQI_SHADOW_SHOES);
+      bonus bDelayrate,-.@r;
+  - Combos:
+      - Combo:
+          - S_Boomerang_Weapon
+          - S_Boomerang_Pendant
+          - S_Boomerang_Earing
+    Script: |
+      .@r = getequiprefinerycnt(EQI_SHADOW_WEAPON) + getequiprefinerycnt(EQI_SHADOW_ACC_R) + getequiprefinerycnt(EQI_SHADOW_ACC_L);
+      bonus2 bSkillAtk,"NC_AXEBOOMERANG",.@r;
+  - Combos:
+      - Combo:
+          - S_Vulcan_Shield
+          - S_Vulcan_Armor
+          - S_Vulcan_Shoes
+    Script: |
+      .@r = getequiprefinerycnt(EQI_SHADOW_SHIELD) + getequiprefinerycnt(EQI_SHADOW_ARMOR) + getequiprefinerycnt(EQI_SHADOW_SHOES);
+      bonus2 bSkillAtk,"NC_VULCANARM",.@r;
+  - Combos:
+      - Combo:
+          - S_Arms_Weapon
+          - S_Arms_Pendant
+          - S_Arms_Earing
+    Script: |
+      .@r = getequiprefinerycnt(EQI_SHADOW_WEAPON) + getequiprefinerycnt(EQI_SHADOW_ACC_R) + getequiprefinerycnt(EQI_SHADOW_ACC_L);
+      if (.@r >= 2)
+         bonus2 bSkillAtk,"NC_ARMSCANNON",.@r/2;
+  - Combos:
+      - Combo:
+          - S_Arms_Weapon
+          - S_Mechanic_Shield
+    Script: |
+      .@r = getequiprefinerycnt(EQI_SHADOW_WEAPON) + getequiprefinerycnt(EQI_SHADOW_SHIELD);
+      if (.@r >= 2)
+         bonus bVariableCastrate,-.@r/2;
+  - Combos:
+      - Combo:
+          - S_FullPene_Earring
+          - S_FullPene_Pendant
+    Script: |
+      .@sum = getequiprefinerycnt(EQI_SHADOW_ACC_R)+getequiprefinerycnt(EQI_SHADOW_ACC_L);
+      bonus bAtkRate,2;
+      if (.@sum >= 18) {
+         bonus bIgnoreDefRace,RC_All;
+         bonus2 bIgnoreDefRaceRate,RC_Player_Human,-100;
+         bonus2 bIgnoreDefRaceRate,RC_Player_Doram,-100;
+      }
+  - Combos:
+      - Combo:
+          - S_FullPene_Armor
+          - S_FullPene_Shoes
+    Script: |
+      .@sum = getequiprefinerycnt(EQI_SHADOW_ARMOR)+getequiprefinerycnt(EQI_SHADOW_SHOES);
+      bonus bAtkRate,2;
+      if (.@sum >= 18) {
+         bonus bIgnoreDefRace,RC_All;
+         bonus2 bIgnoreDefRaceRate,RC_Player_Human,-100;
+         bonus2 bIgnoreDefRaceRate,RC_Player_Doram,-100;
+      }
+  - Combos:
+      - Combo:
+          - S_FullTemp_Earring
+          - S_FullTemp_Pendant
+    Script: |
+      .@sum = getequiprefinerycnt(EQI_SHADOW_ACC_R)+getequiprefinerycnt(EQI_SHADOW_ACC_L);
+      bonus bMatkRate,2;
+      if (.@sum >= 18) {
+         bonus bIgnoreMDefRace,RC_All;
+         bonus2 bIgnoreMdefRaceRate,RC_Player_Human,-100;
+         bonus2 bIgnoreMdefRaceRate,RC_Player_Doram,-100;
+      }
+  - Combos:
+      - Combo:
+          - S_FullTemp_Armor
+          - S_FullTemp_Shoes
+    Script: |
+      .@sum = getequiprefinerycnt(EQI_SHADOW_ARMOR)+getequiprefinerycnt(EQI_SHADOW_SHOES);
+      bonus bMatkRate,2;
+      if (.@sum >= 18) {
+         bonus bIgnoreMDefRace,RC_All;
+         bonus2 bIgnoreMdefRaceRate,RC_Player_Human,-100;
+         bonus2 bIgnoreMdefRaceRate,RC_Player_Doram,-100;
+      }
+  - Combos:
+      - Combo:
+          - S_Mammoth_Earring
+          - S_Mammoth_Armor
+          - S_Mammoth_Shoes
+          - S_Mammoth_Pendant
+          - S_Mammoth_Weapon
+          - S_Mammoth_Shield
+    Script: |
+      bonus bAtkRate,1;
+      if (getequiprefinerycnt(EQI_SHADOW_ARMOR)+getequiprefinerycnt(EQI_SHADOW_SHIELD)+getequiprefinerycnt(EQI_SHADOW_SHOES)+getequiprefinerycnt(EQI_SHADOW_WEAPON)+getequiprefinerycnt(EQI_SHADOW_ACC_R)+getequiprefinerycnt(EQI_SHADOW_ACC_L) >= 45) {
+         bonus bNoKnockback;
+      }
+  - Combos:
+      - Combo:
+          - S_TrueGem_Armor
+          - S_TrueGem_Shoes
+    Script: |
+      .@sum = getequiprefinerycnt(EQI_SHADOW_ARMOR)+getequiprefinerycnt(EQI_SHADOW_SHOES);
+      bonus bMatkRate,2;
+      if (.@sum >= 18) {
+         bonus bUseSPrate,40;
+         bonus bNoGemStone;
+         if (.@sum >= 20) {
+            bonus2 bMagicAddSize,Size_All,12;
+         }
+      }
+  - Combos:
+      - Combo:
+          - S_TrueGem_Earring
+          - S_TrueGem_Pendant
+    Script: |
+      .@sum = getequiprefinerycnt(EQI_SHADOW_ACC_R)+getequiprefinerycnt(EQI_SHADOW_ACC_L);
+      bonus bMatkRate,2;
+      if (.@sum >= 18) {
+         bonus bUseSPrate,40;
+         bonus bNoGemStone;
+         if (.@sum >= 20) {
+            bonus2 bMagicAddSize,Size_All,12;
+         }
+      }
+  - Combos:
+      - Combo:
+          - S_M_Mammoth_Armor
+          - S_M_Mammoth_Shoes
+    Script: |
+      .@sum = getequiprefinerycnt(EQI_SHADOW_ARMOR)+getequiprefinerycnt(EQI_SHADOW_SHOES);
+      bonus bAtkRate,2;
+      if (.@sum >= 18) {
+         bonus bNoKnockback;
+         if (.@sum >= 20) {
+            bonus2 bAddEle,Ele_All,12;
+         }
+      }
+  - Combos:
+      - Combo:
+          - S_M_Mammoth_Earring
+          - S_M_Mammoth_Pendant
+    Script: |
+      .@sum = getequiprefinerycnt(EQI_SHADOW_ACC_R)+getequiprefinerycnt(EQI_SHADOW_ACC_L);
+      bonus bAtkRate,2;
+      if (.@sum >= 18) {
+         bonus bNoKnockback;
+         if (.@sum >= 20) {
+            bonus2 bAddEle,Ele_All,12;
+         }
+      }
+  - Combos:
+      - Combo:
+          - S_1Para_Weapon
+          - S_1Para_Shield
+          - S_1Para_Armor
+          - S_1Para_Shoes
+          - S_1Para_Earing
+          - S_1Para_Pendant
+    Script: |
+      bonus bAspd,2;
+      bonus bVariableCastrate,-10;
+      bonus2 bIgnoreDefRaceRate,RC_All,50;
+      bonus2 bIgnoreDefRaceRate,RC_Player_Human,-50;
+      bonus2 bIgnoreDefRaceRate,RC_Player_Doram,-50;
+      bonus2 bIgnoreMdefRaceRate,RC_All,50;
+      bonus2 bIgnoreMdefRaceRate,RC_Player_Human,-50;
+      bonus2 bIgnoreMdefRaceRate,RC_Player_Doram,-50;
+  - Combos:
+      - Combo:
+          - S_SpellCaster_Armor
+          - S_S_Reload_Shield
+          - S_SpellCaster_Shoes
+    Script: |
+      .@sum = getequiprefinerycnt(EQI_SHADOW_ARMOR)+getequiprefinerycnt(EQI_SHADOW_SHIELD)+getequiprefinerycnt(EQI_SHADOW_SHOES);
+      bonus bUseSPrate,-10;
+      if (.@sum >= 30 && !isequipped(24749,24750)) {
+         bonus bFixedCast,-300;
+      }
+  - Combos:
+      - Combo:
+          - S_SpellCaster_Earring
+          - S_SpellCaster_Pendant
+    Script: |
+      .@sum = getequiprefinerycnt(EQI_SHADOW_ACC_L)+getequiprefinerycnt(EQI_SHADOW_ACC_R);
+      bonus bUseSPrate,-10;
+      if (.@sum >= 20) {
+         bonus bFixedCast,-300;
+      }
+  - Combos:
+      - Combo:
+          - S_R_Bearers_Armor
+          - S_R_Bearers_Shoes
+    Script: |
+      .@sum = getequiprefinerycnt(EQI_SHADOW_ARMOR)+getequiprefinerycnt(EQI_SHADOW_SHOES);
+      bonus bAllStats,2;
+      if (.@sum >= 18) {
+         bonus bMaxHPrate,-20;
+         bonus bNoWalkDelay;
+         if (.@sum >= 20) {
+            bonus bMaxHPrate,25;
+         }
+      }
+  - Combos:
+      - Combo:
+          - S_R_Bearers_Earring
+          - S_R_Bearers_Pendant
+    Script: |
+      .@sum = getequiprefinerycnt(EQI_SHADOW_ACC_L)+getequiprefinerycnt(EQI_SHADOW_ACC_R);
+      bonus bAllStats,2;
+      if (.@sum >= 18) {
+         bonus bMaxHPrate,-20;
+         bonus bNoWalkDelay;
+         if (.@sum >= 20) {
+            bonus bMaxHPrate,25;
+         }
+      }
+  - Combos:
+      - Combo:
+          - S_Spirit_Earring
+          - S_Spirit_Pendant
+          - S2_Spirit_M_E_Weapon
+    Script: |
+      .@r = getequiprefinerycnt(EQI_SHADOW_WEAPON)+getequiprefinerycnt(EQI_SHADOW_ACC_R)+getequiprefinerycnt(EQI_SHADOW_ACC_L);
+      bonus bMatk,10;
+      if (.@r>=20) {
+         bonus bMatkRate,1;
+      }
+      if (.@r>=25) {
+         bonus bMatkRate,1;
+      }
+  - Combos:
+      - Combo:
+          - S_SpellCaster_Armor
+          - S_SpellCaster_Shoes
+    Script: |
+      .@sum = getequiprefinerycnt(EQI_SHADOW_ARMOR)+getequiprefinerycnt(EQI_SHADOW_SHOES);
+      bonus bUseSPrate,-10;
+      if (.@sum>=20) {
+         bonus bFixedCast,-300;
+      }

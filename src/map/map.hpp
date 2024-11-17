@@ -59,9 +59,9 @@ void map_msg_reload(void);
 #define AREA_SIZE battle_config.area_size
 #define DAMAGELOG_SIZE 30
 #define LOOTITEM_SIZE 10
-#define MAX_MOBSKILL 50		//Max 128, see mob skill_idx type if need this higher
+#define MAX_MOBSKILL 100		//Max 128, see mob skill_idx type if need this higher
 #define MAX_MOB_LIST_PER_MAP 128
-#define MAX_EVENTQUEUE 2
+#define MAX_EVENTQUEUE 1000
 #define MAX_EVENTTIMER 32
 #define NATURAL_HEAL_INTERVAL 500
 #define MIN_FLOORITEM 2
@@ -359,6 +359,7 @@ enum e_race2 : uint8{
 	RC2_WERNER_LAB,
 	RC2_TEMPLE_DEMON,
 	RC2_ILLUSION_VAMPIRE,
+	RC2_MANHOLE,
 	RC2_MALANGDO,
 	RC2_EP172ALPHA,
 	RC2_EP172BETA,
@@ -1302,5 +1303,19 @@ extern char roulette_table[32];
 extern char guild_storage_log_table[32];
 
 void do_shutdown(void);
+
+// (^~_~^) Color Nicks Start
+
+struct color_data
+{
+	unsigned int text_color;
+	unsigned int shadow_color;
+};
+
+extern DBMap* color_nicks_db;
+int map_color_nicks_clear(DBKey key, DBData* data, va_list va);
+void map_color_nicks_load();
+
+// (^~_~^) Color Nicks End
 
 #endif /* MAP_HPP */

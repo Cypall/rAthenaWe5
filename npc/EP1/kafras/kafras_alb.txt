@@ -1,0 +1,133 @@
+// Amatsu
+//============================================================
+amatsu,102,149,4	script	Kafra Employee::kaf_amatsu	116,{
+	cutin "kafra_02",2;
+	mes "[Kafra Employee]";
+	mes "ยินดีต้อนรับสู่";
+	mes "Kafra Corporation.";
+	mes "พวกเรายินดีรับใช้";
+	mes "ไม่ว่าคุณจะอยู่ที่ไหน";
+	mes "มีอะไรให้ฉันช่วย?";
+	callfunc "F_Kafra",5,3,1,50,700;
+	savepoint "amatsu",116,94;
+	callfunc "F_KafEnd",0,1,"in the city of Amatsu";
+}
+
+// Ayothaya
+//============================================================
+ayothaya,212,169,5	script	Kafra Employee::kaf_ayothaya	116,{
+	cutin "kafra_02",2;
+	mes "[Kafra Employee]";
+	mes "Welcome to the";
+	mes "Kafra Corporation.";
+	mes "Kafra's Employees are";
+	mes "always ready to serve you.";
+	mes "How can I help you today?";
+	callfunc "F_Kafra",5,3,1,50,700;
+	savepoint "ayothaya",149,69;
+	callfunc "F_KafEnd",0,1,"in the city of Ayotaya";
+}
+// Gonryun
+//============================================================
+gonryun,159,122,4	script	Kafra Employee::kaf_gonryun	116,{
+	cutin "kafra_02",2;
+	mes "[Kafra Employee]";
+	mes "Welcome to the";
+	mes "Kafra Corporation.";
+	mes "Kafra's Employees are";
+	mes "always ready to serve you.";
+	mes "How can I help you today?";
+	callfunc "F_Kafra",5,3,1,50,700;
+	savepoint "gonryun",160,62;
+	callfunc "F_KafEnd",0,1,"in the city of Kunlun";
+}
+
+// Louyang
+//============================================================
+louyang,210,104,5	script	Kafra Employee::kaf_louyang	117,{
+	cutin "kafra_01",2;
+	mes "[Kafra Employee]";
+	mes "Welcome to the";
+	mes "Kafra Corporation.";
+	mes "Kafra's Employees are";
+	mes "always ready to serve you.";
+	mes "How can I help you today?";
+	callfunc "F_Kafra",5,3,1,50,700;
+	savepoint "louyang",217,92;
+	callfunc "F_KafEnd",0,1,"in the city of Louyang";
+}
+
+// Umbala
+//============================================================
+umbala,87,160,4	script	Kafra Employee::kaf_umbala	721,{
+	cutin "kafra_07",2;
+	callfunc "F_KafSet";
+	mes "[Kafra Employee]";
+	mes "Welcome to the";
+	mes "Kafra Corporation.";
+	mes "You know that our";
+	mes "service is always";
+	mes "on your side~";
+	callfunc "F_Kafra",5,0,1,80,0;
+	savepoint "umbala",126,131;
+	callfunc "F_KafEnd",0,1,"in the city of Umbala";
+}
+
+// Niflheim
+//============================================================
+niflheim,202,180,3	script	Kafra Employee::kaf_niflheim	791,{
+	callfunc "F_Kafra",1,2,1,150,0;
+	savepoint "niflheim",192,182;
+	callfunc "F_KafEnd",1,1,"in the city of Niflheim";
+}
+
+
+
+// NorthWest -----------------------------------------------------------------
+alberta,28,229,0	script	Kafra Employee::kaf_alberta	116,{
+	cutin "kafra_02",2;
+	callfunc "F_KafSetAlb";
+	mes "[Kafra Employee]";
+	mes "ยินดีต้อนรับสู่";
+	mes "Kafra Corporation.";
+	mes "พวกเรายินดีรับใช้";
+	mes "ไม่ว่าคุณจะอยู่ที่ไหน";
+	mes "มีอะไรให้ฉันช่วย?";
+	callfunc "F_Kafra",5,0,0,50,850;
+
+	M_Save:
+		savepoint "alberta",31,231;
+		callfunc "F_KafEnd",0,1,"in the city of Alberta";
+}
+
+// South ---------------------------------------------------------------------
+alberta,113,60,6	script	Kafra Employee::kaf_alberta2	112,{
+	cutin "kafra_06",2;
+	callfunc "F_KafSetAlb";
+	mes "[Kafra Employee]";
+	mes "ยินดีต้อนรับสู่";
+	mes "Kafra Corporation.";
+	mes "พวกเรายินดีรับใช้";
+	mes "ไม่ว่าคุณจะอยู่ที่ไหน";
+	mes "มีอะไรให้ฉันช่วย?";
+	callfunc "F_Kafra",5,0,0,50,850;
+
+	M_Save:
+		savepoint "alberta",117,57;
+		callfunc "F_KafEnd",0,1,"in the city of Alberta";
+}
+
+
+// Function: Sets variables for Ablerta Kafras -------------------------------
+function	script	F_KafSetAlb	{
+	cleararray @wrpC$[0],"",getarraysize(@wrpC$);
+	setarray @wrpP[0], 1200, 1800, 1800;
+	setarray @wrpD$[0], "Payon", "Morroc", "Prontera";
+	set @wrpC$[0], @wrpD$[0]+" -> "+@wrpP[0];
+	set @wrpC$[1], @wrpD$[1]+" -> "+@wrpP[1];
+	set @wrpC$[2], @wrpD$[2]+" -> "+@wrpP[2];
+	set @wrpC$[3], "Cancel";
+	setarray @viewpX[0], 28, 113, 0, 0;
+	setarray @viewpY[0], 229, 60, 0, 0;
+	return;
+}

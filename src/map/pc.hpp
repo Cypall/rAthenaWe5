@@ -68,11 +68,13 @@ class MapGuild;
 #define ACHIEVEMENTLEVEL "AchievementLevel"
 
 #ifndef GOLDPC_POINT_VAR
-	#define GOLDPC_POINT_VAR "Goldpc_Points"
+	#define GOLDPC_POINT_VAR "#Goldpc_Points"
 #endif
 #ifndef GOLDPC_SECONDS_VAR
-	#define GOLDPC_SECONDS_VAR "Goldpc_Seconds"
+	#define GOLDPC_SECONDS_VAR "#Goldpc_Seconds"
 #endif
+
+#define AURA_VARIABLE "PANDAS_AURASET"
 
 //Total number of classes (for data storage)
 #define CLASS_COUNT (JOB_MAX - JOB_NOVICE_HIGH + JOB_MAX_BASIC)
@@ -480,6 +482,25 @@ struct s_autoattack {
 	std::vector<t_itemid> pickup_item_id;
 };
 
+struct s_emote_data {
+	uint32 id;
+	uint32 expire_time;
+	uint8 type; 
+};
+
+struct s_runebook_data {
+	uint16 tagId;
+	uint32 bookId;
+};
+
+struct s_runeset_data {
+	uint16 tagId;
+	uint32 setId;
+	uint8 selected;
+	uint16 upgrade;
+	uint16 failcount;
+};
+
 class map_session_data {
 public:
 	struct block_list bl;
@@ -569,6 +590,7 @@ public:
 		bool recal_vip_time;
 		unsigned int afk;
 		bool craft_barter;
+		bool runeui_open;
 	} state;
 	struct {
 		unsigned char no_weapon_damage, no_magic_damage, no_misc_damage;
@@ -797,6 +819,12 @@ public:
 	} bonus;
 	// zeroed vars end here.
 
+	// (^~_~^) Color Nicks Start
+
+	unsigned int color_nicks_group_id;
+
+	// (^~_~^) Color Nicks End
+
 	int castrate,hprate,sprate,aprate,dsprate;
 	int hprecov_rate,sprecov_rate;
 	int matk_rate;
@@ -948,6 +976,19 @@ public:
 	int bg_id, bg_queue_id;
 	int tid_queue_active; ///< Timer ID associated with players joining an active BG
 
+	std::vector<s_emote_data> emotes;
+
+	std::vector<s_runeset_data> runeSets;
+	std::vector<s_runebook_data> runeBooks;
+
+	struct s_runeactivated_data {
+		uint16 tagID;
+		uint32 runesetid;
+		uint16 upgrade;
+		uint8 bookNumber;
+		bool loaded;
+	} runeactivated_data;
+
 #ifdef SECURE_NPCTIMEOUT
 	/**
 	 * ID of the timer
@@ -1051,6 +1092,8 @@ public:
 
 	short setlook_head_top, setlook_head_mid, setlook_head_bottom, setlook_robe; ///< Stores 'setlook' script command values.
 
+	struct s_unit_common_data ucd;
+
 #if PACKETVER_MAIN_NUM >= 20150507 || PACKETVER_RE_NUM >= 20150429 || defined(PACKETVER_ZERO)
 	std::vector<int16> hatEffects;
 #endif
@@ -1077,6 +1120,7 @@ public:
 
 	t_tick pickup_motion;
 	t_tick attack_motion;	
+	t_tick greed_teleport;
 };
 
 extern struct eri *pc_sc_display_ers; /// Player's SC display table

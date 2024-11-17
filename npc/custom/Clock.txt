@@ -1,0 +1,17 @@
+-	script	#Clock0	111,{
+end;
+//==============================================
+OnTimer1000:
+	set $@Count,$@Count+1;
+	set $@Clock$,gettimestr("%H:%M:%S",19);
+	delwaitingroom "#Clock0";
+	waitingroom "- [ "+$@Clock$+" ¹. ] -",0;
+	stopnpctimer;
+	initnpctimer;
+	end;
+	
+OnInit:
+	initnpctimer;
+	waitingroom "—[ "+$@Clock$+" ¹. ]—",0; 
+	end;
+}

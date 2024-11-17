@@ -134,7 +134,7 @@ Body:
       Star_Gladiator: true
       Star_Gladiator2: true
       Soul_Linker: true
-    MaxBaseLevel: 99
+    MaxBaseLevel: 65
     BaseExp:
       - Level: 1
         Exp: 9
@@ -265,75 +265,76 @@ Body:
       - Level: 64
         Exp: 536948
       - Level: 65
-        Exp: 585191
-      - Level: 66
-        Exp: 635278
-      - Level: 67
-        Exp: 687211
-      - Level: 68
-        Exp: 740988
-      - Level: 69
-        Exp: 925400
-      - Level: 70
-        Exp: 1473746
-      - Level: 71
-        Exp: 1594058
-      - Level: 72
-        Exp: 1718928
-      - Level: 73
-        Exp: 1848355
-      - Level: 74
-        Exp: 1982340
-      - Level: 75
-        Exp: 2230113
-      - Level: 76
-        Exp: 2386162
-      - Level: 77
-        Exp: 2547417
-      - Level: 78
-        Exp: 2713878
-      - Level: 79
-        Exp: 3206160
-      - Level: 80
-        Exp: 3681024
-      - Level: 81
-        Exp: 4022472
-      - Level: 82
-        Exp: 4377024
-      - Level: 83
-        Exp: 4744680
-      - Level: 84
-        Exp: 5125440
-      - Level: 85
-        Exp: 5767272
-      - Level: 86
-        Exp: 6204000
-      - Level: 87
-        Exp: 6655464
-      - Level: 88
-        Exp: 7121664
-      - Level: 89
-        Exp: 7602600
-      - Level: 90
-        Exp: 9738720
-      - Level: 91
-        Exp: 11649960
-      - Level: 92
-        Exp: 13643520
-      - Level: 93
-        Exp: 18339300
-      - Level: 94
-        Exp: 23836800
-      - Level: 95
-        Exp: 35658000
-      - Level: 96
-        Exp: 48687000
-      - Level: 97
-        Exp: 58135000
-      - Level: 98
-        Exp: 99999998
-      - Level: 99
         Exp: 99999999
+        # Exp: 585191
+      # - Level: 66
+        # Exp: 635278
+      # - Level: 67
+        # Exp: 687211
+      # - Level: 68
+        # Exp: 740988
+      # - Level: 69
+        # Exp: 925400
+      # - Level: 70
+        # Exp: 1473746
+      # - Level: 71
+        # Exp: 1594058
+      # - Level: 72
+        # Exp: 1718928
+      # - Level: 73
+        # Exp: 1848355
+      # - Level: 74
+        # Exp: 1982340
+      # - Level: 75
+        # Exp: 2230113
+      # - Level: 76
+        # Exp: 2386162
+      # - Level: 77
+        # Exp: 2547417
+      # - Level: 78
+        # Exp: 2713878
+      # - Level: 79
+        # Exp: 3206160
+      # - Level: 80
+        # Exp: 3681024
+      # - Level: 81
+        # Exp: 4022472
+      # - Level: 82
+        # Exp: 4377024
+      # - Level: 83
+        # Exp: 4744680
+      # - Level: 84
+        # Exp: 5125440
+      # - Level: 85
+        # Exp: 5767272
+      # - Level: 86
+        # Exp: 6204000
+      # - Level: 87
+        # Exp: 6655464
+      # - Level: 88
+        # Exp: 7121664
+      # - Level: 89
+        # Exp: 7602600
+      # - Level: 90
+        # Exp: 9738720
+      # - Level: 91
+        # Exp: 11649960
+      # - Level: 92
+        # Exp: 13643520
+      # - Level: 93
+        # Exp: 18339300
+      # - Level: 94
+        # Exp: 23836800
+      # - Level: 95
+        # Exp: 35658000
+      # - Level: 96
+        # Exp: 48687000
+      # - Level: 97
+        # Exp: 58135000
+      # - Level: 98
+        # Exp: 99999998
+      # - Level: 99
+        # Exp: 99999999
   - Jobs:
       Novice_High: true
       Swordman_High: true
@@ -563,23 +564,23 @@ Body:
     MaxJobLevel: 10
     JobExp:
       - Level: 1
-        Exp: 10
+        Exp: 3
       - Level: 2
-        Exp: 18
+        Exp: 10
       - Level: 3
-        Exp: 28
+        Exp: 20
       - Level: 4
-        Exp: 40
+        Exp: 30
       - Level: 5
-        Exp: 91
+        Exp: 50
       - Level: 6
-        Exp: 151
+        Exp: 80
       - Level: 7
-        Exp: 205
+        Exp: 110
       - Level: 8
-        Exp: 268
+        Exp: 130
       - Level: 9
-        Exp: 340
+        Exp: 200
       - Level: 10
         Exp: 999999999
   - Jobs:
@@ -596,7 +597,7 @@ Body:
       Baby_Merchant: true
       Baby_Thief: true
       Taekwon: true
-    MaxJobLevel: 50
+    MaxJobLevel: 40
     JobExp:
       - Level: 1
         Exp: 30
@@ -677,27 +678,28 @@ Body:
       - Level: 39
         Exp: 107611
       - Level: 40
-        Exp: 125915
-      - Level: 41
-        Exp: 153941
-      - Level: 42
-        Exp: 191781
-      - Level: 43
-        Exp: 204351
-      - Level: 44
-        Exp: 248352
-      - Level: 45
-        Exp: 286212
-      - Level: 46
-        Exp: 386371
-      - Level: 47
-        Exp: 409795
-      - Level: 48
-        Exp: 482092
-      - Level: 49
-        Exp: 509596
-      - Level: 50
         Exp: 999999999
+        # Exp: 125915
+      # - Level: 41
+        # Exp: 153941
+      # - Level: 42
+        # Exp: 191781
+      # - Level: 43
+        # Exp: 204351
+      # - Level: 44
+        # Exp: 248352
+      # - Level: 45
+        # Exp: 286212
+      # - Level: 46
+        # Exp: 386371
+      # - Level: 47
+        # Exp: 409795
+      # - Level: 48
+        # Exp: 482092
+      # - Level: 49
+        # Exp: 509596
+      # - Level: 50
+        # Exp: 999999999
   - Jobs:
       Knight: true
       Priest: true

@@ -1,0 +1,45 @@
+###########################################################################
+# Emote Database
+###########################################################################
+# - Id                         Client side LUB index. (data\luafiles514\lua files\cashemotion\cashemotionlistdefine.lub)
+#   Name:                      Name of pack
+#   Starttime:                 Date of start of showing emote to be bought
+#   Endtime:                   Date of end to remove the emote from buy list - If < current time, it shows date on client EMOTION_PACK_LIMITED_TIME_END
+#   RentalHours                Rental time in hours. (Default: 0)
+#   KeepInShop                 If endtime expired, allow the pack to be bought - default false
+#   Type:                      1 - Account bind / 2 - Char bind
+#   Prices:                    Price to buy the pack
+#      - Material:             Name of item needed
+#        Amount:               Amount of item needed
+###########################################################################
+
+Header:
+  Type: EMOTE_DB
+  Version: 1
+
+Body:
+  - Id: 1
+    Name: EPT_21ST_ANNIVERSARY
+    Starttime: 2023-08-02
+    # Endtime: 2023-08-30
+    KeepInShop: true
+    Type: 1
+    Prices:
+      - Material: Nyangvine_Fruit
+        Amount: 10
+
+  - Id: 2
+    Name: EPT_2023CHUSEOK
+    Starttime: 2023-09-06
+    Type: 1
+    Prices:
+      - Material: Nyangvine_Fruit
+        Amount: 10
+        
+  - Id: 3
+    Name: EPT_2023THXGIVING
+    Starttime: 2023-11-01
+    Type: 1
+    Prices:
+      - Material: Nyangvine_Fruit
+        Amount: 10

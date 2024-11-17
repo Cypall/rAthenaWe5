@@ -2807,6 +2807,9 @@ int npc_cashshop_buylist( map_session_data *sd, int points, std::vector<s_npc_bu
 			item_tmp.nameid = nameid;
 			item_tmp.identify = 1;
 
+			if (points > 0) // Bind item to character if bought with at least one free cash.
+				item_tmp.bound = BOUND_ACCOUNT;
+
 			if ((itemdb_search(nameid))->flag.guid)
 				get_amt = 1;
 

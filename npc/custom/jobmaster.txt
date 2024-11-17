@@ -15,8 +15,15 @@
 //= 1.9 Migrate/Integrate to Global Functions Platinum Skills. [mazvi]
 //= 2.0 Added 4th class [Lemongrass]
 //============================================================
+//			@reloadnpc npc/custom/jobmaster.txt
 
-prontera,153,193,6	script	Job Master	123,{
+morocc,155,102,5	script	[CBT] Job Master	811,{
+mes "^0000FF[[โปรดอ่าน]]^000000";
+mes "^FF0000ลำดับการเปลี่ยนอาชีพ^000000";
+mes "Class2 99/50 > Rebirth > ";
+mes "HiClass 99/70 > Class3";
+mes "^FF0000 หากข้ามไป Class3 เลย จะไม่รับผิดชอบใดๆ ^000000";
+next;
 function Get_Job_Equip;
 // Checks if the Player has the required level.
 // closes if not, returns if yes
@@ -24,15 +31,15 @@ function	Require_Level	{
 	if (BaseLevel < getarg(0) || JobLevel < getarg(1)) {
 		.@blvl = getarg(0) - BaseLevel;
 		.@jlvl = getarg(1) - JobLevel;
-		mes "Level requirement:";
+		mes "เลเวลที่ต้องการ:";
 		mes ((getarg(0)>1)? 
 			"^bb0000"+getarg(0)+"^000000 (^bb0000Base^000000) / ":"")+"^00bb00"+
 			getarg(1)+"^000000 (^00bb00Job^000000)";
-		mes "You need " +
-			((.@blvl > 0) ? "^bb0000"+.@blvl+"^000000 more base levels " + 
-				((.@jlvl > 0) ? "and " : "") : "") +
-			((.@jlvl > 0) ? "^00bb00"+.@jlvl+"^000000 more job levels " : "") +
-			"to continue.";
+		mes "คุณต้องการ " +
+			((.@blvl > 0) ? "^bb0000"+.@blvl+"^000000 base levels " + 
+				((.@jlvl > 0) ? "และ " : "") : "") +
+			((.@jlvl > 0) ? "^00bb00"+.@jlvl+"^000000 job levels " : "") +
+			"ดำเนินการต่อไป.";
 		close;
 	}
 	return;
@@ -108,19 +115,19 @@ function	Check_Riding	{
 	// would make this NPC bigger just to handle with
 	// those special cases.
 	if (checkfalcon() || checkcart() || checkriding() || ismounting()) {
-		mes "Please remove your " +
+		mes "กรุณาถอดของคุณ " +
 			((checkfalcon()) ? "falcon" : "") +
 			((checkcart()) ? "cart" : "") +
 			((checkriding()) ? "Peco" : "") +
 			((ismounting()) ? "mount" : "") +
-			" before proceeding.";
+			" ก่อนดำเนินการต่อ";
 		close;
 	}
 	return;
 }
 function	Check_SkillPoints	{
 	if (.SkillPointCheck && SkillPoint) {
-		mes "Please use all your skill points before proceeding.";
+		mes "โปรดใช้คะแนนทักษะทั้งหมดของคุณก่อนดำเนินการต่อ";
 		close;
 	}
 	return;
@@ -155,7 +162,7 @@ function	Job_Options	{
 	//dispbottom "Debug: eac ("+.@eac+"), third ("+.@third_possible+"), rebirth("+.@rebirth_possible+"), BaseClass ("+BaseClass+"), BaseJob ("+BaseJob+")";
 		
 	// From here on the jobmaster checks the current class
-	// and fills the array `.@job_opt` with possible
+	// and fills the the array `.@job_opt` with possible
 	// job options for the player.
 	
 	if( .@rebirth_possible ) {
@@ -235,7 +242,7 @@ function	Job_Options	{
 					Job_Options(.@job_opt, Job_Baby_Summoner);
 				break;
 			default:
-				mes "An error has occurred.";
+				mes "เกิดข้อผิดพลาด.";
 				close;
 		}
 	} else if( Is_First_Cls(.@eac) || 				// First Class
@@ -276,7 +283,7 @@ function	Job_Menu	{
 	while(true) {
 		.@opt_cnt =  getarraysize(getarg(0));
 		if( .@opt_cnt <= 0 ) {
-			mes "No more jobs are available.";
+			mes "ไม่มีอาชีพพิ่มเติมแล้ว";
 			close;
 		}
 
@@ -288,12 +295,12 @@ function	Job_Menu	{
 			.@menu$ = "";
 			for (.@i = 0; .@i < .@opt_cnt; .@i++) {
 				if( getelementofarray(getarg(0), .@i) == Job_Novice_High)
-					.@jobname$ = "^0055FFRebirth^000000";
+					.@jobname$ = "^0055FFเปลี่ยน Hi-Class^000000";
 				else
 					.@jobname$ = jobname(getelementofarray(getarg(0), .@i));
 				.@menu$ = .@menu$ + " ~ " + .@jobname$ + ":";
 			}
-			.@menu$ = .@menu$+" ~ ^777777Cancel^000000";
+			.@menu$ = .@menu$+" ~ ^777777ยกเลิก^000000";
 			.@selected = select(.@menu$) - 1;
 			if( .@selected < 0 || .@selected >= .@opt_cnt )
 				close;
@@ -307,8 +314,8 @@ function	Job_Menu	{
 			// Super Baby can both be selected in one of the first class
 			// changes. That's why the Level Requirement is after and not before
 			// the selection.
-			mes "A base level of " + .SNovice +
-				" is required to turn into a " + jobname(.@class) + ".";
+			mes "base level ของ " + .SNovice +
+				" จำเป็นในการเปลี่ยนเป็น " + jobname(.@class) + ".";
 			return;
 		}
 		// Confirm the Class
@@ -326,7 +333,7 @@ function	Job_Change	{
 	.@to_cls = getarg(0);
 	next;
 	mes .NPCName$;
-	mes "You are now " + callfunc("F_InsertArticle", jobname(.@to_cls)) + "!";
+	mes "ตอนนี้คุณอยู่ " + callfunc("F_InsertArticle", jobname(.@to_cls)) + "!";
 	if (.@to_cls == Job_Novice_High && .LastJob)
 		lastJob = Class; // Saves the lastJob for rebirth
 	jobchange .@to_cls;
@@ -353,16 +360,16 @@ function	Confirm_Change	{
 	.@class = getarg(0, -1);
 	.@back = getarg(1, false);
 	if( .@class < 0 || eaclass(.@class) == -1 ) {
-		mes "Unknown Class Error.";
+		mes "ข้อผิดพลาดคลาสที่ไม่รู้จัก";
 		close;
 	}
-	mes "Do you want to change into ^0055FF"+jobname(.@class)+"^000000 class?";
-	.@job_option$ = " ~ Change into ^0055FF"+jobname(.@class)+"^000000 class";
+	mes "คุณต้องการที่จะเปลี่ยนเป็น ^0055FF"+jobname(.@class)+"^000000 class?";
+	.@job_option$ = " ~ เปลี่ยนเป็น ^0055FF"+jobname(.@class)+"^000000 class";
 	if( .@class == Job_Novice_High)
 		.@job_option$ = " ~ ^0055FFRebirth^000000";
 	
 	if (select(.@job_option$+": ~ ^777777" + 
-			((.@back) ?"Go back" : "Cancel") + "^000000") == 1) {
+			((.@back) ?"ย้อนกลับ" : "ยกเลิก") + "^000000") == 1) {
 		Job_Change(.@class);
 	}
 	if (!.@back)
@@ -386,92 +393,58 @@ function	Get_Job_Equip	{
 			// BaseJob of Third Cls
 			// For Normal Third, Baby Third and Transcended Third Cls
 			case Job_Knight:
-				getitem 5746,1;	break;	//	Rune Circlet [1]
+				getitem 5746,1;
+				getitem2 21030,1,1,10,0,0,0,0,4825;
+				break;	//	Rune Circlet [1]
 			case Job_Wizard:
-				getitem 5753,1;	break;	//	Magic Stone Hat [1]
+				getitem 5753,1;
+				getitem2 2040,1,1,10,0,0,0,0,4830;
+				break;	//	Magic Stone Hat [1]
 			case Job_Hunter:
-				getitem 5748,1;	break;	//	Sniper Goggle [1]
+				getitem 5748,1;
+				getitem2 18150,1,1,10,0,0,0,0,4836;
+				break;	//	Sniper Goggle [1]
 			case Job_Priest:
-				getitem 5747,1;	break;	//	Mitra [1]
+				getitem 5747,1;
+				getitem2 28614,1,1,10,0,0,0,0,4852;
+				break;	//	Mitra [1]
 			case Job_Blacksmith:
-				getitem 5749,1;	break;	//	Driver Band [1]
+				getitem 5749,1;
+				getitem2 28120,1,1,10,0,0,0,0,4825;
+				break;	//	Driver Band [1]
 			case Job_Assassin:
-				getitem 5755,1;	break;	//	Silent Executor [1]
+				getitem 5755,1;
+				getitem2 28024,1,1,10,0,0,0,0,4844;
+				break;	//	Silent Executor [1]				
 			case Job_Crusader:
-				getitem 5757,1;	break;	//	Dip Schmidt Helm [1]
+				getitem 5757,1;
+				getitem2 32004,1,1,10,0,0,0,0,4825;
+				break;	//	Dip Schmidt Helm [1]
 			case Job_Sage:
-				getitem 5756,1;	break;	//	Wind Whisper [1]
+				getitem 5756,1;
+				getitem2 28613,1,1,10,0,0,0,0,4830;
+				break;	//	Wind Whisper [1]
 			case Job_Bard:
-				getitem 5751,1;	break;	//	Maestro Song's Hat [1]
+				getitem 5751,1;
+				getitem2 18151,1,1,10,0,0,0,0,4836;
+				break;	//	Maestro Song's Hat [1]
 			case Job_Dancer:
-				getitem 5758,1;	break;	//	Dying Swan [1]
+				getitem 5758,1;
+				getitem2 18151,1,1,10,0,0,0,0,4836;
+				break;	//	Dying Swan [1]
 			case Job_Monk:
-				getitem 5754,1;	break;	//	Blazing Soul [1]
+				getitem 5754,1;
+				getitem2 1845,1,1,10,0,0,0,0,4825;
+				break;	//	Blazing Soul [1]
 			case Job_Alchemist:
-				getitem 5752,1;	break;	//	Midas Whisper[1]
+				getitem 5752,1;
+				getitem2 16064,1,1,10,0,0,0,0,4836;
+				break;	//	Midas Whisper[1]
 			case Job_Rogue:
+				getitem2 28726,1,1,10,0,0,0,0,4825;
 				getitem 5750,1; 		//	Shadow Handicraft [1]
 				getitem 6121,1;			//	Makeover Brush
 				getitem 6122,1;	break;	//	Paint Brush
-		}
-	} else if (.@eac&EAJL_2) {
-		// Second Class (And not Third Class)
-		switch(BaseJob) {
-			// Second Class
-			case Job_Knight:
-				getitem 1163,1;	break;	//	Claymore [0]
-			case Job_Priest:
-				getitem 1522,1;	break;	//	Stunner [0]
-			case Job_Wizard:
-				getitem 1617,1;	break;	//	Survivor's Rod [0]
-			case Job_Blacksmith:
-				getitem 1360,1;	break;	//	Two-Handed-Axe [1]
-			case Job_Hunter:
-				getitem 1718,1;	break;	//	Hunter Bow [0]
-			case Job_Assassin:
-				getitem 1254,1;	break;	//	Jamadhar [0]
-			case Job_Crusader:
-				getitem 1410,1;	break;	//	Lance [0]
-			case Job_Monk:
-				getitem 1807,1;	break;	//	Fist [0]
-			case Job_Sage:
-				getitem 1550,1;	break;	//	Book [3]
-			case Job_Rogue:
-				getitem 1222,1;	break;	//	Damascus [1]
-			case Job_Alchemist:
-				getitem 1126,1;	break;	//	Saber [2]
-			case Job_Bard:
-				getitem 1907,1;	break;	//	Guitar [0]
-			case Job_Dancer:
-				getitem 1960,1;	break;	//	Whip [1]
-			case Job_Super_Novice:
-				getitem 1208,1;	break;	//	Main Gauche [4]
-			case Job_Star_Gladiator:
-				getitem 1550,1;	break;	//	Book [3]
-			case Job_Soul_Linker:
-				getitem 1617,1;	break;	//	Survivor's Rod [0]
-		}
-	} else {
-		// Neither Second or Third Cls
-		// => First Cls or not covered by the switch
-		switch(BaseClass) {
-			// First Class
-			case Job_Swordman:
-				getitem 1108,1;	break;	//	Blade [4]
-			case Job_Mage:
-				getitem 1602,1;	break;	//	Rod [4]
-			case Job_Archer:
-				getitem 1705,1;	break;	//	Composite Bow [4]
-			case Job_Acolyte:
-				getitem 1505,1;	break;	//	Mace [4]
-			case Job_Merchant:
-				getitem 1302,1;	break;	//	Axe [4]
-			case Job_Thief:
-				getitem 1208,1;	break;	//	Main Gauche [4]
-			case Job_Gunslinger:
-				getitem 13101,1; break;	//	Six Shooter [2]
-			case Job_Ninja:
-				getitem 13010,1; break;	//	Asura [2]
 		}
 	}
 	return;
@@ -482,23 +455,23 @@ OnInit:
 	.NPCName$ = "[Job Master]";
 	
 	// Settings
-	.FourthClass = true;				// Enable fourth classes?
-	.ThirdClass = true;					// Enable third classes?
-	.RebirthClass = true;				// Enable rebirth classes?
-	.SecondExpanded = true;				// Enable new expanded second classes: Ex. Super Novice, Kagerou/Oboro, Rebellion?
+	.FourthClass = false;				// Enable fourth classes?
+	.ThirdClass = false;					// Enable third classes?
+	.RebirthClass = false;				// Enable rebirth classes?
+	.SecondExpanded = false;				// Enable new expanded second classes: Ex. Super Novice, Kagerou/Oboro, Rebellion?
 	.BabyNovice = true;					// Enable Baby novice classes? Disable it if you like player must have parent to get job baby.
 	.BabyClass = true;					// Enable Baby classes?
-	.BabyThird = true;					// Enable Baby third classes?
-	.BabyExpanded = true;				// Enable Baby Expanded classes: Ex. Baby Ninja, Baby Taekwon, etc.
-	.BabySummoner = true;				// Enable Baby Summoner?
+	.BabyThird = false;					// Enable Baby third classes?
+	.BabyExpanded = false;				// Enable Baby Expanded classes: Ex. Baby Ninja, Baby Taekwon, etc.
+	.BabySummoner = false;				// Enable Baby Summoner?
 	.LastJob = true;					// Enforce linear class changes?
 	.SkillPointCheck = true;			// Force player to use up all skill points?
-	.Platinum = true;					// Get platinum skills automatically?
+	.Platinum = false;					// Get platinum skills automatically?
 	.GetJobEquip = false;				// Get job equipment (mostly weapons) on job change?
 
 	// Level Requirements
 	setarray .Req_First[0],1,10; 		// Minimum base level, job level to turn into 1st class
-	setarray .Req_Second[0],1,40; 		// Minimum base level, job level to turn into 2nd class
+	setarray .Req_Second[0],1,41; 		// Minimum base level, job level to turn into 2nd class
 	setarray .Req_Rebirth[0],99,50;		// Minimum base level, job level to rebirth
 	setarray .Req_Third[0],99,50;		// Minimum base level, job level to change to third class
 	setarray .Req_Fourth[0],200,70;		// Minimum base level, job level to change to fourth class
@@ -515,6 +488,14 @@ OnInit:
 		.BabyExpanded = false;
 		.BabySummoner = false;
 	}
-	end;
+	
+		waitingroom "• เปลี่ยนอาชีพ •",0;
+//	PUBTITLE:
+//			showscript "• เปลี่ยนอาชีพ •";
+//			sleep 3000;
+//		goto PUBTITLE;
+//	end;
 }
 
+
+new_1-4,102,65,4	duplicate(Job Master)	Job Master#02	4_MACHINE_DEVICE

@@ -40,3 +40,8 @@ Header:
   Version: 2
 
 Body:
+  - Id: 97
+    Map: koe_mash
+    Name: King of Emperium
+    Npc: KoE#koe_mash
+    Type: First_Edition

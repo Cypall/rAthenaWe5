@@ -1,3 +1,128 @@
+//				@reloadnpc npc/custom/warper.txt
+/*
+
+prontera,115,208,5	script	Hall Abyss	THA_ANGER,{
+set .@GID2, GetCastleData("prtg_cas03",1);
+	if (getcharid(2) == .@GID2) {
+		goto L_Main;
+	}
+set .@GID, GetCastleData("prtg_cas04",1);
+	if (getcharid(2) == .@GID) {
+		goto L_Main;
+	}
+if (rentalcountitem(5000008) < 1) { 
+	dispbottom "[Hall Abyss] : คุณต้องมี "+(getitemname(5000008))+" เพื่อยืนยันตัวตน "; 
+	end;
+}
+
+L_Main:
+mes "[Hall Abyss]";
+mes "สะ สะ สวัสดีท่านผู้กล้า";
+mes "ท่านต้องการไปไหนล่ะ";
+mes "ต้องมี ^i[5000008] ในการเข้าสู่ Hall Abyss";
+next;
+menu "^0000FFเปิดร้านค้า^000000",-,"Baldur",G1,"Luina",G2,"Valkyrie",G3,"Britoniah",G4;
+set .@GID, GetCastleData("prtg_cas04",1);
+	if (getcharid(2) == .@GID || getcharid(2) == .@GID2) {
+		goto L_BuyTicket;
+		end;
+	}
+		mes "[Hall Abyss]";
+		mes " ";
+		mes "สิทธิ์สำหรับเจ้าของปราสาทเท่านั้น";
+		close;
+
+G1:
+if (rentalcountitem(5000008) < 1) { 
+	dispbottom "[Hall Abyss] : คุณต้องมี "+(getitemname(5000008))+" เป็นหลักฐานการเข้า Hall Abyss "; 
+	end;
+}
+warp "gld2_pay",0,0;
+addtimer 300000, strnpcinfo(3)+"::OnDo3";
+end;
+
+G2:
+if (rentalcountitem(5000008) < 1) { 
+	dispbottom "[Hall Abyss] : คุณต้องมี "+(getitemname(5000008))+" เป็นหลักฐานการเข้า Hall Abyss "; 
+	end;
+}
+warp "gld2_ald",0,0;
+addtimer 300000, strnpcinfo(3)+"::OnDo3";
+end;
+
+G3:
+if (rentalcountitem(5000008) < 1) { 
+	dispbottom "[Hall Abyss] : คุณต้องมี "+(getitemname(5000008))+" เป็นหลักฐานการเข้า Hall Abyss "; 
+	end;
+}
+warp "gld2_prt",0,0;
+addtimer 300000, strnpcinfo(3)+"::OnDo3";
+end;
+
+G4:
+if (rentalcountitem(5000008) < 1) { 
+	dispbottom "[Hall Abyss] : คุณต้องมี "+(getitemname(5000008))+" เป็นหลักฐานการเข้า Hall Abyss "; 
+	end;
+}
+warp "gld2_gef",0,0;
+addtimer 300000, strnpcinfo(3)+"::OnDo3";
+end;
+
+L_BuyTicket:
+	if($hallabyssticket >= $abysslimit) {
+		mes "[Hall Abyss]";
+		mes "^FF0000จำกัดการซื้อเพียง : "+$abysslimit+" ea.^000000";
+		mes "Reset จำนวนครั้ง เวลา 00.00 น. ของทุกวัน";
+		close;
+	}
+		mes "[Hall Abyss]";
+		mes "^FF0000จำกัดการซื้อเพียง : "+$abysslimit+" ea.^000000";
+		mes "^0000FFซื้อไปแล้ว : "+$hallabyssticket+" ea.^000000";
+		mes "Reset จำนวนครั้ง เวลา 00.00 น. ของทุกวัน";
+		next;
+		menu "• ซื้อ "+(getitemname(5000007))+" - 1 m. ต่อใบ",-;
+		close2;
+		if (Zeny < 1000000) { dispbottom "[Hall Abyss] : Zeny ไม่เพียงพอ";  end; }
+		if (countitem(5000007) >= 1) { dispbottom "[Hall Abyss] : คุณมี "+(getitemname(5000007))+" อยู่แล้ว ";  end; }
+		if (rentalcountitem(5000008) >= 1) { dispbottom "[Hall Abyss] : คุณมี "+(getitemname(5000008))+" อยู่แล้ว ";  end; }
+		Zeny -= 1000000;
+		$hallabyssticket += 1;
+		getitem 5000007,1;
+		dispbottom "[Hall Abyss] : ขอบคุณที่ใช้บริการ";
+		end;
+		
+OnClock0000:
+	$hallabyssticket = 0;
+end;
+
+OnDo3:
+if( strcharinfo(3) == "gld2_pay" || 
+	strcharinfo(3) == "gld2_ald" ||
+	strcharinfo(3) == "gld2_prt" || 
+	strcharinfo(3) == "gld2_gef") {
+	if (!rentalcountitem(5000008)) {
+		dispbottom "[Hall Abyss] : ท่านไม่มี "+(getitemname(5000008))+" ท่านจะถูกส่งกลับ";
+		warp "SavePoint",0,0;
+		end;
+		}
+		addtimer 300000, strnpcinfo(3)+"::OnDo3";
+}
+end;
+
+
+
+OnInit:
+	$abysslimit = 10;
+	waitingroom "[ Hall Abyss ]" , 0;
+	end;
+}
+
+-	shop	HallAbyssShop	-1,5000007:10000
+
+
+
+
+
 //===== rAthena Script ======================================= 
 //= Warper
 //===== Description: ========================================= 
@@ -20,22 +145,30 @@
 function Go; function Disp; function Pick; function Restrict;
 
 // --------------------------------------------------
-//	Main Menu:
+//	Main Menu:	npc/custom/warper.txt
 // --------------------------------------------------
+//savepoint "prontera",155,180,5,5;
 
-menu	"Last Warp ^777777["+lastwarp$+"]^000000",-,
+if ( !vip_status(1) ) { set .warpcost,500; }
+if ( vip_status(1) ) { set .warpcost,100; }
+
+if (BaseLevel < 185) { set .warpcost,0; }
+mes "ค่าบริการ  -^FF0000["+.warpcost+"] Z.^000000";
+menu	" ~ วาร์ปล่าสุด ^777777["+lastwarp$+"]^000000",-,
     	" ~ Towns",Towns,
     	" ~ Fields",Fields,
-    	" ~ Dungeons",Dungeons,
-    	" ~ Guild Castles",Castles,
-    	" ~ Guild Dungeons",Guild_Dungeons,
-    	" ~ Instances",Instances,
-    	" ~ Special Areas",Special;
+    	" ~ Dungeons",Dungeons;
+    	//" ~ Guild Castle",Castles,
+    	//" ~ Guild Dungeons",Guild_Dungeons,
+    	//" ~ Instances",Instances,
+    	//" ~ Special Area",Special;
 
 	if (lastwarp$ == "")
-		message strcharinfo(0),"You haven't warped anywhere yet.";
+		message strcharinfo(0),"คุณยังไม่เคย Warp ไปไหน";
 	else
-		warp lastwarp$,lastwarpx,lastwarpy;
+		if (Zeny < .warpcost) { message strcharinfo(0),"ค่าบริการ ["+.warpcost+"] Z."; end;}
+		set Zeny,Zeny-.warpcost;
+		warp lastwarp$,0,0;
 	end;
 
 // ------------------- Functions -------------------
@@ -63,6 +196,8 @@ menu	"Last Warp ^777777["+lastwarp$+"]^000000",-,
 // --------------------------------------------------
 
 function Go {
+	if (Zeny < .warpcost) { message strcharinfo(0),"ค่าบริการ ["+.warpcost+"] Z."; end;}
+	set Zeny,Zeny-.warpcost;
 	set lastwarp$, getarg(0);
 	set lastwarpx, getarg(1,0);
 	set lastwarpy, getarg(2,0);
@@ -100,7 +235,7 @@ function Pick {
 		set .@map$, getarg(0)+((.@i<10)?"0":"")+.@i;
 	}
 	if (.@warp_block & (1<<.@select)) {
-		message strcharinfo(0),"This map is not enabled in "+((checkre(0))?"":"Pre-")+"Renewal.";
+		//message strcharinfo(0),"แผนที่ไม่เปิดใช้งาน "+((checkre(0))?"":"Pre-")+"Renewal.";
 		end;
 	}
 	set .@x, @c[.@i*2];
@@ -116,7 +251,7 @@ function Restrict {
 			for (set .@i,1; .@i<getargcount(); set .@i,.@i+1)
 				set @warp_block, @warp_block | (1<<getarg(.@i));
 		} else {
-			message strcharinfo(0),"This map is not enabled in "+((checkre(0))?"":"Pre-")+"Renewal.";
+			//message strcharinfo(0),"แผนที่ไม่เปิดใช้งาน "+((checkre(0))?"":"Pre-")+"Renewal.";
 			end;
 		}
 	}
@@ -126,15 +261,50 @@ function Restrict {
 // --------------------------------------------------
 	Towns:
 // --------------------------------------------------
-menu	"Prontera",T1, "Alberta",T2, "Aldebaran",T3, "Amatsu",T4, "Ayothaya",T5,
-    	"Brasilis",T6, "Comodo",T7, "Dewata",T8, "Eclage",T9, "Einbech",T10,
-		"Einbroch",T11, "El Dicastes",T12, "Geffen",T13, "Hugel",T14, "Ice Castle",T15,
-		"Izlude",T16, "Jawaii",T17, "Juno",T18, "Kunlun",T19, "Lasagna",T20,
-		"Lighthalzen",T21, "Luoyang",T22, "Lutie",T23, "Malangdo",T24, "Malaya",T25,
-		"Manuk",T26, "Midgarts Expedition Camp",T27, "Mora",T28, "Morocc",T29, "Moscovia",T30,
-		"Nameless Island (Day)",T31, "Nameless Island (Night)",T32, "Niflheim",T33, "Payon",T34, "Rachel",T35,
-		"Rockridge",T36, "Special Security Area, Cor",T37, "Splendide",T38, "Thor Camp",T39, "Umbala",T40,
-		"Varmundt's Mansion",T41, "Veins",T42, "Verus Findspot",T43, "Wolf Village",T44;
+menu	"Prontera",T1, 
+		"Alberta",T2,
+		//"Aldebaran",T3,
+		//"Amatsu",T4,
+		//"Ayothaya",T5,
+    	//"Brasilis",T6,
+		//"Comodo",T7,
+		//"Dewata",T8,
+		//"Eclage",T9,
+		//"Einbech",T10,
+		//"Einbroch",T11,
+		//"El Dicastes",T12,
+		"Geffen",T13,
+		//"Hugel",T14,
+		//"Ice Castle",T15,
+		"Izlude",T16,
+		//"Jawaii",T17,
+		//"Juno",T18,
+		//"Kunlun",T19,
+		//"Lasagna",T20,
+		//"Lighthalzen",T21,
+		//"Luoyang",T22,
+		//"Lutie",T23,
+		//"Malangdo",T24,
+		//"Malaya",T25,
+		//"Manuk",T26,
+		//"Midgarts Expedition Camp",T27,
+		//"Mora",T28,
+		"Morocc",T29,
+		//"Moscovia",T30,
+		//"Nameless Island (Day)",T31,
+		//"Nameless Island (Night)",T32,
+		//"Niflheim",T33,
+		"Payon",T34;
+		//"Rachel",T35,
+		//"Rockridge",T36,
+		//"Special Security Area, Cor",T37,
+		//"Splendide",T38,
+		//"Thor Camp",T39,
+		//"Umbala",T40,
+		//"Varmundt's Mansion",T41,
+		//"Veins",T42,
+		//"Verus Findspot",T43,
+		//"Wolf Village",T44;
 
 T1: Go("prontera",155,183);
 T2: Go("alberta",28,234);
@@ -199,17 +369,39 @@ T44: Restrict("RE");
 	Fields:
 // --------------------------------------------------
 @f = true;
-menu	"Amatsu Fields",F1, "Ayothaya Fields",F2, "Bifrost Fields", F3,
-    	"Brasilis Fields",F4, "Comodo Fields",F5, "Dewata Fields",F6,
-    	"Eclage Fields",F7, "Einbroch Fields",F8, "El Dicastes Fields",F9,
-    	"Frozen Scale Fields",F10, "Geffen Fields",F11, "Grey Wolf Forest",F12,
-		"Hugel Fields",F13, "Juno Fields",F14, "Kiwawa Desert",F15,
-		"Kunlun Fields",F16, "Lasagna Fields",F17, "Lighthalzen Fields",F18,
-		"Luoyang Field",F19, "Lutie Field",F20, "Malaya Fields",F21,
-		"Manuk Fields",F22, "Mjolnir Fields",F23, "Moscovia Fields",F24,
-		"Niflheim Fields",F25, "Payon Forests",F26, "Prontera Fields",F27,
-		"Rachel Fields",F28, "Sograt Deserts",F29, "Splendide Fields",F30,
-		"Umbala Fields",F31, "Veins Fields",F32;
+menu	"Geffen Fields",F11,
+		//"Grey Wolf Forest",F12,
+		//"Hugel Fields",F13,
+		//"Juno Fields",F14,
+		//"Kiwawa Desert",F15,
+		//"Kunlun Fields",F16,
+		//"Lasagna Fields",F17, 
+		//"Lighthalzen Fields",F18,
+		//"Luoyang Field",F19, 
+		//"Lutie Field",F20, 
+		//"Malaya Fields",F21,
+		//"Manuk Fields",F22, 
+		//"Mjolnir Fields",F23, 
+		//"Moscovia Fields",F24,
+		//"Niflheim Fields",F25, 
+		"Payon Forests",F26, 
+		"Prontera Fields",F27,
+		//"Rachel Fields",F28, 
+		"Sograt Deserts",F29;
+		//"Splendide Fields",F30,
+		//"Umbala Fields",F31, 
+		//"Veins Fields",F32;
+
+		//"Amatsu Fields",F1,
+		//"Ayothaya Fields",F2,
+		//"Bifrost Fields", F3,
+    	//"Brasilis Fields",F4,
+		//"Comodo Fields",F5,
+		//"Dewata Fields",F6,
+    	//"Eclage Fields",F7,
+		//"Einbroch Fields",F8,
+		//"El Dicastes Fields",F9,
+    	//"Frozen Scale Fields",F10,
 
 F1: setarray @c[2],190,197;
 	Disp("Amatsu Field",1,1); Pick("ama_fild");
@@ -304,25 +496,61 @@ F32: Restrict("Pre-RE",5);
 	Dungeons:
 // --------------------------------------------------
 @d = true;
-menu	"Abandoned Lab Amicitia",D1, "Abyss Lakes",D2, "Amatsu Dungeon",D3,
-		"Anthell",D4, "Ayothaya Dungeon",D5, "Beach Dungeon",D6,
-		"Bifrost Tower",D7, "Bio Labs",D8, "Brasilis Dungeon",D9,
-		"Byalan Dungeon",D10, "Clock Tower",D11, "Coal Mines",D12,
-		"Culvert",D13, "Cursed Abbey",D14, "Dewata Dungeon",D15,
-		"Einbroch Dungeon",D16, "Flame Basin",D17, "Gefenia",D18,
-		"Geffen Dungeon",D19, "Glast Heim",D20, "Hidden Dungeon",D21,
-		"Ice Dungeon",D22, "Illusion Dungeon",D23, "Issgard Dungeon",D24,
-		"Juperos",D25, "Kiel Dungeon",D26, "Kunlun Dungeon",D27,
-		"Lasagna Dungeon",D28, "Luoyang Dungeon",D29, "Magma Dungeon",D30,
-		"Malangdo Dungeon",D31, "Moscovia Dungeon",D32, "Nidhogg's Dungeon",D33,
-		"Niflheim Dungeon",D34, "Odin Temple",D35, "Orc Dungeon",D36,
-		"Oz Labyrinth Dungeon",D37, "Payon Dungeon",D38, "Prontera Underground",D39,
-		"Pyramids",D40, "Rachel Sanctuary",D41, "Rock Ridge Dungeon",D42,
-		"Rudus Dungeon",D43, "Scaraba Hole",D44, "Sphinx",D45,
-		"Sunken Ship",D46, "Thanatos Tower",D47, "Thor Volcano",D48,
-		"Toy Factory",D49, "Turtle Dungeon",D50, "Umbala Dungeon",D51,
-		"Varmundt's Dungeon",D52, "Verus Area",D53;
-
+menu	"Culvert",D13, 
+		//"Cursed Abbey",D14, 
+		//"Dewata Dungeon",D15,
+		//"Einbroch Dungeon",D16, 
+		//"Flame Basin",D17, 
+		//"Gefenia",D18,
+		"Geffen Dungeon",D19, 
+		//"Glast Heim",D20, 
+		"Hidden Dungeon",D21,
+		//"Ice Dungeon",D22, 
+		//"Illusion Dungeon",D23, 
+		//"Issgard Dungeon",D24,
+		//"Juperos",D25, 
+		//"Kiel Dungeon",D26, 
+		//"Kunlun Dungeon",D27,
+		//"Lasagna Dungeon",D28, 
+		//"Luoyang Dungeon",D29, 
+		//"Magma Dungeon",D30,
+		//"Malangdo Dungeon",D31, 
+		//"Moscovia Dungeon",D32, 
+		//"Nidhogg's Dungeon",D33,
+		//"Niflheim Dungeon",D34, 
+		//"Odin Temple",D35, 
+		//"Orc Dungeon",D36,
+		//"Oz Labyrinth Dungeon",D37, 
+		"Payon Dungeon",D38, 
+		//"Prontera Underground",D39,
+		"Pyramids",D40, 
+		//"Rachel Sanctuary",D41, 
+		//"Rock Ridge Dungeon",D42,
+		//"Rudus Dungeon",D43, 
+		//"Scaraba Hole",D44, 
+		//"Sphinx",D45,
+		"Sunken Ship",D46;
+		//"Thanatos Tower",D47, 
+		//"Thor Volcano",D48,
+		//"Toy Factory",D49, 
+		//"Turtle Dungeon",D50, 
+		//"Umbala Dungeon",D51,
+		//"Varmundt's Dungeon",D52, 
+		//"Verus Area",D53;
+		
+		//"Abandoned Lab Amicitia",D1,
+		//"Abyss Lakes",D2, 
+		//"Amatsu Dungeon",D3,
+		//"Anthell",D4, 
+		//"Ayothaya Dungeon",D5, 
+		//"Beach Dungeon",D6,
+		//"Bifrost Tower",D7, 
+		//"Bio Labs",D8, 
+		//"Brasilis Dungeon",D9,
+		//"Byalan Dungeon",D10, 
+		//"Clock Tower",D11, 
+		//"Coal Mines",D12,
+		
 D1: Restrict("RE");
 	setarray @c[2],253,244,145,278;
 	Disp("1st Floor - Comprehensive Lab:2nd Floor - Intensive Culture Room"); Pick("","amicitia1","amicitia2");
@@ -485,9 +713,14 @@ D53: Restrict("RE");
 // --------------------------------------------------
 	Castles:
 // --------------------------------------------------
-menu	"[FE] Aldebaran Castles",C1, "[FE] Geffen Castles",C2, "[FE] Payon Castles",C3,
-    	"[FE] Prontera Castles",C4, "[SE] Arunafeltz Castles",C5, "[SE] Schwarzwald Castles",C6,
-		"[TE] Aldebaran Castles",C7, "[TE] Prontera Castles",C8;
+menu	"[FE] Aldebaran Castles",C1, 
+		"[FE] Geffen Castles",C2, 
+		"[FE] Payon Castles",C3,
+    	"[FE] Prontera Castles",C4;
+		//"[SE] Arunafeltz Castles",C5, 
+		//"[SE] Schwarzwald Castles",C6,
+		//"[TE] Aldebaran Castles",C7, 
+		//"[TE] Prontera Castles",C8;
 
 C1: setarray @c[2],48,83,95,249,142,85,239,242,264,90;
 	Disp("Neuschwanstein:Hohenschwangau:Nuenberg:Wuerzburg:Rothenburg");
@@ -519,25 +752,30 @@ C8: Restrict("RE");
 // --------------------------------------------------
 	Guild_Dungeons:
 // --------------------------------------------------
-menu	"Baldur",G1, "Luina",G2, "Valkyrie",G3, "Britoniah",G4,
-    	"Arunafeltz",G5, "Schwarzwald",G6, "Kafragarten",G7,
+menu	"Baldur",G1,
+		"Luina",G2,
+		"Valkyrie",G3,
+		"Britoniah",G4,
+    	"Arunafeltz",G5, 
+		"Schwarzwald",G6, 
+		"Kafragarten",G7,
 		"Gloria",G8;
 
 G1: Restrict("RE",2,3);
 	setarray @c[2],119,93,119,93,120,130;
-	Disp("Baldur F1:Baldur F2:Hall of Abyss");
+	Disp("Baldur F1:Baldur F2");
 	Pick("","gld_dun01","gld_dun01_2","gld2_pay");
 G2: Restrict("RE",2,3);
 	setarray @c[2],39,161,39,161,147,155;
-	Disp("Luina F1:Luina F2:Hall of Abyss");
+	Disp("Luina F1:Luina F2");
 	Pick("","gld_dun02","gld_dun02_2","gld2_ald");
 G3: Restrict("RE",2,3);
 	setarray @c[2],50,44,50,44,140,132;
-	Disp("Valkyrie F1:Valkyrie F2:Hall of Abyss");
+	Disp("Valkyrie F1:Valkyrie F2");
 	Pick("","gld_dun03","gld_dun03_2","gld2_prt");
 G4: Restrict("RE",2,3);
 	setarray @c[2],116,45,116,45,152,118;
-	Disp("Britoniah F1:Britoniah F2:Hall of Abyss");
+	Disp("Britoniah F1:Britoniah F2");
 	Pick("","gld_dun04","gld_dun04_2","gld2_gef");
 G5: Go("arug_dun01",199,195);
 G6: Go("schg_dun01",200,124);
@@ -597,9 +835,14 @@ I20: Restrict("RE");
 // --------------------------------------------------
 	Special:
 // --------------------------------------------------
-menu	"Auction Hall",S1, "Battlegrounds",S2, "Casino",S3, "Dimensional Rift",S4,
-		"Eden Group Headquarters",S5, "Kunlun Arena",S6, "Izlude Arena",S7, 
-		"Monster Race Arena",S8, "Para Market",S9, "Turbo Track",S10;
+menu	"โซนกิจกรรม",S11,"เควสต่างๆ",S12,"Eden Group Headquarters",S5,"Para Market",S9;
+
+//"Auction Hall",S1, "Battlegrounds",S2, "Casino",S3, "Dimensional Rift",S4,
+//		"Eden Group Headquarters",S5, "Kunlun Arena",S6, "Izlude Arena",S7, 
+//		"Monster Race Arena",S8, "Para Market",S9, "Turbo Track",S10;
+
+S11: Go("prontera",189,237);
+S12: Go("prontera",127,241);
 
 S1: Go("auction_01",22,68);
 S2: Go("bat_room",154,150);
@@ -1317,60 +1560,73 @@ OnNaviGenerate:
 	}
 
 OnInit:
-	.Satan_Morocc = true;	//	false will enable moc_fild 4,5,6,8,9,10,14,15 while disable moc_fild 20,21,22 Default is true.
+	.Satan_Morocc = false;	//	false will enable moc_fild 4,5,6,8,9,10,14,15 while disable moc_fild 20,21,22 Default is true.
 	.OnlyFirstFld = false;	//	true will teleport to the first level of the Fields  Default is false.
-	.OnlyFirstDun = false;	//	true will teleport to the first level of the Dungeons  Default is false.
+	.OnlyFirstDun = true;	//	true will teleport to the first level of the Dungeons  Default is false.
+	PUBTITLE:
+			showscript "• Warper •";
+			sleep 3000;
+		goto PUBTITLE;
+	end;
 }
 
 // --------------------------------------------------
 //	Duplicates:
 // --------------------------------------------------
-alb2trea,57,70,6	duplicate(Warper)	Warper#tre	811
-alberta,28,240,4	duplicate(Warper)	Warper#alb	811
-aldebaran,145,118,4	duplicate(Warper)	Warper#alde	811
-amatsu,203,87,4	duplicate(Warper)	Warper#ama	811
-ayothaya,209,169,6	duplicate(Warper)	Warper#ayo	811
-comodo,194,158,4	duplicate(Warper)	Warper#com	811
-einbech,59,38,6	duplicate(Warper)	Warper#einbe	811
-einbroch,69,202,4	duplicate(Warper)	Warper#einbr	811
-gef_fild10,71,339,4	duplicate(Warper)	Warper#orc	811
-geffen,124,72,4	duplicate(Warper)	Warper#gef	811
-glast_01,372,308,4	duplicate(Warper)	Warper#glh	811
-gonryun,162,122,4	duplicate(Warper)	Warper#gon	811
-hugel,101,151,4	duplicate(Warper)	Warper#hug	811
-izlu2dun,110,92,4	duplicate(Warper)	Warper#izd	811
-izlude,134,150,4	duplicate(Warper)	Warper#izl	811	//Pre-RE: (132,120)
-jawaii,253,138,4	duplicate(Warper)	Warper#jaw	811
-lighthalzen,162,102,4	duplicate(Warper)	Warper#lhz	811
-louyang,208,103,6	duplicate(Warper)	Warper#lou	811
-manuk,274,146,6	duplicate(Warper)	Warper#man	811
-mid_camp,216,288,4	duplicate(Warper)	Warper#mid	811
-mjolnir_02,85,364,4	duplicate(Warper)	Warper#mjo	811
-moc_ruins,64,164,4	duplicate(Warper)	Warper#moc	811
-morocc,159,97,4	duplicate(Warper)	Warper#mor	811
-moscovia,229,191,4	duplicate(Warper)	Warper#mos	811
-nameless_n,259,213,4	duplicate(Warper)	Warper#nam	811
-niflheim,205,179,4	duplicate(Warper)	Warper#nif	811
-pay_arche,42,134,4	duplicate(Warper)	Warper#arc	811
-payon,182,108,4	duplicate(Warper)	Warper#pay	811
-prontera,159,192,4	duplicate(Warper)	Warper#prt	811
-prt_fild05,279,223,6	duplicate(Warper)	Warper#cul	811
-rachel,135,116,4	duplicate(Warper)	Warper#rac	811
-splendide,205,153,4	duplicate(Warper)	Warper#spl	811
-thor_camp,249,76,4	duplicate(Warper)	Warper#thor	811
-umbala,106,150,3	duplicate(Warper)	Warper#umb	811
-veins,214,123,4	duplicate(Warper)	Warper#ve	811
-xmas,150,136,6	duplicate(Warper)	Warper#xmas	811
-yuno,162,47,4	duplicate(Warper)	Warper#yuno	811
+alb2trea,57,70,6	duplicate(Warper)	[CBT] Warper#tre	121
+alberta,28,240,4	duplicate(Warper)	[CBT] Warper#alb	121
+aldebaran,145,118,4	duplicate(Warper)	[CBT] Warper#alde	121
+amatsu,203,87,4	duplicate(Warper)	[CBT] Warper#ama	121
+ayothaya,209,169,6	duplicate(Warper)	[CBT] Warper#ayo	121
+comodo,194,158,4	duplicate(Warper)	[CBT] Warper#com	121
+einbech,59,38,6	duplicate(Warper)	[CBT] Warper#einbe	121
+einbroch,69,202,4	duplicate(Warper)	[CBT] Warper#einbr	121
+gef_fild10,71,339,4	duplicate(Warper)	[CBT] Warper#orc	121
+geffen,124,72,4	duplicate(Warper)	[CBT] Warper#gef	121
+glast_01,372,308,4	duplicate(Warper)	[CBT] Warper#glh	121
+gonryun,162,122,4	duplicate(Warper)	[CBT] Warper#gon	121
+hugel,101,151,4	duplicate(Warper)	[CBT] Warper#hug	121
+izlu2dun,110,92,4	duplicate(Warper)	[CBT] Warper#izd	121
+izlude,134,150,4	duplicate(Warper)	[CBT] Warper#izl	121	//Pre-RE: (132,120)
+jawaii,253,138,4	duplicate(Warper)	[CBT] Warper#jaw	121
+lighthalzen,162,102,4	duplicate(Warper)	[CBT] Warper#lhz	121
+louyang,208,103,6	duplicate(Warper)	[CBT] Warper#lou	121
+manuk,274,146,6	duplicate(Warper)	[CBT] Warper#man	121
+mid_camp,216,288,4	duplicate(Warper)	[CBT] Warper#mid	121
+mjolnir_02,85,364,4	duplicate(Warper)	[CBT] Warper#mjo	121
+moc_ruins,64,164,4	duplicate(Warper)	[CBT] Warper#moc	121
+morocc,165,110,4	duplicate(Warper)	[CBT] Warper#mor	121
+moscovia,229,191,4	duplicate(Warper)	[CBT] Warper#mos	121
+nameless_n,259,213,4	duplicate(Warper)	[CBT] Warper#nam	121
+niflheim,205,179,4	duplicate(Warper)	[CBT] Warper#nif	121
+pay_arche,42,134,4	duplicate(Warper)	[CBT] Warper#arc	121
+payon,182,108,4	duplicate(Warper)	[CBT] Warper#pay	121
+
+
+prontera,159,191,3	duplicate(Warper)	[CBT] Warper#prt	121
+
+
+prt_fild05,279,223,6	duplicate(Warper)	[CBT] Warper#cul	121
+rachel,135,116,4	duplicate(Warper)	[CBT] Warper#rac	121
+splendide,205,153,4	duplicate(Warper)	[CBT] Warper#spl	121
+thor_camp,249,76,4	duplicate(Warper)	[CBT] Warper#thor	121
+umbala,106,150,3	duplicate(Warper)	[CBT] Warper#umb	121
+veins,214,123,4	duplicate(Warper)	[CBT] Warper#ve	121
+xmas,150,136,6	duplicate(Warper)	[CBT] Warper#xmas	121
+yuno,162,47,4	duplicate(Warper)	[CBT] Warper#yuno	121
 
 // --------------------------------------------------
 //	Duplicates (Renewal):
 // --------------------------------------------------
-brasilis,201,222,4	duplicate(Warper)	Warper#bra	811
-dewata,204,186,6	duplicate(Warper)	Warper#dew	811
-dicastes01,194,194,6	duplicate(Warper)	Warper#dic	811
-ecl_in01,51,60,4	duplicate(Warper)	Warper#ecl	811
-lasagna,196,187,4	duplicate(Warper)	Warper#las	811
-malangdo,134,117,6	duplicate(Warper)	Warper#mal	811
-malaya,231,204,4	duplicate(Warper)	Warper#ma	811
-mora,57,152,4	duplicate(Warper)	Warper#mora	811
+brasilis,201,222,4	duplicate(Warper)	[CBT] Warper#bra	121
+dewata,204,186,6	duplicate(Warper)	[CBT] Warper#dew	121
+dicastes01,194,194,6	duplicate(Warper)	[CBT] Warper#dic	121
+ecl_in01,51,60,4	duplicate(Warper)	[CBT] Warper#ecl	121
+lasagna,196,187,4	duplicate(Warper)	[CBT] Warper#las	121
+malangdo,134,117,6	duplicate(Warper)	[CBT] Warper#mal	121
+malaya,231,204,4	duplicate(Warper)	[CBT] Warper#ma	121
+mora,57,152,4	duplicate(Warper)	[CBT] Warper#mora	121
+
+
+
+*/

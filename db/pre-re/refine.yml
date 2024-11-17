@@ -54,7 +54,7 @@ Body:
             Bonus: 70
             Chances:
               - Type: Normal
-                Rate: 10000
+                Rate: 9900
                 Price: 2000
                 Material: Elunium
               - Type: Enriched
@@ -65,7 +65,7 @@ Body:
             Bonus: 140
             Chances:
               - Type: Normal
-                Rate: 10000
+                Rate: 9800
                 Price: 2000
                 Material: Elunium
               - Type: Enriched
@@ -76,7 +76,7 @@ Body:
             Bonus: 210
             Chances:
               - Type: Normal
-                Rate: 10000
+                Rate: 9700
                 Price: 2000
                 Material: Elunium
               - Type: Enriched
@@ -87,7 +87,7 @@ Body:
             Bonus: 280
             Chances:
               - Type: Normal
-                Rate: 10000
+                Rate: 9600
                 Price: 2000
                 Material: Elunium
               - Type: Enriched

@@ -17,14 +17,3 @@ Header:
   Version: 1
 
 Body:
-  - Name: Global Drop # ไม่มีความสำคัญ
-    ReduceMap:
-      - Map: prontera
-        Rate: 50 # หน่วยเป็น %
-    NoDropMap:
-      - Map: morocc
-      - Map: geffen  
-    TargetItems:
-      - Item: Blade # ชื่อ AegisName
-        Rate: 10000 # % ดรอป
-        DropEffect: DROPEFFECT_BLUE_PILLAR # เสาดรอป

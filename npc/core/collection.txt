@@ -1,11 +1,9 @@
+//			@reloadnpc npc/core/collection.txt
+
 -	script	roulette_menu	-1,{
 	end;
 
 OnRouLetteClick:
-	menu " ^ff0000•^000000 เปิดคลัง Collection",-," ^ff0000•^000000 ยกเลิก",-;
-	set .@mn_sel,@menu;
-
-	if(.@mn_sel == 2){end;}
 	opencollection();
 	end;
 

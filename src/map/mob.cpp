@@ -2831,7 +2831,8 @@ int mob_dead(struct mob_data *md, struct block_list *src, int type)
 			if ( it == nullptr )
 				continue;
 			
-			drop_rate = mob_getdroprate(src, md->db, md->db->dropitem[i].rate, drop_modifier, md);
+			int adjust_drop = get_adjust_drop(md->bl.m, it->nameid, md->db->dropitem[i].rate);
+			drop_rate = mob_getdroprate(src, md->db, adjust_drop, drop_modifier, md);
 
 			if(map_getmapflag(m, MF_HALFDROP)){
 				// reduce drop rate by half
@@ -2871,7 +2872,7 @@ int mob_dead(struct mob_data *md, struct block_list *src, int type)
 
 				if(it->type==IT_CARD && battle_config.autoattack_reduce_mode&AA_CARD)
 					drop_rate = drop_rate * (100-battle_config.autoattack_reduce_droprate) / 100;
-			}			
+			}
 
 			if(drop_rate < 0)
 				drop_rate = 0;
@@ -2884,6 +2885,9 @@ int mob_dead(struct mob_data *md, struct block_list *src, int type)
 				pet_create_egg(mvp_sd, md->db->dropitem[i].nameid);
 				continue;
 			}
+
+			if(it->type == IT_CARD && util::vector_exists(mobs_no_card, md->mob_id))
+				continue;	
 
 			ditem = mob_setdropitem(&md->db->dropitem[i], 1, md->mob_id);
 

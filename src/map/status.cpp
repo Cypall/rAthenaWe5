@@ -35,6 +35,7 @@
 #include "pc.hpp"
 #include "pc_groups.hpp"
 #include "pet.hpp"
+#include "rune.hpp"
 #include "script.hpp"
 
 using namespace rathena;
@@ -49,6 +50,8 @@ enum e_regen {
 };
 
 std::vector<int> refine_pass_locate;
+
+std::vector<int> mobs_no_card;
 
 static struct eri *sc_data_ers; /// For sc_data entries
 static struct status_data dummy_status;
@@ -3926,6 +3929,7 @@ int status_calc_pc_sub(map_session_data* sd, uint8 opt)
 
 	vip_bonus(sd);
 	refine_pass_bonus(sd);
+	custom_buff_effect(sd);
 
 	// Parse equipment
 	for (i = 0; i < EQI_MAX; i++) {
@@ -4219,6 +4223,9 @@ int status_calc_pc_sub(map_session_data* sd, uint8 opt)
 	}
 
 	pc_bonus_script(sd);
+
+	if(sd->runeactivated_data.tagID)
+		rune_active_bonus(sd);
 
 	if( sd->pd ) { // Pet Bonus
 		struct pet_data *pd = sd->pd;
@@ -13275,6 +13282,11 @@ int status_change_start(struct block_list* src, struct block_list* bl,enum sc_ty
 	if( opt_flag[SCF_ONTOUCH] && sd && !sd->npc_ontouch_.empty() )
 		npc_touchnext_areanpc(sd,false); // Run OnTouch_ on next char in range
 
+	// custom buff
+	std::shared_ptr<s_custom_buff> cb = custom_buff_db.find(type);
+	if(cb && sd)
+		status_calc_pc(sd,SCO_FORCE);
+
 	return 1;
 }
 
@@ -13437,7 +13449,7 @@ int status_change_end(struct block_list* bl, enum sc_type type, int tid)
 	switch(type) {
 		case SC_AUTOATTACK:
 			sd->state.autoattack = 0;
-			break;			
+			break;
 		case SC_KEEPING:
 		case SC_BARRIER: {
 			unit_data *ud = unit_bl2ud(bl);
@@ -14019,6 +14031,12 @@ int status_change_end(struct block_list* bl, enum sc_type type, int tid)
 	// Needed to be here to make sure OPT1_STONEWAIT has been cleared from the target (only on natural expiration of the stone wait timer)
 	if (type == SC_STONEWAIT && tid != INVALID_TIMER)
 		status_change_start(bl, bl, SC_STONE, 100, sce->val1, sce->val2, 0, 0, sce->val3, SCSTART_NOAVOID);
+
+ 
+	// custom buff
+	std::shared_ptr<s_custom_buff> cb = custom_buff_db.find(type);
+	if(cb && sd)
+		status_calc_pc(sd,SCO_FORCE);
 
 	ers_free(sc_data_ers, sce);
 	return 1;
@@ -16066,7 +16084,6 @@ uint64 AttributeDatabase::parseBodyNode(const ryml::NodeRef& node) {
 
 AttributeDatabase elemental_attribute_db;
 
-
 int buildin_autopick_sub(struct block_list *bl, va_list ap)
 {
 	int *itempick_id = va_arg(ap, int *);
@@ -17345,6 +17362,338 @@ void autoattack_clear(map_session_data *sd)
 	}
 }
 
+
+const std::string AdjustDatabase::getDefaultLocation() {
+	return std::string(db_path) + "/custom/adjust.yml";
+}
+
+uint64 AdjustDatabase::parseBodyNode(const ryml::NodeRef& node) {
+
+	if (!this->nodesExist(node, { "GroupId", "Drops", "MapLists" }))
+		return 0;
+
+	uint16 id;
+
+	if (!this->asUInt16(node, "GroupId", id))
+		return 0;
+
+	std::shared_ptr<s_adjust> adjust = this->find(id);
+	bool exists = adjust != nullptr;
+
+	if (!exists) {
+		if (!this->nodesExist(node, { "GroupId", "Drops", "MapLists" }))
+			return 0;
+
+		adjust = std::make_shared<s_adjust>();
+		adjust->id = id;
+	}
+
+	if (this->nodeExists(node, "Name")) {
+		std::string name;
+
+		if (!this->asString(node, "Name", name))
+			return 0;
+
+		adjust->name = name;
+	}else{
+		adjust->name = "";
+	}
+
+	if (this->nodeExists(node, "Message")) {
+		std::string message;
+
+		if (!this->asString(node, "Message", message))
+			return 0;
+
+		adjust->message = message;
+	}else{
+		adjust->message = "";
+	}
+
+	if (this->nodeExists(node, "Exp")) {
+		int exp;
+
+		if (!this->asInt32(node, "Exp", exp))
+			return 0;
+
+		adjust->exp = exp;
+	}else{
+		adjust->exp = 100;
+	}
+
+	if(this->nodeExists(node, "Drops")){
+		const ryml::NodeRef& DropNode = node["Drops"];
+
+		for(const auto& Drop : DropNode){
+			std::string type_name;
+
+			c4::from_chars(Drop.key(), &type_name);
+
+			std::string itemType = "IT_" + type_name;
+			int64 constant;
+
+			if (!script_get_constant(itemType.c_str(), &constant)) {
+				this->invalidWarning(DropNode[Drop.key()], "Invalid item type %s, skipped.\n", type_name.c_str());
+				continue;
+			}
+
+			std::shared_ptr<s_adjust_detail> AdjustType = util::umap_find(adjust->drops, (item_types)constant);
+
+			// dup
+			if(AdjustType)
+				continue;
+
+			AdjustType = std::make_shared<s_adjust_detail>();
+
+			AdjustType->item_type = (item_types)constant;
+
+			int adjust_rate;
+
+			if (!this->asInt32(DropNode, type_name, adjust_rate))
+				return 0;
+
+			AdjustType->rate = adjust_rate;
+
+			adjust->drops.insert({AdjustType->item_type,AdjustType});
+		}
+	}
+
+	if(this->nodeExists(node, "MapLists" )){
+		for(const ryml::NodeRef& MapNode : node["MapLists"]){
+
+			std::string map_name;
+
+			if(!this->asString( MapNode, "Map", map_name)){
+				return 0;
+			}
+
+			// lower case map name
+			util::tolower(map_name);
+
+			// check if map exists
+			if(mapindex_name2id(map_name.c_str()) == 0){
+				this->invalidWarning( MapNode["Map"], "Unknown map \"%s\".\n", map_name.c_str() );
+				continue;
+			}
+
+			uint16 map_index = map_mapname2mapid(map_name.c_str());
+
+			if(util::vector_exists(adjust->maps, map_index))
+				continue;
+
+			adjust->maps.push_back(map_index);
+		}
+	}	
+
+	if (!exists)
+		this->put(adjust->id, adjust);
+
+	return 1;
+}
+
+AdjustDatabase adjust_db;
+
+uint32 get_adjust_drop(uint16 mapIndex, t_itemid nameid, uint32 original_drop)
+{
+	bool found = false;
+	int adjust_rate = 0;
+
+	std::shared_ptr<item_data> id = item_db.find(nameid);
+
+	if(id == nullptr)
+		return original_drop;
+
+	for(const auto& ad : adjust_db){
+		for(const auto& map : ad.second->maps){
+			if(mapIndex == map){
+				found = true;
+				break;
+			}
+		}
+		for(const auto& drop : ad.second->drops){
+			if(id->type == drop.second->item_type){
+				adjust_rate = drop.second->rate;
+				break;
+			}
+		}
+		if(found)
+			break;
+	}
+
+	if(!found)
+		return original_drop;
+
+	return original_drop * ((float)(100+adjust_rate)/100);
+}
+
+const std::string CustomBuffDatabase::getDefaultLocation() {
+	return std::string(db_path) + "/custom/custom_buff.yml";
+}
+
+/**
+ * Reads and parses an entry from the woe_buff.
+ * @param node: YAML node containing the entry.
+ * @return count of successfully parsed rows
+ */
+uint64 CustomBuffDatabase::parseBodyNode(const ryml::NodeRef &node){
+
+	if (!this->nodesExist(node, {"Status"}))
+		return 0;
+
+	std::string status_name;
+	int64 constant;
+
+	if (!this->asString(node, "Status", status_name))
+		return 0;
+
+	if (!script_get_constant(status_name.c_str(), &constant)) {
+		this->invalidWarning(node["Status"], "Invalid Status %s.\n", status_name.c_str());
+		return 0;
+	}
+
+	if (!status_db.validateStatus(static_cast<sc_type>(constant))) {
+		this->invalidWarning(node["Status"], "Status %s is out of bounds.\n", status_name.c_str());
+		return 0;
+	}
+
+	int status_id = static_cast<int32>(constant);
+	std::shared_ptr<s_custom_buff> CustomBuff = this->find(status_id);
+	bool exists = CustomBuff != nullptr;
+
+	if (!exists) {
+		if (!this->nodesExist(node, {"Status"}))
+			return 0;
+
+		CustomBuff = std::make_shared<s_custom_buff>();
+		CustomBuff->sc_id = status_id;
+	}
+
+	if (this->nodeExists(node, "Icon")) {
+		std::string icon_name;
+
+		if (!this->asString(node, "Icon", icon_name))
+			return 0;
+
+		int64 constant;
+
+		if (!script_get_constant(icon_name.c_str(), &constant)) {
+			this->invalidWarning(node["Icon"], "Icon %s is invalid, defaulting to EFST_BLANK.\n", icon_name.c_str());
+			constant = EFST_BLANK;
+		}
+
+		if (constant < EFST_BLANK || constant >= EFST_MAX) {
+			this->invalidWarning(node["Icon"], "Icon %s is out of bounds, defaulting to EFST_BLANK.\n", icon_name.c_str());
+			constant = EFST_BLANK;
+		}
+
+		CustomBuff->icon = static_cast<efst_type>(constant);
+	} else {
+		if (!exists)
+			CustomBuff->icon = EFST_BLANK;
+	}
+
+	if (this->nodeExists(node, "Script")) {
+		std::string script;
+
+		if (!this->asString(node, "Script", script))
+			return 0;
+
+		if (CustomBuff->script) {
+			script_free_code(CustomBuff->script);
+			CustomBuff->script = nullptr;
+		}
+
+		CustomBuff->script = parse_script(script.c_str(), this->getCurrentFile().c_str(), this->getLineNumber(node["Script"]), SCRIPT_IGNORE_EXTERNAL_BRACKETS);
+	} else {
+		if (!exists)
+			CustomBuff->script = nullptr;
+	}
+
+	if (!exists){
+		this->put(CustomBuff->sc_id, CustomBuff);
+	}
+
+	return 1;
+}
+
+CustomBuffDatabase custom_buff_db;
+
+void custom_buff_effect(map_session_data *sd)
+{
+	nullpo_retv(sd);
+
+	for(const auto& entry : custom_buff_db){
+
+		if(!sd->sc.getSCE(entry.second->sc_id))
+			continue;
+
+		if(entry.second->script)
+			run_script(entry.second->script, 0, sd->bl.id, 0);
+	}
+}
+
+/**
+ */
+static bool status_readdb_mob_no_card(char* fields[], size_t columns, size_t current)
+{
+	int mobid;
+
+	mobid = atoi(fields[0]);
+
+	if(!mob_db.find(mobid)){
+		ShowError("status_readdb_mob_no_card: Invalid mob id %d.\n", mobid);
+		return false;
+	}
+
+	if(util::vector_exists(mobs_no_card, mobid))
+		return true;
+
+	mobs_no_card.push_back(mobid);
+	return true;
+}
+
+struct s_unit_common_data *status_get_ucd(struct block_list* bl)
+{
+	if( bl )
+	switch (bl->type) {
+		case BL_PC:  return &((TBL_PC*)bl)->ucd;
+		case BL_MOB: return &((TBL_MOB*)bl)->ucd;
+		case BL_NPC: return &((TBL_NPC*)bl)->ucd;
+		case BL_HOM: return &((TBL_HOM*)bl)->ucd;
+		case BL_MER: return &((TBL_MER*)bl)->ucd;
+		case BL_PET: return &((TBL_PET*)bl)->ucd;
+		case BL_ELEM: return &((TBL_ELEM*)bl)->ucd;
+	}
+	return NULL;
+}
+
+bool status_ishiding(struct block_list* bl, struct block_list* observer_bl) {
+	if (!bl) return false;
+	status_change* sc = status_get_sc(bl);
+	if (!sc) return false;
+
+	int option = sc->option;
+
+#ifdef Pandas_Fix_Cloak_Status_Baffling
+	if (observer_bl && observer_bl->type == BL_PC && bl->type == BL_NPC && !sc->cloak_reverting) {
+		map_session_data* sd = BL_CAST(BL_PC, observer_bl);
+
+		if (std::find(sd->cloaked_npc.begin(), sd->cloaked_npc.end(), bl->id) != sd->cloaked_npc.end()) {
+			option ^= OPTION_CLOAK;
+		}
+	}
+#endif // Pandas_Fix_Cloak_Status_Baffling
+
+	return (option & (OPTION_HIDE | OPTION_CLOAK | OPTION_CHASEWALK)) != 0;
+}
+
+bool status_isinvisible(struct block_list* bl) {
+	if (!bl) return false;
+	status_change* sc = status_get_sc(bl);
+	if (!sc) return false;
+	return (sc->option & OPTION_INVISIBLE) != 0;
+}
+
 /**
  * Sets defaults in tables and starts read db functions
  * sv_readdb reads the file, outputting the information line-by-line to
@@ -17365,6 +17714,7 @@ void status_readdb( bool reload ){
 
 	if(reload){
 		refine_pass_locate = {};
+		mobs_no_card = {};
 	}
 
 	// read databases
@@ -17386,6 +17736,7 @@ void status_readdb( bool reload ){
 
 		sv_readdb(dbsubpath1, "status_disabled.txt", ',', 2, 2, -1, &status_readdb_status_disabled, i > 0);
 		sv_readdb(dbsubpath1, "custom/refine_pass_locate.txt",',', 1, 1, -1, &itemdb_read_refine_pass_locate, i > 0);
+		sv_readdb(dbsubpath1, "custom/mobs_no_card.txt", ',', 1, 1, -1, &status_readdb_mob_no_card, i > 0);
 
 		aFree(dbsubpath1);
 		aFree(dbsubpath2);
@@ -17400,6 +17751,8 @@ void status_readdb( bool reload ){
 		char_bonus_db.reload();
 		vip_bonus_db.reload();
 		refine_pass_db.reload();
+		adjust_db.reload();
+		custom_buff_db.reload();
 	}else{
 		size_fix_db.load();
 		refine_db.load();
@@ -17409,6 +17762,8 @@ void status_readdb( bool reload ){
 		char_bonus_db.load();
 		vip_bonus_db.load();
 		refine_pass_db.load();
+		adjust_db.load();
+		custom_buff_db.load();
 	}
 	elemental_attribute_db.load();
 	apply_custom_bonus();
@@ -17441,4 +17796,6 @@ void do_final_status(void) {
 	no_equip_db.clear();
 	vip_bonus_db.clear();
 	refine_pass_db.clear();
+	adjust_db.clear();
+	mobs_no_card = {};
 }

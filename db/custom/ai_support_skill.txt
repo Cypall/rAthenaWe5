@@ -5,17 +5,4 @@
 // skillname
 // EX. AL_HEAL
 //= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = 
-SM_PROVOKE
-SM_ENDURE
-MG_SIGHT
-MG_SAFETYWALL
-AL_RUWACH
-AL_PNEUMA
-AL_INCAGI
-AL_CRUCIS
-AL_ANGELUS
-AL_BLESSING
-AL_CURE
-ASC_EDP
-
-KN_TWOHANDQUICKEN
+AC_CONCENTRATION

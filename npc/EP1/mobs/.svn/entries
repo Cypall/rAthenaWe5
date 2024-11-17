@@ -1,0 +1,60 @@
+8
+
+dir
+15050
+http://eathena-project.googlecode.com/svn/branches/stable/npc/mobs
+http://eathena-project.googlecode.com/svn
+
+
+
+2010-06-30T20:55:06.241650Z
+14359
+Gepard
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+54d463be-8e91-2dee-dedb-b68131a5f0ec
+
+dungeons
+dir
+
+pvp.txt
+file
+
+
+
+
+2012-01-03T10:36:14.812500Z
+0963bc255ec5093f35b9c6ec2a9f52f4
+2007-04-29T08:39:36.486501Z
+10402
+ultramage
+has-props
+
+citycleaners.txt
+file
+
+
+
+
+2012-01-03T10:36:14.812500Z
+414b8d2625f26835419d9549ca4664a5
+2007-05-28T10:35:41.352021Z
+10638
+ultramage
+has-props
+
+fields
+dir
+

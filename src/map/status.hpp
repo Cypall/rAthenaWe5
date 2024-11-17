@@ -1324,6 +1324,10 @@ enum sc_type : int16 {
 
 	SC_AUTOATTACK = 1741,
 
+	// custom BUFFs เพิ่มต่อได้เรื่อยๆ
+	SC_CUSTOM_BUFF_1 = 2201,
+	SC_CUSTOM_BUFF_2,
+
 	SC_MAX, //Automatically updated max, used in for's to check we are within bounds.
 };
 
@@ -2786,6 +2790,10 @@ enum efst_type : short{
 	EFST_REFINE_PASS_LVL_19 = 1919,
 	EFST_REFINE_PASS_LVL_20 = 1920,	
 
+	// custom BUFFs เพิ่มได้เรื่อยๆ
+	EFST_CUSTOM_BUFF_1 = 2201,
+	EFST_CUSTOM_BUFF_2,
+
 	EFST_MAX,
 };
 
@@ -3693,5 +3701,66 @@ int buildin_autoattack_sub(struct block_list *bl, va_list ap);
 unsigned int aa_check_target_alive(map_session_data *sd);
 bool aa_teleport(map_session_data *sd);
 void autoattack_clear(map_session_data *sd);
+
+struct s_adjust_detail {
+	item_types item_type;
+	int rate;
+};
+
+struct s_adjust {
+	uint16 id;
+	std::string name;
+	std::string message;
+	int exp;
+	std::unordered_map<item_types, std::shared_ptr<s_adjust_detail>> drops;
+	std::vector<uint16> maps;
+};
+
+class AdjustDatabase : public TypesafeYamlDatabase<uint16, s_adjust>{
+public:
+	AdjustDatabase() : TypesafeYamlDatabase( "ADJUST_DB", 1 ){
+
+	}
+
+	const std::string getDefaultLocation();
+	uint64 parseBodyNode( const ryml::NodeRef& node );
+};
+
+extern AdjustDatabase adjust_db;
+
+uint32 get_adjust_drop(uint16 mapIndex, t_itemid nameid, uint32 original_drop);
+
+struct s_custom_buff {
+	uint16 sc_id;
+	efst_type icon;
+	struct script_code *script;	//Default script for everything.
+
+	~s_custom_buff() {
+		if (this->script){
+			script_free_code(this->script);
+			this->script = nullptr;
+		}
+	}
+};
+
+class CustomBuffDatabase : public TypesafeYamlDatabase<uint16, s_custom_buff> {
+public:
+	CustomBuffDatabase() : TypesafeYamlDatabase( "CUSTOM_BUFF_DB", 1 ){
+
+	}
+
+	const std::string getDefaultLocation();
+	uint64 parseBodyNode(const ryml::NodeRef& node);
+};
+
+extern CustomBuffDatabase custom_buff_db;
+
+void custom_buff_effect(map_session_data *sd);
+
+extern std::vector<int> mobs_no_card;
+
+struct s_unit_common_data *status_get_ucd(struct block_list* bl);
+bool status_ishiding(struct block_list* bl, struct block_list* observer_bl = nullptr);
+bool status_isinvisible(struct block_list* bl);
 
 #endif /* STATUS_HPP */

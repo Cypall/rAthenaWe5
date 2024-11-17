@@ -1,8 +1,9 @@
 //
 //	Author		Shakto
-//
+//		@reloadnpc npc/core/autoattack.txt
 
 function	script	F_AutoAT	{
+	disable_items;
 	doevent "AutoAI_Main::OnMainMenu";
 	end;
 }
@@ -10,18 +11,11 @@ function	script	F_AutoAT	{
 -	script	AutoAI_Main	-1,{
 	end;
 
-OnMainAI:
-	if(!sc_check(SC_AUTOATTACK)){
-		// showscript "เปิดระบบ Auto Attack";
-		autostart(true);
-	}else{
-		// showscript "ปิดระบบ Auto Attack";
-		autostart(false);
-	}
-	end;
-
 OnMainMenu:
+		sc_end SC_AUTOATTACK;
+	
 main_menu:
+	autostart(false);
 	clear2();
 	.@menu$ = "[^FF0000•^000000 ^2f00ffAuto Attack^000000 ^FF0000•^000000]";
 	mes .@menu$;

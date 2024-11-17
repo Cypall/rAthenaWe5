@@ -1,0 +1,18 @@
+-	script	cell_novending	-1,{
+end;
+
+OnInit:
+//	setcell "prontera",148,175,164,191,cell_novending,1;
+	
+	setcell "morocc",152,85,167,110,cell_novending,1;
+//	setcell "morocc",158,81,163,54,cell_novending,1;
+//	setcell "morocc",156,81,151,54,cell_novending,1;
+//	setcell "morocc",140,101,137,90,cell_novending,1;
+//	setcell "morocc",134,101,131,90,cell_novending,1;
+//	setcell "morocc",143,94,128,97,cell_novending,1;
+//	setcell "morocc",181,101,184,80,cell_novending,1;
+	setcell "morocc",152,90,167,110,cell_nochat,1;
+	
+	end;
+}
+//				npc/custom/cell_novending.txt

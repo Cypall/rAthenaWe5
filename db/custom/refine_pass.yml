@@ -9,12 +9,37 @@ Header:
   Version: 1
 
 Body:
-  - RefineLevel: 5
-    Icon: EFST_REFINE_PASS_LVL_5
-    Script: |
-      bonus bStr,5;
-
   - RefineLevel: 6
     Icon: EFST_REFINE_PASS_LVL_6
     Script: |
-      bonus bStr,6;
+      bonus2 bDropAddClass,Class_All,3;
+      bonus2 bExpAddClass,Class_All,3;
+      bonus bAllStats,1;
+
+  - RefineLevel: 7
+    Icon: EFST_REFINE_PASS_LVL_7
+    Script: |
+      bonus2 bDropAddClass,Class_All,5;
+      bonus2 bExpAddClass,Class_All,5;
+      bonus bAllStats,2;
+
+  - RefineLevel: 8
+    Icon: EFST_REFINE_PASS_LVL_8
+    Script: |
+      bonus2 bDropAddClass,Class_All,10;
+      bonus2 bExpAddClass,Class_All,10;
+      bonus bAllStats,3;
+
+  - RefineLevel: 9
+    Icon: EFST_REFINE_PASS_LVL_9
+    Script: |
+      bonus2 bDropAddClass,Class_All,15;
+      bonus2 bExpAddClass,Class_All,15;
+      bonus bAllStats,4;
+      
+  - RefineLevel: 10
+    Icon: EFST_REFINE_PASS_LVL_10
+    Script: |
+      bonus2 bDropAddClass,Class_All,20;
+      bonus2 bExpAddClass,Class_All,20;
+      bonus bAllStats,5;

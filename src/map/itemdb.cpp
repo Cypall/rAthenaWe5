@@ -201,6 +201,21 @@ uint64 ItemDatabase::parseBodyNode(const ryml::NodeRef& node) {
 			item->subtype = 0;
 	}
 
+	if (this->nodeExists(node, "Decomposition")) {
+		const auto& decompositionNode = node["Decomposition"];
+		
+		for (const auto& decit : decompositionNode) {
+			std::string typeName;
+			c4::from_chars(decit.key(), &typeName);
+
+			uint16 typeNum;
+			if (!this->asUInt16(decompositionNode, typeName, typeNum))
+				return 0;
+			
+			item->decompoRune[typeName] = typeNum;
+		}
+	}
+
 	bool has_buy = false, has_sell = false;
 
 	if (this->nodeExists(node, "Buy")) {
@@ -4425,6 +4440,17 @@ uint64 RandomOptionDatabase::parseBodyNode(const ryml::NodeRef& node) {
 		randopt->name = name;
 	}
 
+	if (this->nodeExists(node, "MsgID")) {
+		uint16 msg_id;
+
+		if (!this->asUInt16(node, "MsgID", msg_id))
+			return false;
+
+		randopt->msg_id = msg_id;
+	} else {
+		randopt->msg_id = 0;
+	}
+
 	if (this->nodeExists(node, "Script")) {
 		std::string script;
 
@@ -4575,7 +4601,140 @@ bool RandomOptionGroupDatabase::add_option(const ryml::NodeRef& node, std::share
 		entry->chance = 0;
 	}
 
+	bool is_rare_announce = false;
+
+	if (this->nodeExists(node, "RareAnnounce")) {
+		if (!this->asBool(node, "RareAnnounce", is_rare_announce))
+			return 0;
+	}
+
+	entry->is_rare_announce = is_rare_announce;
+
 	return true;
+}
+
+void s_random_opt_group::apply_refine(map_session_data* sd, struct item& item, bool announce ){
+	nullpo_retv(sd);
+
+	auto apply_sub = []( s_item_randomoption& item_option, const std::shared_ptr<s_random_opt_group_entry>& option ){
+		item_option.id = option->id;
+		item_option.value = rnd_value( option->min_value, option->max_value );
+		item_option.param = option->param;
+	};
+
+	// Apply Must options
+	for( size_t i = 0; i < this->slots.size(); i++ ){
+		// Try to apply an entry
+		for( size_t j = 0, max = this->slots[static_cast<uint16>(i)].size() * 3; j < max; j++ ){
+			std::shared_ptr<s_random_opt_group_entry> option = util::vector_random( this->slots[static_cast<uint16>(i)] );
+
+			if( rnd() % 10000 < option->chance ){
+				apply_sub( item.option[i], option );
+
+				// refine announce
+				if(announce && i == 0){
+					std::shared_ptr<s_random_opt_data> randopt = random_option_db.find(option->id);
+					std::shared_ptr<item_data> id = item_db.find(item.nameid);
+
+					if(randopt->msg_id && battle_config.refine_option_announce){
+
+						char opt_msg[CHAT_SIZE_MAX];
+						memset(opt_msg, '\0', sizeof(opt_msg));
+						sprintf(opt_msg,msg_txt(NULL,randopt->msg_id),item.option[i].value);
+
+						char rare_msg[CHAT_SIZE_MAX];
+						memset(rare_msg, '\0', sizeof(rare_msg));
+						if(option->is_rare_announce){
+							sprintf(rare_msg,msg_txt(NULL,2044),opt_msg);
+						}else{
+							sprintf(rare_msg,msg_txt(NULL,2043),opt_msg);
+						}
+
+						char boardcast_msg[CHAT_SIZE_MAX];
+						memset(boardcast_msg, '\0', sizeof(boardcast_msg));
+						sprintf(boardcast_msg,msg_txt(sd,2041),sd->status.name,item_db.create_item_link(item).c_str(),rare_msg);
+						if(battle_config.refine_announce_success && item.refine >= battle_config.refine_announce_success)
+							clif_broadcast2(NULL, boardcast_msg, (int)strlen(boardcast_msg)+1, battle_config.refine_option_color, FW_NORMAL, 12, 0, 0, ALL_CLIENT);
+
+						char self_msg[CHAT_SIZE_MAX];
+						memset(self_msg, '\0', sizeof(self_msg));
+						sprintf(self_msg,msg_txt(NULL,2045),id->ename.c_str(),item.refine,opt_msg);
+
+						clif_messagecolor(&sd->bl, battle_config.refine_option_color_self, self_msg, true, SELF);
+					}else{
+
+						char boardcast_msg[CHAT_SIZE_MAX];
+						memset(boardcast_msg, '\0', sizeof(boardcast_msg));
+						sprintf(boardcast_msg,msg_txt(sd,2046),sd->status.name,item_db.create_item_link(item).c_str());
+						if(battle_config.refine_announce_success && item.refine >= battle_config.refine_announce_success)
+							clif_broadcast2(NULL, boardcast_msg, (int)strlen(boardcast_msg)+1, battle_config.refine_normal_color, FW_NORMAL, 12, 0, 0, ALL_CLIENT);
+
+						char self_msg[CHAT_SIZE_MAX];
+						memset(self_msg, '\0', sizeof(self_msg));
+						sprintf(self_msg,msg_txt(NULL,2047),id->ename.c_str(),item.refine);
+
+						clif_messagecolor(&sd->bl, battle_config.refine_option_color_self, self_msg, true, SELF);
+					}
+				}
+
+				break;
+			}
+		}
+
+		// If no entry was applied, assign one
+		if( item.option[i].id == 0 ){
+			std::shared_ptr<s_random_opt_group_entry> option = util::vector_random( this->slots[static_cast<uint16>(i)] );
+
+			// Apply an entry without checking the chance
+			apply_sub( item.option[i], option );
+		}
+	}
+
+	// Apply Random options (if available)
+	if( this->max_random > 0 ){
+		for( size_t i = 0; i < min( this->max_random, MAX_ITEM_RDM_OPT ); i++ ){
+			// If item already has an option in this slot, skip it
+			if( item.option[i].id > 0 ){
+				continue;
+			}
+
+			std::shared_ptr<s_random_opt_group_entry> option = util::vector_random( this->random_options );
+
+			if( rnd() % 10000 < option->chance ){
+				apply_sub( item.option[i], option );
+			}
+		}
+	}
+
+	// Fix any gaps, the client cannot handle this
+	for( size_t i = 0; i < MAX_ITEM_RDM_OPT; i++ ){
+		// If an option is empty
+		if( item.option[i].id == 0 ){
+			// Check if any other options, after the empty option exist
+			size_t j;
+			for( j = i + 1; j < MAX_ITEM_RDM_OPT; j++ ){
+				if( item.option[j].id != 0 ){
+					break;
+				}
+			}
+
+			// Another option was found, after the empty option
+			if( j < MAX_ITEM_RDM_OPT ){
+				// Move the later option forward
+				item.option[i].id = item.option[j].id;
+				item.option[i].value = item.option[j].value;
+				item.option[i].param = item.option[j].param;
+
+				// Reset the option that was moved
+				item.option[j].id = 0;
+				item.option[j].value = 0;
+				item.option[j].param = 0;
+			}else{
+				// Cancel early
+				break;
+			}
+		}
+	}
 }
 
 void s_random_opt_group::apply( struct item& item ){
@@ -5236,6 +5395,145 @@ uint64 GlobalDropDatabase::parseBodyNode(const ryml::NodeRef &node){
 GlobalDropDatabase global_drop_db;
 
 /**
+ * Check if the given random option group name exists.
+ * @param name: Random option name
+ * @return True on success or false on failure
+ */
+int RandomOptionGroupDatabase::get_random_option_id(std::string name) {
+	for (const auto &opt : random_option_group) {
+		if (opt.second->name.compare(name) == 0)
+			return opt.first;
+	}
+	return 0;
+}
+
+const std::string RefineRandomOptDatabase::getDefaultLocation() {
+	return std::string(db_path) + "/custom/refine_randomopt.yml";
+}
+
+/**
+ * Reads and parses an entry from the refine_randomopt.yml
+ * @param node: YAML node containing the entry.
+ * @return count of successfully parsed rows
+ */
+uint64 RefineRandomOptDatabase::parseBodyNode(const ryml::NodeRef &node){
+
+	if (!this->nodesExist(node, {"RefineLevel","Groups"}))
+		return 0;
+
+	uint16 Refine;
+
+	if (!this->asUInt16(node, "RefineLevel", Refine))
+		return 0;
+
+	std::shared_ptr<s_refineopt> RefineRandomOpt = this->find(Refine);
+	bool exists = RefineRandomOpt != nullptr;
+
+	if (!exists) {
+		if (!this->nodesExist(node, {"RefineLevel","Groups"}))
+			return 0;
+
+		RefineRandomOpt = std::make_shared<s_refineopt>();
+		RefineRandomOpt->refine = Refine;
+	}
+
+	if (this->nodeExists(node, "DefaultGroup")) {
+
+		std::string groupName;
+
+		if (!this->asString(node, "DefaultGroup", groupName))
+			return 0;
+
+		uint16 randomoptgroup = random_option_group.get_random_option_id(groupName);
+
+		if(randomoptgroup == 0){
+			this->invalidWarning(node["DefaultGroup"], "[Refine +%d] DefaultGroup %s is does not exist.\n",RefineRandomOpt->refine,groupName.c_str());
+			return 0;
+		}
+
+		RefineRandomOpt->default_group = random_option_group.find(randomoptgroup);
+		
+	}else{
+		RefineRandomOpt->default_group = nullptr;
+	}
+
+	if (this->nodeExists(node, "Groups")) {
+		for (const auto &GroupNode : node["Groups"]) {
+
+			std::shared_ptr<s_refineopt_group> RefineGroup = std::make_shared<s_refineopt_group>();
+
+			if (this->nodeExists(GroupNode, "GroupName")) {
+				std::string groupname;
+
+				if (!this->asString(GroupNode, "GroupName", groupname))
+					return 0;
+
+				groupname.resize(60);
+				RefineGroup->groupname = groupname;
+			}else{
+				this->invalidWarning(GroupNode, "[Refine +%d] Missing GroupName node.\n",RefineRandomOpt->refine);
+				return 0;
+			}
+
+			if (this->nodeExists(GroupNode, "Option")) {
+				std::string groupName;
+
+				if (!this->asString(GroupNode, "Option", groupName))
+					return 0;
+
+				uint16 randomoptgroup = random_option_group.get_random_option_id(groupName);
+
+				if(randomoptgroup == 0){
+					this->invalidWarning(GroupNode["Option"], "[Refine +%d] RandomOptGroup %s is does not exist.\n",RefineRandomOpt->refine,groupName.c_str());
+					return 0;
+				}
+
+				RefineGroup->option_group = random_option_group.find(randomoptgroup);
+
+			} else {
+				this->invalidWarning(GroupNode, "[Refine +%d] Missing Option node.\n",RefineRandomOpt->refine);
+				return 0;
+			}
+
+			if (this->nodeExists(GroupNode, "ItemsList")) {
+				for (const auto &ItemList : GroupNode["ItemsList"]) {
+
+					if (!this->nodeExists(ItemList, "Item"))
+						return 0;
+
+					std::string ItemAegisName;
+
+					if (!this->asString(ItemList, "Item", ItemAegisName))
+						return 0;
+
+					std::shared_ptr<item_data> items = item_db.search_aegisname(ItemAegisName.c_str());
+
+					if (items == nullptr) {
+						this->invalidWarning(ItemList["Item"], "[Refine +%d] Item %s is does not exist.\n",RefineRandomOpt->refine,ItemAegisName.c_str());
+						continue;
+					}
+
+					RefineGroup->items.push_back(items->nameid);
+				}
+			}else{
+				this->invalidWarning(GroupNode, "[Refine +%d] Missing ItemsList node.\n",RefineRandomOpt->refine);
+				return 0;
+			}
+
+			RefineRandomOpt->groups.push_back(RefineGroup);
+		}
+	}
+
+	if (!exists) {
+		this->put(RefineRandomOpt->refine, RefineRandomOpt);
+	}
+
+	return 1;
+}
+
+RefineRandomOptDatabase refine_randomopt_db;
+
+/**
 * Read all item-related databases
 */
 static void itemdb_read(void) {
@@ -5285,6 +5583,7 @@ static void itemdb_read(void) {
 	item_package_db.load();
 	collection_combo_db.load();
 	global_drop_db.load();
+	refine_randomopt_db.load();
 
 	if (battle_config.feature_roulette)
 		itemdb_parse_roulette_db();	
@@ -5384,6 +5683,7 @@ void do_final_itemdb(void) {
 	item_package_db.clear();
 	collection_combo_db.clear();
 	global_drop_db.clear();
+	refine_randomopt_db.clear();
 	
 	if (battle_config.feature_roulette)
 		itemdb_roulette_free();

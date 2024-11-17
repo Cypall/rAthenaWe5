@@ -110,4 +110,4 @@ Body:
     Buy: 1
     Weight: 1
     Script: |
-      callfunc "F_AutoAT";    
+      callfunc "F_AutoAT";

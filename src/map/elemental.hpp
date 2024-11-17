@@ -91,6 +91,7 @@ struct s_elemental_data {
 	t_tick last_thinktime, last_linktime, last_spdrain_time;
 	short min_chase;
 	int target_id, attacked_id;
+	struct s_unit_common_data ucd;
 };
 
 class ElementalDatabase : public TypesafeYamlDatabase<int32, s_elemental_db> {

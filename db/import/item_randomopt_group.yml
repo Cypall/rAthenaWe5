@@ -46,3 +46,54 @@ Header:
   Version: 1
 
 Body:
+  - Id: 275
+    Group: Loki_Advice
+    Slots:
+      - Slot: 1
+        Options:
+          - Option: VAR_STRAMOUNT
+            MinValue: 1
+            MaxValue: 5
+            Chance: 5000
+          - Option: VAR_AGIAMOUNT
+            MinValue: 1
+            MaxValue: 5
+            Chance: 5000
+          - Option: VAR_VITAMOUNT
+            MinValue: 1
+            MaxValue: 5
+            Chance: 5000
+          - Option: VAR_INTAMOUNT
+            MinValue: 1
+            MaxValue: 5
+            Chance: 5000
+          - Option: VAR_DEXAMOUNT
+            MinValue: 1
+            MaxValue: 5
+            Chance: 5000
+          - Option: VAR_LUKAMOUNT
+            MinValue: 1
+            MaxValue: 5
+            Chance: 5000
+      - Slot: 2
+        Options:
+          - Option: VAR_CRITICALSUCCESSVALUE
+            MinValue: 1
+            MaxValue: 5
+            Chance: 5000 
+          - Option: DAMAGE_CRI_TARGET
+            MinValue: 1
+            MaxValue: 7
+            Chance: 2500
+          - Option: MELEE_ATTACK_DAMAGE_TARGET
+            MinValue: 1
+            MaxValue: 7
+            Chance: 2500
+          - Option: DEC_SPELL_CAST_TIME
+            MinValue: 1
+            MaxValue: 5
+            Chance: 5000
+          - Option: VAR_PLUSASPDPERCENT
+            MinValue: 1
+            MaxValue: 5
+            Chance: 4500

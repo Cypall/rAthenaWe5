@@ -36,6 +36,7 @@
 
 #include "achievement.hpp"
 #include "atcommand.hpp"
+#include "aura.hpp"
 #include "battle.hpp"
 #include "battleground.hpp"
 #include "cashshop.hpp"
@@ -65,6 +66,8 @@
 #include "pet.hpp"
 #include "quest.hpp"
 #include "storage.hpp"
+
+s_next_dropitem_special next_dropitem_special;
 
 using namespace rathena;
 
@@ -19259,6 +19262,7 @@ BUILDIN_FUNC(setunitdata)
 			case UMOB_RES: md->base_status->res = (short)value; calc_status = true; break;
 			case UMOB_MRES: md->base_status->mres = (short)value; calc_status = true; break;
 			case UMOB_DAMAGETAKEN: md->damagetaken = (unsigned short)value; break;
+			case UMOB_AURA: aura_make_effective(bl, value); break;
 			default:
 				ShowError("buildin_setunitdata: Unknown data identifier %d for BL_MOB.\n", type);
 				return SCRIPT_CMD_FAILURE;
@@ -19326,6 +19330,7 @@ BUILDIN_FUNC(setunitdata)
 				break;
 			}
 			case UHOM_GROUP_ID: hd->ud.group_id = value; unit_refresh(bl); break;
+			case UHOM_AURA: aura_make_effective(bl, value); break;
 			default:
 				ShowError("buildin_setunitdata: Unknown data identifier %d for BL_HOM.\n", type);
 				return SCRIPT_CMD_FAILURE;
@@ -19378,6 +19383,7 @@ BUILDIN_FUNC(setunitdata)
 			case UPET_ADELAY: pd->status.adelay = (short)value; break;
 			case UPET_DMOTION: pd->status.dmotion = (short)value; break;
 			case UPET_GROUP_ID: pd->ud.group_id = value; unit_refresh(bl); break;
+			case UPET_AURA: aura_make_effective(bl, value); break;
 			default:
 				ShowError("buildin_setunitdata: Unknown data identifier %d for BL_PET.\n", type);
 				return SCRIPT_CMD_FAILURE;
@@ -19440,6 +19446,7 @@ BUILDIN_FUNC(setunitdata)
 				break;
 			}
 			case UMER_GROUP_ID: mc->ud.group_id = value; unit_refresh(bl); break;
+			case UMER_AURA: aura_make_effective(bl, value); break;
 			default:
 				ShowError("buildin_setunitdata: Unknown data identifier %d for BL_MER.\n", type);
 				return SCRIPT_CMD_FAILURE;
@@ -19507,6 +19514,7 @@ BUILDIN_FUNC(setunitdata)
 				break;
 			}
 			case UELE_GROUP_ID: ed->ud.group_id = value; unit_refresh(bl); break;
+			case UELE_AURA: aura_make_effective(bl, value); break;
 			default:
 				ShowError("buildin_setunitdata: Unknown data identifier %d for BL_ELEM.\n", type);
 				return SCRIPT_CMD_FAILURE;
@@ -19566,6 +19574,7 @@ BUILDIN_FUNC(setunitdata)
 			case UNPC_BODY2: clif_changelook(bl, LOOK_BODY2, (unsigned short)value); break;
 			case UNPC_DEADSIT: nd->vd.dead_sit = (char)value; unit_refresh(bl); break;
 			case UNPC_GROUP_ID: nd->ud.group_id = value; unit_refresh(bl); break;
+			case UNPC_AURA: aura_make_effective(bl, value); break;
 			default:
 				ShowError("buildin_setunitdata: Unknown data identifier %d for BL_NPC.\n", type);
 				return SCRIPT_CMD_FAILURE;
@@ -28294,10 +28303,16 @@ BUILDIN_FUNC(autostart)
 	}
 
 	int mode = script_getnum(st, 2);
+	t_tick duration = 0;
+
+	if (script_hasdata(st,3))
+		duration = script_getnum(st,3);
+	else
+		duration = 86400000;
 
 	// start
 	if(mode == 1){
-		status_change_start(&sd->bl, &sd->bl, SC_AUTOATTACK, 10000, 1, 0, 0, 0, 86400000, SCSTART_NOAVOID);
+		status_change_start(&sd->bl, &sd->bl, SC_AUTOATTACK, 10000, 1, 0, 0, 0, duration, SCSTART_NOAVOID);
 		clif_showscript(&sd->bl, msg_txt(NULL,1631), SELF);
 		map_foreachinallrange(sub_pc_send_hattect,&sd->bl,AREA_SIZE,BL_PC,sd);
 	// stop
@@ -28370,6 +28385,208 @@ BUILDIN_FUNC(skillinfocheck)
 	return SCRIPT_CMD_SUCCESS;
 }
 
+/* Starts a custom status
+ *
+ * csc_start  <effect_id>,<duration>,<val1><val2>,<val3>,<val4>;
+ */
+BUILDIN_FUNC(csc_start)
+{
+	map_session_data *sd;
+	enum sc_type type;
+	int tick;
+
+	if(!script_rid2sd(sd))
+		return SCRIPT_CMD_FAILURE;
+
+	type = (sc_type)script_getnum(st,2);
+	tick = script_getnum(st,3);
+
+	if (!sd)
+		return SCRIPT_CMD_SUCCESS;
+
+	int val1 = 1, val2 = 0, val3 = 0, val4 = 0;
+
+	if(script_hasdata(st,4))
+		val1 = script_getnum(st,4);
+
+	if(script_hasdata(st,5))
+		val2 = script_getnum(st,5);
+
+	if(script_hasdata(st,6))
+		val3 = script_getnum(st,6);
+
+	if(script_hasdata(st,7))
+		val4 = script_getnum(st,7);
+
+	status_change_start(&sd->bl, &sd->bl, type, 10000, val1, val2, val3, val4, tick, SCSTART_NOAVOID);
+	status_calc_pc(sd,SCO_FORCE);
+	return SCRIPT_CMD_SUCCESS;
+}
+
+BUILDIN_FUNC(sc_val)
+{
+	TBL_PC* sd;
+
+	if (!script_rid2sd(sd))
+		return SCRIPT_CMD_FAILURE;
+
+	enum sc_type sctype;
+
+	sctype = (sc_type)script_getnum(st,2);
+	int type_val = script_getnum(st, 3);
+
+	int val = 0;
+
+	if(!sd->sc.getSCE(sctype)){
+		script_pushint(st, val);
+		return SCRIPT_CMD_SUCCESS;		
+	}
+
+	switch (type_val){
+		case CUSTOMBUFF_VAL_1:
+			val = sd->sc.getSCE(sctype)->val1;
+			break;
+		case CUSTOMBUFF_VAL_2:
+			val = sd->sc.getSCE(sctype)->val2;
+			break;
+		case CUSTOMBUFF_VAL_3:
+			val = sd->sc.getSCE(sctype)->val3;
+			break;
+		case CUSTOMBUFF_VAL_4:
+			val = sd->sc.getSCE(sctype)->val4;
+			break;
+	}
+
+	script_pushint(st, val);
+	return SCRIPT_CMD_SUCCESS;
+}
+
+BUILDIN_FUNC(aura) {
+	uint32 aura_id = script_getnum(st, 2);
+	map_session_data* sd = nullptr;
+
+	if (!script_charid2sd(3, sd)) {
+		script_pushint(st, 0);
+		return SCRIPT_CMD_SUCCESS;
+	}
+
+	aura_id = max(aura_id, 0);
+
+	if (aura_id && !aura_search(aura_id)) {
+		ShowError("buildin_aura: The specified aura id '%d' is invalid.\n", aura_id);
+		script_pushint(st, 0);
+		return SCRIPT_CMD_FAILURE;
+	}
+
+	aura_make_effective(&sd->bl, aura_id);
+
+	script_pushint(st, 1);
+	return SCRIPT_CMD_SUCCESS;
+}
+
+BUILDIN_FUNC(unitaura) {
+	uint32 aura_id = script_getnum(st, 3);
+	struct s_unit_common_data* ucd = nullptr;
+	struct block_list* bl = nullptr;
+
+	if (!script_rid2bl(2, bl)) {
+		script_pushint(st, 0);
+		return SCRIPT_CMD_SUCCESS;
+	}
+
+	ucd = status_get_ucd(bl);
+	if (!ucd) {
+		script_pushint(st, 0);
+		return SCRIPT_CMD_SUCCESS;
+	}
+
+	aura_id = max(aura_id, 0);
+
+	if (aura_id && !aura_search(aura_id)) {
+		ShowError("buildin_unitaura: The specified aura id '%d' is invalid.\n", aura_id);
+		script_pushint(st, 0);
+		return SCRIPT_CMD_FAILURE;
+	}
+
+	aura_make_effective(bl, aura_id);
+
+	script_pushint(st, 1);
+	return SCRIPT_CMD_SUCCESS;
+}
+
+BUILDIN_FUNC(unitspecialeffect) {
+	struct block_list* bl = nullptr;
+	int type = script_getnum(st, 3);
+	enum send_target target = AREA;
+
+	bl = map_id2bl(script_getnum(st, 2));
+	if (!bl) {
+		return SCRIPT_CMD_SUCCESS;
+	}
+
+	if (script_hasdata(st, 4)) {
+		target = (send_target)script_getnum(st, 4);
+	}
+
+	if (type <= EF_NONE || type >= EF_MAX) {
+		ShowError("buildin_unitspecialeffect: unsupported effect id %d\n", type);
+		return SCRIPT_CMD_FAILURE;
+	}
+
+	if (target != SELF) {
+		clif_specialeffect(bl, type, target);
+		return SCRIPT_CMD_SUCCESS;
+	}
+
+	map_session_data* sd = nullptr;
+	if (!script_mapid2sd(5, sd)) {
+		return SCRIPT_CMD_SUCCESS;
+	}
+
+	if (sd && sd->bl.type == BL_PC) {
+		clif_specialeffect_single(bl, type, sd->fd);
+	}
+	return SCRIPT_CMD_SUCCESS;
+}
+
+BUILDIN_FUNC(next_dropitem_special) {
+	next_dropitem_special.bound = cap_value(script_getnum(st, 2), BOUND_NONE, BOUND_MAX - 1);
+	next_dropitem_special.rent_duration = cap_value(script_getnum(st, 3), 0, INT32_MAX);
+	next_dropitem_special.drop_effect = cap_value(script_getnum(st, 4), -1, DROPEFFECT_MAX - 1);
+	return SCRIPT_CMD_SUCCESS;
+}
+
+BUILDIN_FUNC( runeui ){
+#if PACKETVER_MAIN_NUM >= 20200916 || PACKETVER_RE_NUM >= 20200724
+	map_session_data* sd;
+
+	if( !script_charid2sd( 2, sd ) ){
+		return SCRIPT_CMD_FAILURE;
+	}
+
+	clif_rune_ui_open( sd );
+
+	return SCRIPT_CMD_SUCCESS;
+#else
+	ShowError( "buildin_runeui: This command requires PACKETVER 2020-07-24 or newer.\n" );
+	return SCRIPT_CMD_FAILURE;
+#endif
+}
+
+BUILDIN_FUNC( getupgrade_rune ){
+#if PACKETVER_MAIN_NUM >= 20200916 || PACKETVER_RE_NUM >= 20200724
+	map_session_data* sd;
+	if( !script_rid2sd(sd) )
+		return SCRIPT_CMD_FAILURE;
+
+	script_pushint(st,sd->runeactivated_data.upgrade);
+	return SCRIPT_CMD_SUCCESS;
+#else
+	ShowError( "buildin_getupgrade_rune: This command requires PACKETVER 2020-07-24 or newer.\n" );
+	return SCRIPT_CMD_FAILURE;
+#endif
+}
+
 #include <custom/script.inc>
 
 // declarations that were supposed to be exported from npc_chat.cpp
@@ -28418,9 +28635,96 @@ BUILDIN_FUNC(preg_match) {
 #endif
 }
 
+// (^~_~^) Gepard Shield Start
+
+BUILDIN_FUNC(get_unique_id)
+{
+	map_session_data* sd;
+
+	if (!script_rid2sd(sd))
+	{
+		script_pushint(st, 0);
+		return SCRIPT_CMD_FAILURE;
+	}
+
+	script_pushint(st, session[sd->fd]->gepard_info.unique_id);
+
+	return SCRIPT_CMD_SUCCESS;
+}
+
+// (^~_~^) Gepard Shield End
+
+// (^~_~^) Color Nicks Start
+
+BUILDIN_FUNC(set_color_nick)
+{
+	map_session_data* sd;
+	unsigned int group_id = script_getnum(st, 2);
+
+	if (!script_rid2sd(sd))
+	{
+		return SCRIPT_CMD_FAILURE;
+	}
+
+	if (group_id == 0)
+	{
+		sd->color_nicks_group_id = 0;
+	}
+	else
+	{
+		if (idb_exists(color_nicks_db, group_id) == 0)
+		{
+			script_pushint(st, -1);
+			return SCRIPT_CMD_FAILURE;
+		}
+
+		sd->color_nicks_group_id = group_id;
+	}
+
+	pc_setglobalreg(sd, add_str("CN_GROUP_ID"), sd->color_nicks_group_id);
+
+	clif_send_colornicks(sd);
+
+	script_pushint(st, 0);
+
+	return SCRIPT_CMD_SUCCESS;
+}
+
+BUILDIN_FUNC(get_color_nick)
+{
+	map_session_data* sd;
+
+	if (!script_rid2sd(sd))
+	{
+		script_pushint(st, -1);
+
+		return SCRIPT_CMD_FAILURE;
+	}
+
+	script_pushint(st, sd->color_nicks_group_id);
+
+	return SCRIPT_CMD_SUCCESS;
+}
+
+// (^~_~^) Color Nicks End
+
 /// script command definitions
 /// for an explanation on args, see add_buildin_func
 struct script_function buildin_func[] = {
+
+// (^~_~^) Color Nicks Start
+
+	BUILDIN_DEF(set_color_nick,"i"),
+	BUILDIN_DEF(get_color_nick,""),
+
+// (^~_~^) Color Nicks End
+
+// (^~_~^) Gepard Shield Start
+
+	BUILDIN_DEF(get_unique_id,""),
+
+// (^~_~^) Gepard Shield End
+
 	// NPC interaction
 	BUILDIN_DEF(mes,"s*"),
 	BUILDIN_DEF(next,""),
@@ -29150,8 +29454,20 @@ struct script_function buildin_func[] = {
 	BUILDIN_DEF(autoattackclear,""),
 	BUILDIN_DEF(clear2,""),
 	BUILDIN_DEF(sc_check,"i"),
-	BUILDIN_DEF(autostart,"i"),
+	BUILDIN_DEF(autostart,"i?"),
 	BUILDIN_DEF(skillinfocheck,"ii"),	
+
+	BUILDIN_DEF(csc_start,"ii????"),
+	BUILDIN_DEF(sc_val,"ii"),
+
+	BUILDIN_DEF(aura, "i?"),
+	BUILDIN_DEF(unitaura, "ii"),
+
+	BUILDIN_DEF(unitspecialeffect, "ii??"),
+	BUILDIN_DEF(next_dropitem_special,"iii"),
+
+	BUILDIN_DEF(runeui, ""),
+	BUILDIN_DEF(getupgrade_rune, ""),
 
 #include <custom/script_def.inc>
 

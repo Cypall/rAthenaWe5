@@ -44,7 +44,8 @@ Body:
   - ID: 1
     Name: "Collection"
     Table: collection_storage
-    Max: 100
+    Max: 600
+    
 
 Footer:
   Imports:

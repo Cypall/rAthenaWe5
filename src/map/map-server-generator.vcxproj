@@ -191,6 +191,7 @@
   <ItemGroup>
     <ClInclude Include="achievement.hpp" />
     <ClInclude Include="atcommand.hpp" />
+    <ClInclude Include="aura.hpp" />
     <ClInclude Include="battle.hpp" />
     <ClInclude Include="battleground.hpp" />
     <ClInclude Include="buyingstore.hpp" />
@@ -206,6 +207,7 @@
     <ClInclude Include="date.hpp" />
     <ClInclude Include="duel.hpp" />
     <ClInclude Include="elemental.hpp" />
+    <ClInclude Include="emote.hpp" />
     <ClInclude Include="guild.hpp" />
     <ClInclude Include="homunculus.hpp" />
     <ClInclude Include="instance.hpp" />
@@ -227,6 +229,7 @@
     <ClInclude Include="pc_groups.hpp" />
     <ClInclude Include="pet.hpp" />
     <ClInclude Include="quest.hpp" />
+    <ClInclude Include="rune.hpp" />
     <ClInclude Include="script.hpp" />
     <ClInclude Include="script_constants.hpp" />
     <ClInclude Include="searchstore.hpp" />
@@ -240,6 +243,7 @@
   <ItemGroup>
     <ClCompile Include="achievement.cpp" />
     <ClCompile Include="atcommand.cpp" />
+    <ClCompile Include="aura.cpp" />
     <ClCompile Include="battle.cpp" />
     <ClCompile Include="battleground.cpp" />
     <ClCompile Include="buyingstore.cpp" />
@@ -252,6 +256,7 @@
     <ClCompile Include="date.cpp" />
     <ClCompile Include="duel.cpp" />
     <ClCompile Include="elemental.cpp" />
+    <ClCompile Include="emote.cpp" />
     <ClCompile Include="guild.cpp" />
     <ClCompile Include="homunculus.cpp" />
     <ClCompile Include="instance.cpp" />
@@ -274,6 +279,7 @@
     <ClCompile Include="pc_groups.cpp" />
     <ClCompile Include="pet.cpp" />
     <ClCompile Include="quest.cpp" />
+    <ClCompile Include="rune.cpp" />
     <ClCompile Include="script.cpp" />
     <ClCompile Include="searchstore.cpp" />
     <ClCompile Include="skill.cpp" />

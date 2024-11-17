@@ -256,6 +256,7 @@ struct npc_data {
 	std::vector<navi_link> links; // for extra links, like warper npc
 #endif
 	bool is_invisible;
+	struct s_unit_common_data ucd;
 };
 
 struct eri;
@@ -1518,6 +1519,7 @@ enum e_job_types
 	JT_ROZ_MQ_MOCLORD,
 	JT_ROZ_MQ_SKULD,
 
+	JT_TOUPEIRA = 11148,
 	JT_NEW_NPC_3RD_END = 19999,
 	NPC_RANGE3_END, // Official: JT_NEW_NPC_3RD_END=19999
 

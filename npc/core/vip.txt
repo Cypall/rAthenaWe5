@@ -5,10 +5,12 @@ OnPCLoginEvent:
 OnVipCheck:
 	if(vip_status(VIP_STATUS_ACTIVE)){
 		dispbottom "[VIP System] Vip ของท่านจะหมดลงเมื่อถึง " + gettimestr("%H:%M:%S %d-%m-%Y",21,vip_status(VIP_STATUS_EXPIRE)),0xff4000;
+		end;
 	}
+	dispbottom "[System] VIP ของท่านหมดอายุ กรุณาต่อเวลา";
 	end;
 
 Oninit:
-	bindatcmd "@vipleft",""+strnpcinfo(0)+"::OnVipCheck",0,0;
+	bindatcmd "@viptime",""+strnpcinfo(0)+"::OnVipCheck",0,0;
 	end;
 }

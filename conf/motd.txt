@@ -1,2 +1,7 @@
-// Internal default is limited to 128 lines.  If you need more, you will need to modify the MOTD_LINE_SIZE definition in pc.cpp
-Welcome to rAthena! Enjoy! Please report any bugs you find.
+[[ ยินดีต้อนรับเข้าสู่ We-Ro Classic]]
+[[ ปัจจุบัน EP 1.0 : Class1 - 65/40]]
+[[ ถัดไป EP 2.0 : Class2-1 99/50 - xx/07/2567 ]]
+==================================
+[[ จะมีการ Update เพิ่มเติมทุกๆ 15/30 วัน นะคะ ]]
+[[ แพชสุดท้ายคือ EP 9.0-14.2 (ก่อนไฮคลาส) ]]
+*** หากพบปัญหาใดๆ สามารถแจ้งทาง GM ได้ทั้งหน้า Discord และ ในเกมส์ ***

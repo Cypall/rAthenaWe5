@@ -42,3 +42,10 @@ Header:
   Version: 2
 
 Body:
+  - Id: 99
+    Name: Whack-A-Mole
+    TimeLimit: 3600
+    Enter:
+      Map: mapslap
+      X: 20
+      Y: 13

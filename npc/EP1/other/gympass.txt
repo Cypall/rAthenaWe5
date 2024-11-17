@@ -1,0 +1,101 @@
+//payon,95,164,4	script	Ripped Cabus#GymPass	899,{
+morocc,143,70,4	script	Ripped Cabus#GymPass	899,{
+	mes "[Ripped]";
+	mes "เฮ้!มีคนที่ไม่ได้ใช้ร่างกายเหมือนพวกเรา";
+	mes "คุณอาจเข้าใจเวลาที่เราเหนื่อยล้าจากการต่อสู้ต่างๆ";
+	mes "ร่างกายคุณก็จะอ่อนล้าตามไปด้วย";
+	mes "คุณเข้าใจที่ฉันพูดนะ";
+	next;
+	mes "[Ripped]";
+	mes "เพียงแค่คุณออกกำลังกายกับฉันนะ";
+	mes "เพียงใช้ Gym pass เท่านั้นเอง";
+	mes "แต่ในการฝึกแต่ละครั้งคุณอย่าตื่นเต้นเกินไป:";
+	mes "โปรดจงอย่าหักโหม คุณสามารถทำได้แน่";
+	mes "เพราะหักโหมมากไปคุณอาจตายได้แน่นอน";
+	next;
+	mes "[Ripped]";
+	mes "ผมว่ามันต้องการจะปลอดภัย";
+	mes "สำหรับคุณที่จะฝึกอย่างจริงจัง";
+	mes "คุณสามารถออกกำลังกายได้ ^FF0000 10 ^000000ครั้ง";
+	mes "ดังนั้น ... คุณพร้อมที่จะออกกำลังกายไหม";
+	next;
+	switch(select("โอเคจัดเลย:ไม่อ่ะ:ฉันว่าประสิทธิภาพมันน้อยลงเลยมาออกกำลังกาย.")) {
+	case 1:
+		if (gympassmemory < 10) {
+			set .@add_carry,gympassmemory + 1;
+			set .@remain_carry,10 - .@add_carry;
+			if (countitem(7776) > 0) {
+				mes "[Ripped]";
+				mes "โอ้ !ฉันเห็นคุณนำบัตร Gym Pass ";
+				mes "มานี่";
+				mes "เยี่ยมมาก, คุณต้องการมัน,";
+				mes "ฉันจะจัดการให้คุณเอง";
+				mes "พร้อมนะ? เริ่มทำเลย.";
+				next;
+				specialeffect2 EF_EARTHSPIKE;
+				specialeffect2 EF_DEVIL;
+				specialeffect2 EF_COIN;
+				specialeffect2 EF_SIGHTRASHER;
+				next;
+				mes "[Ripped]";
+				mes "คุณต้องการมันเพิ่มอีกนะฉันว่า";
+				mes "พวกเราสามารถทำให้คุณได้อีก";
+				mes "^FF00000" + .@remain_carry + "^000000 ครั้งเท่านั้น";
+				delitem 7776,1; //Max_Weight_Up_Scroll
+				set gympassmemory,.@add_carry;
+				skill "ALL_INCCARRY",.@add_carry,0;
+				close;
+			}
+			else {
+				mes "[Ripped]";
+				mes "ผมจะบอกคุณว่าถ้าคุณอยากจะลอง?";
+				mes "ให้นำ";
+				mes "^FF0000Gym Pass^000000 มาให้";
+				mes "ฉันจะได้ช่วยคุณได้";
+				close;
+			}
+		}
+		else {
+			mes "[Ripped]";
+			mes "ฉันไม่เข้าใจสิ่งที่พวกเรา";
+			mes "กำลังแบกสิ่งของต่างๆ";
+			mes "ผมจะบอกคุณว่ามันอันตรายมากไปรู้ไหม";
+			mes "ควรทำอะไรที่มันพอดีๆ";
+			close;
+		}
+	case 2:
+		mes "[Ripped]";
+		mes "คิดดีดีนะ.";
+		mes "พวกเรายังต้อนรับคุณเสมอ";
+		mes "ฝากบอกเพื่อนๆที่ร่างกายป้อแป้ด้วย";
+		mes "ฉันสามารถช่วยเค้าได้";
+		close;
+	case 3:
+		if (gympassmemory > 0) {
+			mes "เกิดอะไรขึ้น?";
+			mes "คุณปล่อยให้รายการของคุณแบก";
+			mes "น้ำหนักมากเกินไปกล้ามเนื้ออาจจะพังได้";
+			mes "แบกไม่ไหวหรือยังไง";
+			next;
+			specialeffect2 EF_EARTHSPIKE;
+			next;
+			specialeffect2 EF_DEVIL;
+			next;
+			specialeffect2 EF_COIN;
+			next;
+			specialeffect2 EF_SIGHTRASHER;
+			next;
+			mes "[Ripped]";
+			mes "โอเคตามใจคุณนะ?";
+			skill "ALL_INCCARRY",gympassmemory,0;
+			close;
+		}
+		else {
+			mes "[Ripped]";
+			mes "Uhh...";
+			mes "ฉันแน่ใจว่าพวกเรา";
+			mes "ต้องทำอะไรร่วมกันก่อน.";
+			close;
+		}
+	}
+}

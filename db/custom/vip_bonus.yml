@@ -6,3 +6,5 @@ Body:
   - Id: 1
     Script: |
       bonus bAllStats,1;
+      bonus bMaxHPrate,1;
+      bonus bMaxSPrate,1;

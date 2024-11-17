@@ -43,6 +43,7 @@
 #include "date.hpp" // is_day_of_*()
 #include "duel.hpp"
 #include "elemental.hpp"
+#include "emote.hpp"
 #include "guild.hpp"
 #include "homunculus.hpp"
 #include "instance.hpp"
@@ -57,6 +58,7 @@
 #include "pc_groups.hpp"
 #include "pet.hpp" // pet_unlocktarget()
 #include "quest.hpp"
+#include "rune.hpp"
 #include "skill.hpp" // skill_isCopyable()
 #include "script.hpp" // struct script_reg, struct script_regstr
 #include "searchstore.hpp"  // struct s_search_store_info
@@ -2243,6 +2245,8 @@ bool pc_authok(map_session_data *sd, uint32 login_id2, time_t expiration_time, i
 	}
 
 	pc_aa_load(sd);
+	emote_load(sd);
+	rune_load(sd);
 
 	// Request all registries (auth is considered completed whence they arrive)
 	intif_request_registry(sd,7);
@@ -2502,6 +2506,12 @@ void pc_reg_received(map_session_data *sd)
 	if (msg_checklangtype(sd->langtype,true) < 0)
 		sd->langtype = 0; //invalid langtype reset to default
 
+// (^~_~^) Color Nicks Start
+
+	sd->color_nicks_group_id = static_cast<unsigned int>(pc_readglobalreg(sd, add_str("CN_GROUP_ID")));
+
+// (^~_~^) Color Nicks End
+
 	// Cash shop
 	sd->cashPoints = static_cast<int>(pc_readaccountreg(sd, add_str(CASHPOINT_VAR)));
 	sd->kafraPoints = static_cast<int>(pc_readaccountreg(sd, add_str(KAFRAPOINT_VAR)));
@@ -2663,6 +2673,7 @@ void pc_reg_received(map_session_data *sd)
 	load_char_bonus_data(*sd); // Load bonus data
 
 	channel_autojoin(sd);
+	clif_onlogenable_rune(sd);
 }
 
 static int pc_calc_skillpoint(map_session_data* sd)
@@ -8533,6 +8544,28 @@ void pc_gainexp_disp(map_session_data *sd, t_exp base_exp, t_exp next_base_exp, 
 	clif_messagecolor(&sd->bl, color_table[COLOR_LIGHT_GREEN], output, false, SELF);
 }
 
+void adjust_exp(uint16 mapIndex, t_exp *base_exp, t_exp *job_exp)
+{
+	bool found = false;
+	int adjust_rate = 0;
+
+	for(const auto& ad : adjust_db){
+		for(const auto& map : ad.second->maps){
+			if(mapIndex == map){
+				found = true;
+				break;
+			}
+		}
+		if(found)
+			adjust_rate = ad.second->exp;
+	}
+
+	if(found){
+		*base_exp = *base_exp * ((float)(100+adjust_rate)/100);
+		*job_exp = *job_exp * ((float)(100+adjust_rate)/100);
+	}
+}
+
 /**
  * Give Base or Job EXP to player, then calculate remaining exp for next lvl
  * @param sd Player
@@ -8565,6 +8598,9 @@ void pc_gainexp(map_session_data *sd, struct block_list *src, t_exp base_exp, t_
 		((job_exp) ? 2 : 0) |
 		((pc_is_maxbaselv(sd)) ? 4 : 0) |
 		((pc_is_maxjoblv(sd)) ? 8 : 0);
+
+	if (!(exp_flag&2))
+		adjust_exp(sd->bl.m, &base_exp, &job_exp);
 
 	if (!(exp_flag&2))
 		pc_calcexp(sd, &base_exp, &job_exp, src);

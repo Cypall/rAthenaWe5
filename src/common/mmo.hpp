@@ -5,6 +5,9 @@
 #define MMO_HPP
 
 #include <time.h>
+#include <vector>
+#include <memory>
+#include <map>
 
 #include <config/core.hpp>
 
@@ -65,7 +68,7 @@
 * Max value tested was 265 */
 #ifndef MAX_CHARS
 	#if PACKETVER >= 20180124
-		#define MAX_CHARS 15
+		#define MAX_CHARS 30
 	#elif PACKETVER >= 20100413
 		#define MAX_CHARS 12
 	#else
@@ -79,13 +82,15 @@ typedef uint32 t_itemid;
 * Note: The client seems unable to receive data for more than 4 slots due to all related packets having a fixed size. */
 #define MAX_SLOTS 4
 #define MAX_AMOUNT 30000 ////Max amount of a single stacked item
-#define MAX_ZENY INT_MAX ///Max zeny
-#define MAX_BANK_ZENY SINT32_MAX ///Max zeny in Bank
+//#define MAX_ZENY INT_MAX ///Max zeny
+//#define MAX_BANK_ZENY SINT32_MAX ///Max zeny in Bank
+#define MAX_ZENY 2000000000 ///Max zeny
+#define MAX_BANK_ZENY 2000000000 ///Max zeny in Bank
 #ifndef MAX_CASHPOINT
-	#define MAX_CASHPOINT INT_MAX
+	#define MAX_CASHPOINT 100000000
 #endif
 #ifndef MAX_KAFRAPOINT
-	#define MAX_KAFRAPOINT INT_MAX
+	#define MAX_KAFRAPOINT 100000000
 #endif
 #define MAX_FAME 1000000000 ///Max fame points
 #define MAX_CART 100 ///Maximum item in cart
@@ -95,8 +100,8 @@ typedef uint32 t_itemid;
 #define MAX_WALK_SPEED 1000 ///Max walk speed
 #define MAX_STORAGE 600 ///Max number of storage slots a player can have
 #define MAX_GUILD_STORAGE 600 ///Max number of storage slots a guild
-#define MAX_PARTY 12 ///Max party member
-#define MAX_GUILD 16+10*6	///Increased max guild members +6 per 1 extension levels [Lupus]
+#define MAX_PARTY 26 ///Max party member
+#define MAX_GUILD 16+10*1	///Increased max guild members +6 per 1 extension levels [Lupus]
 #define MAX_GUILDPOSITION 20	///Increased max guild positions to accomodate for all members [Valaris] (removed) [PoW]
 #define MAX_GUILDEXPULSION 32 ///Max Guild expulsion
 #define MAX_GUILDALLIANCE 16 ///Max Guild alliance
@@ -128,15 +133,9 @@ enum e_enchantgrade : uint16{
 	ENCHANTGRADE_A
 };
 
-#ifdef RENEWAL
-	#define MAX_WEAPON_LEVEL 5
-	#define MAX_ARMOR_LEVEL 2
-	#define MAX_ENCHANTGRADE ENCHANTGRADE_A
-#else
-	#define MAX_WEAPON_LEVEL 4
-	#define MAX_ARMOR_LEVEL 1
-	#define MAX_ENCHANTGRADE ENCHANTGRADE_NONE
-#endif
+#define MAX_WEAPON_LEVEL 5
+#define MAX_ARMOR_LEVEL 2
+#define MAX_ENCHANTGRADE ENCHANTGRADE_A
 
 // for produce
 #define MIN_ATTRIBUTE 0
@@ -144,6 +143,9 @@ enum e_enchantgrade : uint16{
 #define ATTRIBUTE_NORMAL 0
 #define MIN_STAR 0
 #define MAX_STAR 3
+
+#define MAX_RUNESLOT 5
+#define MAX_RUNEDECOMPO 8
 
 const t_itemid WEDDING_RING_M = 2634;
 const t_itemid WEDDING_RING_F = 2635;
@@ -164,7 +166,7 @@ const t_itemid WEDDING_RING_F = 2635;
 //Pincode Length
 #define PINCODE_LENGTH 4
 
-#define MAX_FRIENDS 40
+#define MAX_FRIENDS 80
 #define MAX_MEMOPOINTS 3
 #define MAX_SKILLCOOLDOWN 20
 
@@ -275,6 +277,19 @@ enum e_mode {
 #define MD_MASK 0x000FFFF
 #define ATR_MASK 0x0FF0000
 #define CL_MASK 0xF000000
+
+struct s_aura_effect {
+	uint16 effect_id = 0;
+	uint32 replay_interval = 0;
+	int32 replay_tid = INVALID_TIMER;
+};
+
+struct s_unit_common_data {
+		struct s_ucd_aura {
+			uint32 id = 0;			// è¯¥åÿ•ä½ÿåÿ¯ç”¨çÿÿå…ÿçÿ¯ç¼–åÿ·
+			std::vector<std::shared_ptr<s_aura_effect>> effects;	// è¯¥åÿ•ä½ÿç”ÿæ•ÿçÿÿçÿ¹æ•ÿç»ÿåÿÿ
+		} aura;
+};
 
 // Questlog states
 enum e_quest_state : uint8 {

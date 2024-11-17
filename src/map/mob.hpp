@@ -384,6 +384,7 @@ struct mob_data {
 	uint16 damagetaken;
 
 	e_mob_bosstype get_bosstype();
+	struct s_unit_common_data ucd;
 };
 
 class MobAvailDatabase : public YamlDatabase {

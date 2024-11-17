@@ -16,3 +16,10 @@
 //
 //mymap	1250
 //mymap-2
+
+
+com_d02_i2
+event_01
+event_03
+guildhall2
+mapslap

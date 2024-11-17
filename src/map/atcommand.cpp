@@ -24,6 +24,7 @@
 #include <common/utils.hpp>
 
 #include "achievement.hpp"
+#include "aura.hpp"
 #include "battle.hpp"
 #include "buyingstore.hpp"
 #include "channel.hpp"
@@ -50,6 +51,7 @@
 #include "pc_groups.hpp"
 #include "pet.hpp"
 #include "quest.hpp"
+#include "rune.hpp"
 #include "script.hpp"
 #include "storage.hpp"
 #include "trade.hpp"
@@ -11112,6 +11114,359 @@ ACMD_FUNC(itemmap)
 	return 0;
 }
 
+// (^~_~^) Gepard Shield Start
+
+ACMD_FUNC(gepard_block_nick)
+{
+	map_session_data* violator_sd;
+	time_t time_server;
+	unsigned int duration;
+	unsigned int violator_account_id = 0;
+	unsigned int violator_unique_id = 0;
+	char reason_str[GEPARD_REASON_LENGTH];
+	char unban_time_str[GEPARD_TIME_STR_LENGTH];
+	char duration_type, violator_name[NAME_LENGTH];
+	const char* command_info = "Wrong input (usage: @gepard_block_nick <duration> <duration_type m/h/d> \"<char name>\" <reason>)";
+
+	nullpo_retr(-1, sd);
+
+	memset(atcmd_player_name, '\0', sizeof(atcmd_player_name));
+
+	if (!*message || sscanf(message, "%u %c \"%23[^\"]\" %99[^\n]", &duration, &duration_type, violator_name, reason_str) < 4)
+	{
+		clif_displaymessage(fd, command_info);
+		return -1;
+	}
+
+	time(&time_server);
+
+	switch (duration_type)
+	{
+		case 'm':
+			time_server += (duration * 60);
+		break;
+
+		case 'h':
+			time_server += (duration * 3600);
+		break;
+
+		case 'd':
+			time_server += (duration * 86400);
+		break;
+
+		default:
+			duration = 0;
+		break;
+	}
+
+	if (duration == 0)
+	{
+		clif_displaymessage(fd, command_info);
+		return -1;
+	}
+
+	strftime(unban_time_str, sizeof(unban_time_str), "%Y-%m-%d %H:%M:%S", localtime(&time_server)); 
+
+	sprintf(atcmd_output, "Request: block by name - %s", violator_name);
+	clif_displaymessage(fd, atcmd_output);
+
+	violator_sd = map_nick2sd(violator_name, false);
+
+	if (violator_sd != NULL)
+	{
+		violator_account_id = violator_sd->status.account_id;
+		violator_unique_id = session[violator_sd->fd]->gepard_info.unique_id;
+	}
+
+	chrif_gepard_req_block(violator_unique_id, violator_name, violator_account_id, sd->status.name, sd->status.account_id, unban_time_str, reason_str);
+
+	return 0;
+}
+
+// (^~_~^) Gepard Shield End
+
+// (^~_~^) Gepard Shield Start
+
+ACMD_FUNC(gepard_block_account_id)
+{
+	map_session_data* violator_sd;
+	time_t time_server;
+	unsigned int duration;
+	unsigned int violator_account_id = 0;
+	unsigned int violator_unique_id = 0;
+	char reason_str[GEPARD_REASON_LENGTH];
+	char duration_type, unban_time_str[GEPARD_TIME_STR_LENGTH];
+	const char* command_info = "Wrong input (usage: @gepard_block_account_id <duration> <duration_type m/h/d> <account ID> <reason>)";
+
+	nullpo_retr(-1, sd);
+
+	memset(atcmd_player_name, '\0', sizeof(atcmd_player_name));
+
+	if (!*message || sscanf(message, "%u %c %u %99[^\n]", &duration, &duration_type, &violator_account_id, reason_str) < 4)
+	{
+		clif_displaymessage(fd, command_info);
+		return -1;
+	}
+
+	time(&time_server);
+
+	switch (duration_type)
+	{
+		case 'm':
+			time_server += (duration * 60);
+		break;
+
+		case 'h':
+			time_server += (duration * 3600);
+		break;
+
+		case 'd':
+			time_server += (duration * 86400);
+		break;
+
+		default:
+			duration = 0;
+		break;
+	}
+
+	if (duration == 0)
+	{
+		clif_displaymessage(fd, command_info);
+		return -1;
+	}
+
+	strftime(unban_time_str, sizeof(unban_time_str), "%Y-%m-%d %H:%M:%S", localtime(&time_server)); 
+
+	sprintf(atcmd_output, "Request: block by account ID: %u", violator_account_id);
+	clif_displaymessage(fd, atcmd_output);
+
+	violator_sd = map_id2sd(violator_account_id);
+
+	if (violator_sd != NULL)
+	{
+		violator_account_id = violator_sd->status.account_id;
+		violator_unique_id = session[violator_sd->fd]->gepard_info.unique_id;
+	}
+
+	chrif_gepard_req_block(violator_unique_id, atcmd_player_name, violator_account_id, sd->status.name, sd->status.account_id, unban_time_str, reason_str);
+
+	return 0;
+}
+
+ACMD_FUNC(gepard_block_unique_id)
+{
+	time_t time_server;
+	unsigned int duration;
+	unsigned int violator_unique_id = 0;
+	char reason_str[GEPARD_REASON_LENGTH];
+	char duration_type, unban_time_str[GEPARD_TIME_STR_LENGTH];
+	const char* command_info = "Wrong input (usage: @gepard_block_unique_id <duration> <duration_type m/h/d> <unique ID> <reason>)";
+
+	nullpo_retr(-1, sd);
+
+	memset(atcmd_player_name, '\0', sizeof(atcmd_player_name));
+
+	if (!*message || sscanf(message, "%u %c %u %99[^\n]", &duration, &duration_type, &violator_unique_id, reason_str) < 4)
+	{
+		clif_displaymessage(fd, command_info);
+		return -1;
+	}
+
+	time(&time_server);
+
+	switch (duration_type)
+	{
+		case 'm':
+			time_server += (duration * 60);
+		break;
+
+		case 'h':
+			time_server += (duration * 3600);
+		break;
+
+		case 'd':
+			time_server += (duration * 86400);
+		break;
+
+		default:
+			duration = 0;
+		break;
+	}
+
+	if (duration == 0)
+	{
+		clif_displaymessage(fd, command_info);
+		return -1;
+	}
+
+	strftime(unban_time_str, sizeof(unban_time_str), "%Y-%m-%d %H:%M:%S", localtime(&time_server)); 
+
+	sprintf(atcmd_output, "Request: block by unqiue ID: %u", violator_unique_id);
+	clif_displaymessage(fd, atcmd_output);
+
+	chrif_gepard_req_block(violator_unique_id, NULL, 0, sd->status.name, sd->status.account_id, unban_time_str, reason_str);
+
+	return 0;
+}
+
+ACMD_FUNC(gepard_unblock_nick)
+{
+	char violator_name[NAME_LENGTH];
+	const char* command_info = "Wrong input (usage: @gepard_unblock_nick <char name>)";
+
+	nullpo_retr(-1, sd);
+
+	if (!*message || sscanf(message, "\"%23[^\"]\"[^\n]", violator_name) < 1)
+	{
+		clif_displaymessage(fd, command_info);
+		return -1;
+	}
+
+	sprintf(atcmd_output, "Request: unblock by name - %s", violator_name);
+
+	clif_displaymessage(fd, atcmd_output);
+
+	chrif_gepard_req_unblock(0, violator_name, 0, sd->status.account_id);
+
+	return 0;
+}
+
+ACMD_FUNC(gepard_unblock_account_id)
+{
+	int violator_aid;
+	const char* command_info = "Wrong input (usage: @gepard_unblock_account_id <account ID>)";
+
+	nullpo_retr(-1, sd);
+
+	memset(atcmd_player_name, '\0', sizeof(atcmd_player_name));
+
+	if (!*message || sscanf(message, "%d", &violator_aid) < 1)
+	{
+		clif_displaymessage(fd, command_info);
+		return -1;
+	}
+
+	sprintf(atcmd_output, "Request: unblock by account id - %d", violator_aid);
+
+	clif_displaymessage(fd, atcmd_output);
+
+	chrif_gepard_req_unblock(0, NULL, violator_aid, sd->status.account_id);
+
+	return 0;
+}
+
+ACMD_FUNC(gepard_unblock_unique_id)
+{
+	unsigned int violator_unique_id;
+	const char* command_info = "Wrong input (usage: @gepard_unblock_unique_id <unique ID>)";
+
+	nullpo_retr(-1, sd);
+
+	if (!*message || sscanf(message, "%u", &violator_unique_id) < 1)
+	{
+		clif_displaymessage(fd, command_info);
+		return -1;
+	}
+
+	sprintf(atcmd_output, "Request: unblock by unique id - %u", violator_unique_id);
+
+	clif_displaymessage(fd, atcmd_output);
+
+	chrif_gepard_req_unblock(violator_unique_id, NULL, 0, sd->status.account_id);
+
+	return 0;
+}
+
+// (^~_~^) Gepard Shield End
+
+// (^~_~^) Color Nicks Start
+
+ACMD_FUNC(reload_color_db)
+{
+	map_color_nicks_load();
+
+	clif_displaymessage(fd, "Color Nicks DB reloaded.");
+
+	return 0;
+}
+
+ACMD_FUNC(colornick)
+{
+	unsigned int group_id;
+
+	nullpo_retr(-1, sd);
+
+	if (!*message || sscanf(message, "%d", &group_id) < 1)
+	{
+		clif_displaymessage(fd, "Please, enter number of color nick group (usage: @colornick <group_id>).");
+		return -1;
+	}
+
+	if (group_id == 0)
+	{
+		sd->color_nicks_group_id = 0;
+		clif_displaymessage(fd, "Color nick disabled!");
+	}
+	else
+	{
+		if (idb_exists(color_nicks_db, group_id) == 0)
+		{
+			clif_displaymessage(fd, "Group id has not found in Color Nicks DB.");
+			return 0;
+		}
+
+		sd->color_nicks_group_id = group_id;
+
+		clif_displaymessage(fd, "Color nick set.");
+	}
+
+	pc_setglobalreg(sd, add_str("CN_GROUP_ID"), sd->color_nicks_group_id);
+	
+	clif_send_colornicks(sd);
+
+	return 0;
+}
+
+// (^~_~^) Color Nicks End
+
+ACMD_FUNC(aura) {
+	uint32 aura_id = 0;
+
+	if (!message || !*message || sscanf(message, "%11d", &aura_id) < 1) {
+		clif_displaymessage(fd, "How to use: @Aura <aura number, if it is set to 0, cancel the aura>");
+		clif_displaymessage(fd, "The aura number is defined in the aura combination database of DB/Aura_db.yml. For more information, please check the comments on the top of the database.");
+		return -1;
+	}
+
+	aura_id = max(aura_id, 0);
+
+	if (aura_id && !aura_search(aura_id)) {
+		clif_displaymessage(fd, "Sorry, the specified aura number is invalid, please re-enter after checking.");
+		return -1;
+	}
+
+	aura_make_effective(&sd->bl, aura_id);
+
+	if (aura_id != 0) {
+		clif_displaymessage(fd, "Activated the specified aura effect.");
+	}
+	else {
+		clif_displaymessage(fd, "Turned off the aura effect");
+	}
+
+	return 0;
+}
+
+ACMD_FUNC(reloadrunedb)
+{
+	nullpo_retr(-1, sd);
+
+	rune_db_reload();
+	clif_displaymessage(fd, "Rune system has been reloaded");
+
+	return 0;
+}
+
 #include <custom/atcommand.inc>
 
 /**
@@ -11128,7 +11483,27 @@ void atcommand_basecommands(void) {
 	 * TODO: List all commands that causing crash
 	 **/
 	AtCommandInfo atcommand_base[] = {
+
+// (^~_~^) Color Nicks Start
+
+	ACMD_DEF(reload_color_db),
+	ACMD_DEF(colornick),
+
+// (^~_~^) Color Nicks End
+
+// (^~_~^) Gepard Shield Start
+
+		ACMD_DEF(gepard_block_nick),
+		ACMD_DEF(gepard_block_account_id),
+		ACMD_DEF(gepard_block_unique_id),
+		ACMD_DEF(gepard_unblock_nick),
+		ACMD_DEF(gepard_unblock_account_id),
+		ACMD_DEF(gepard_unblock_unique_id),
+
+// (^~_~^) Gepard Shield End
+
 #include <custom/atcommand_def.inc>
+		ACMD_DEF(aura),
 		ACMD_DEF2R("warp", mapmove, ATCMD_NOCONSOLE),
 		ACMD_DEF(where),
 		ACMD_DEF(jumpto),
@@ -11443,6 +11818,7 @@ void atcommand_basecommands(void) {
 		ACMD_DEF(afk),
 		ACMD_DEF(itemmap),
 		ACMD_DEF2("itemmapbound",itemmap),		
+		ACMD_DEF(reloadrunedb),
 	};
 	AtCommandInfo* atcommand;
 	int i;

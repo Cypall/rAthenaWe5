@@ -205,6 +205,7 @@ struct pet_data {
 
 	int masterteleport_timer;
 	map_session_data *master;
+	struct s_unit_common_data ucd;
 
 	std::shared_ptr<s_pet_db> get_pet_db() {
 		return pet_db.find(this->pet.class_);

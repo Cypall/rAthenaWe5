@@ -44,3 +44,13 @@ Header:
   Version: 1
 
 Body:
+  - Mob: World_Boss_KN1
+    Sprite: Poring
+  - Mob: GUARDIAN_KOE
+    Sprite: JOB_SNIPER
+  - Mob: Monster_Hunter_Event
+    Sprite: Poporing
+  - Mob: EMPELIUM_KOE
+    Sprite: EMPELIUM
+  - Mob: BARRICADE_KOE
+    Sprite: BARRICADE

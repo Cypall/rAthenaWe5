@@ -99,6 +99,7 @@ struct homun_data {
 	int hungry_timer;	//[orn]
 	t_exp exp_next;
 	std::vector<uint16> blockskill;	// [orn]
+	struct s_unit_common_data ucd;
 };
 
 #define HOM_EVO 0x100 //256

@@ -11,6 +11,7 @@
 #include <config/core.hpp>
 
 #include "map.hpp" //ELE_MAX
+#include "mapreg.hpp"
 #include "skill.hpp"
 
 //fwd declaration
@@ -813,6 +814,28 @@ struct Battle_Config
 
 	int pickup_item_motion_time;
 	int attack_motion_time;
+
+	int	ext_short_attack_damage_rate;
+	int	ext_long_attack_damage_rate;
+	int	ext_weapon_attack_damage_rate;
+	int	ext_magic_attack_damage_rate;
+	int	ext_misc_attack_damage_rate;
+
+	int	ext2_short_attack_damage_rate;
+	int	ext2_long_attack_damage_rate;
+	int	ext2_weapon_attack_damage_rate;
+	int	ext2_magic_attack_damage_rate;
+	int	ext2_misc_attack_damage_rate;
+
+	int greed_teleport_delay;
+
+	int refine_announce_success;
+	int refine_announce_broken;
+	int refine_option_announce;
+	int refine_option_color;
+	int refine_option_color_self;
+	int refine_broken_color;
+	int refine_normal_color;
 
 #include <custom/battle_config_struct.inc>
 };

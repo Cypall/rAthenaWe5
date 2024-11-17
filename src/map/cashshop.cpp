@@ -636,6 +636,10 @@ bool cashshop_buylist( map_session_data* sd, uint32 kafrapoints, int n, struct P
 
 				item_tmp.nameid = nameid;
 				item_tmp.identify = 1;
+				
+				if (kafrapoints > 0) // Bind item to character if bought with at least one free cash.
+					item_tmp.bound = BOUND_ACCOUNT;
+
 				if(tab == CASHSHOP_TAB_SALE && sale->timer_rental > 0 && id->type != IT_HEALING && id->type != IT_CARD)
 					item_tmp.expire_time = (unsigned int)(time(NULL) + sale->timer_rental);
 

@@ -55,6 +55,7 @@ struct s_mercenary_data {
 	int contract_timer;
 
 	unsigned devotion_flag : 1;
+	struct s_unit_common_data ucd;
 };
 
 struct view_data * mercenary_get_viewdata(uint16 class_);

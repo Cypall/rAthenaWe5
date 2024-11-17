@@ -1,0 +1,19 @@
+###########################################################################
+# Whispering Rain
+###########################################################################
+
+Header:
+  Type: REFINE_RANDOMOPT_DB
+  Version: 1
+
+Body:
+  - RefineLevel: 7 # ระดับตีบวก ที่จะสุ่มออฟใส่
+    # DefaultGroup: Group_4 # ชื่อ default หากมีการกำหนด แต่ไอเทม ไม่ได้อยู่ list กลุุ่มต่างๆ จะได้ออฟจากกลุ่มนี้แทน
+    Groups:
+      - GroupName: G1_ARMOR_A # ชื่อไว้จำ
+        Option: Loki_Advice # ออฟที่จะได้
+        Type: Weapon # Weapon/Armor
+        SubType: Dagger # หากกำหนด Weapon ต้องกำหนด Subtype
+      - GroupName: G1_ARMOR_B
+        Option: Loki_Advice
+        Type: Armor
